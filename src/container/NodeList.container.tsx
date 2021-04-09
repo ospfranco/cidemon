@@ -1,5 +1,5 @@
-import { StackNavigationProp } from "@react-navigation/stack";
-import { Images } from "Assets";
+import {StackNavigationProp} from '@react-navigation/stack';
+import {Images} from 'Assets';
 import {
   EmptyNodesComponent,
   GiftModal,
@@ -8,10 +8,10 @@ import {
   Row,
   Spacer,
   TempoButton,
-} from "component";
-import { idExtractor, useBoolean, useDarkTheme, useDynamic } from "lib";
-import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
+} from 'component';
+import {idExtractor, useBoolean, useDarkTheme, useDynamic} from 'lib';
+import {observer} from 'mobx-react-lite';
+import React, {useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -22,24 +22,24 @@ import {
   Text,
   TextInput,
   View,
-} from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useStore } from "Root.store";
-import { IRootStackParams } from "Route";
-import tw from "tailwind-rn";
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useStore} from 'Root.store';
+import {IRootStackParams} from 'Route';
+import tw from 'tailwind-rn';
 
 let ICON_SIZE = Platform.OS === `macos` ? 14 : 24;
 
 interface IProps {
-  navigation: StackNavigationProp<IRootStackParams, "Home">;
+  navigation: StackNavigationProp<IRootStackParams, 'Home'>;
 }
 
-export let NodeListContainer = observer(({ navigation }: IProps) => {
+export let NodeListContainer = observer(({navigation}: IProps) => {
   let root = useStore();
   let darkTheme = useDarkTheme();
   let dynamic = useDynamic();
   let [selectedNodeId, setSelectedNodeId] = useState<string | null>();
-  let [updatesVisible, showUpdates, hideUpdates] = useBoolean()
+  let [updatesVisible, showUpdates, hideUpdates] = useBoolean();
 
   let iconStyle = tw(`${darkTheme ? `text-white` : ``} text-base`);
 
@@ -47,7 +47,7 @@ export let NodeListContainer = observer(({ navigation }: IProps) => {
     navigation.navigate(`AddToken`);
   }
 
-  function renderNodeItem({ item }: ListRenderItemInfo<INode>) {
+  function renderNodeItem({item}: ListRenderItemInfo<INode>) {
     let isSelected = selectedNodeId === item.id;
     return (
       <NodeRow
@@ -70,11 +70,10 @@ export let NodeListContainer = observer(({ navigation }: IProps) => {
       <Row
         vertical="center"
         style={tw(`${dynamic(`bg-gray-900`, `bg-gray-100`)} px-3 py-1`)}>
-        <Image source={Images.tempomat} style={tw(`h-6 w-6 mr-2`)} />
         <TextInput
           value={root.node.searchQuery}
           onChangeText={root.node.setSearchQuery}
-          placeholder="Type to search..."
+          placeholder="Search..."
           style={tw(
             `ml-1 mr-4 p-2 ${dynamic(`bg-gray-700`, `bg-white`)} rounded w-96`,
           )}
@@ -89,10 +88,7 @@ export let NodeListContainer = observer(({ navigation }: IProps) => {
             style={tw(
               `px-2 ${!!root.node.complexRegexes.length ? `` : `opacity-50`}`,
             )}>
-            <Icon
-              name="filter"
-              style={iconStyle}
-            />
+            <Icon name="filter" style={iconStyle} />
             <Text style={tw(dynamic(`text-gray-300`, `text-gray-600`))}>
               {root.node.filterHardOffSwitch || !root.node.complexRegexes.length
                 ? `Off`
@@ -103,10 +99,7 @@ export let NodeListContainer = observer(({ navigation }: IProps) => {
 
         <TempoButton onPress={root.node.toggleSorting}>
           <Row vertical="center" style={tw(`px-2`)}>
-            <Icon
-              name="sort-descending"
-              style={iconStyle}
-            />
+            <Icon name="sort-descending" style={iconStyle} />
             <Text style={tw(darkTheme ? `text-gray-300` : `text-gray-600`)}>
               {root.node.sortingKey}
             </Text>
@@ -114,10 +107,7 @@ export let NodeListContainer = observer(({ navigation }: IProps) => {
         </TempoButton>
 
         <TempoButton onPress={() => navigation.navigate(`Configuration`)}>
-          <Icon
-            name="settings"
-            style={iconStyle}
-          />
+          <Icon name="settings" style={iconStyle} />
         </TempoButton>
 
         {root.node.fetching ? (
@@ -126,15 +116,12 @@ export let NodeListContainer = observer(({ navigation }: IProps) => {
           </View>
         ) : (
           <TempoButton onPress={root.node.fetchNodes}>
-            <Icon
-              name="refresh"
-              style={iconStyle}
-            />
+            <Icon name="refresh" style={iconStyle} />
           </TempoButton>
         )}
         <Spacer />
         <TempoButton onPress={showUpdates}>
-          <Icon name="gift" style={iconStyle}/>
+          <Icon name="gift" style={iconStyle} />
         </TempoButton>
       </Row>
 
@@ -143,6 +130,7 @@ export let NodeListContainer = observer(({ navigation }: IProps) => {
         {/* Node List */}
         <View style={tw(`w-2/3`)}>
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={root.node.sortedFilteredNodes}
             renderItem={renderNodeItem}
             keyExtractor={idExtractor}
@@ -161,7 +149,7 @@ export let NodeListContainer = observer(({ navigation }: IProps) => {
         />
       </Row>
 
-      <GiftModal visible={updatesVisible} onRequestClose={hideUpdates}/>
+      <GiftModal visible={updatesVisible} onRequestClose={hideUpdates} />
     </SafeAreaView>
   );
 });
