@@ -1,4 +1,4 @@
-interface TempomatNative {
+interface CIDemonNative {
   requestReview: () => void;
   sendNotification: (title: string, payload: string, url: string) => void;
   securelyStore: (key: string, value: string) => void;
@@ -7,7 +7,7 @@ interface TempomatNative {
   closeApp: () => void;
 }
 
-function createTempomatNative(): TempomatNative {
+function createCIDemonNative(): CIDemonNative {
   return {
     requestReview: jest.fn(),
     sendNotification: jest.fn(),
@@ -18,4 +18,4 @@ function createTempomatNative(): TempomatNative {
   };
 }
 
-export const cidemonNative = createTempomatNative();
+export const cidemonNative = createCIDemonNative();

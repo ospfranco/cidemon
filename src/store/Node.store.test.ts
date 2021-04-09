@@ -4,7 +4,7 @@ import {createApiStore} from './Api.store';
 import {IRootStore} from 'Root.store';
 import {when} from 'mobx';
 
-jest.mock('../lib/TempomatNative');
+jest.mock('../lib/CIDemonNative');
 jest.mock('./Api.store');
 
 let ROOT_MOCK: IRootStore = {} as any;
