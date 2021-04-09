@@ -8,7 +8,7 @@
     "ios:install": "cd ios && pod install",
     "postinstall": "patch-package",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --forceExit",
     "test:ci": "jest --testLocationInResults --ci --outputFile=test_results.json --json",
     "macos": "node node_modules/react-native-macos/local-cli/cli.js run-macos --scheme='macOS'",
     "macos:start": "node node_modules/react-native-macos/local-cli/cli.js start --use-react-native-macos",
