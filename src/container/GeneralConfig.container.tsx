@@ -222,8 +222,8 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
         </TouchableOpacity>
 
         <Row vertical="center" horizontal="center" style={tw(`mt-8`)}>
-          <Image source={Images.profile} style={tw(`h-20 w-20 rounded-full`)} />
-          <View style={tw(`ml-3`)}>
+          {/* <Image source={Images.profile} style={tw(`h-20 w-20 rounded-full`)} /> */}
+          <View style={tw(`ml-3 items-center`)}>
             <Text>
               Created by <Text style={tw(`font-bold`)}>Oscar Franco</Text>
             </Text>
@@ -251,6 +251,7 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
                 />
               </TempoButton>
             </Row>
+            <Text>If you have any trouble whatsoever just contact me!</Text>
           </View>
         </Row>
 

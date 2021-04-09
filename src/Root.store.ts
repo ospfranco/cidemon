@@ -1,10 +1,10 @@
-import { createContext, useContext } from "react";
-import { createApiStore, createNodeStore, createUIStore } from "store";
+import {createContext, useContext} from 'react';
+import {createApiStore, createNodeStore, createUIStore} from 'store';
 
 export interface IRootStore {
   api: ReturnType<typeof createApiStore>;
   ui: ReturnType<typeof createUIStore>;
-  node: ReturnType<typeof createNodeStore>;
+  node: Awaited<ReturnType<typeof createNodeStore>>;
 }
 
 export let createRootStore = async (): Promise<IRootStore> => {

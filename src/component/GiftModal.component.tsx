@@ -1,15 +1,15 @@
-import { useDynamic } from "lib";
-import React from "react";
-import { Linking, Text, TouchableWithoutFeedback, View } from "react-native";
-import tw from "tailwind-rn";
-import { TempoButton } from "./TempoButton.component";
+import {useDynamic} from 'lib';
+import React from 'react';
+import {Linking, Text, TouchableWithoutFeedback, View} from 'react-native';
+import tw from 'tailwind-rn';
+import {TempoButton} from './TempoButton.component';
 
 interface IProps {
   visible?: boolean;
   onRequestClose: () => void;
 }
 
-export let GiftModal = ({ visible, onRequestClose }: IProps) => {
+export let GiftModal = ({visible, onRequestClose}: IProps) => {
   let dynamic = useDynamic();
   if (!visible) {
     return null;
@@ -28,41 +28,36 @@ export let GiftModal = ({ visible, onRequestClose }: IProps) => {
       style={tw(`flex-1 bg-red-500`)}
       onPress={onRequestClose}>
       <View
-        style={{
-          position: "absolute",
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          backgroundColor: "black",
-          opacity: 0.75,
-          justifyContent: "center",
-          alignItems: "center",
-        }}>
+        style={tw(
+          `absolute h-full w-full ${dynamic(
+            `bg-gray-900`,
+            `bg-white`,
+          )} justify-center items-center`,
+        )}>
         <View
           style={tw(`w-96 rounded p-4 ${dynamic(`bg-gray-900`, `bg-white`)}`)}>
-          <Text style={tw(`text-lg font-semibold`)}>New on this version</Text>
-          <Text style={tw(`font-semibold mb-3`)}>17.01.2021</Text>
-          <Text>
-            {" "}
-            - Nodes can now be displayed on two(!) rows, toggle it in the
-            general config
+          <Text style={tw(`text-lg font-semibold`)}>On this version</Text>
+          <Text style={tw('mt-2 text-gray-600')}>
+            Nodes can now be displayed on two rows, toggle it in the general
+            config
           </Text>
-          <Text>
-            {" "}
-            - Have you checked out the http pings? useful to make sure your
+          <Text style={tw('mt-2 text-gray-600')}>
+            Have you checked out the http pings? useful to make sure your
             services are up and running
           </Text>
-          <Text>
-            {" "}
-            - All new UI, not only on the main screen but also on the config
+          <Text style={tw('mt-2 text-gray-600')}>
+            All new UI, not only on the main screen but also on the config
             screens
           </Text>
-          <Text> - Github checks now also show their time</Text>
-          <Text>
-            {" "}
-            - You can access github checks directly, just open the node and
-            click on the sub items
+          <Text style={tw('mt-2 text-gray-600')}>
+            Github checks now also show their time
+          </Text>
+          <Text style={tw('mt-2 text-gray-600')}>
+            You can access github checks directly, just open the node and click
+            on the sub items
+          </Text>
+          <Text style={tw('mt-2 text-gray-600')}>
+            Fixed gitlab for users with a lot of repos/pipelines
           </Text>
 
           <Text style={tw(`mt-4`)}>
@@ -75,7 +70,7 @@ export let GiftModal = ({ visible, onRequestClose }: IProps) => {
             primary
           />
           <TempoButton
-            style={tw(`mt-8`)}
+            style={tw(`mt-2`)}
             title="Feedback"
             onPress={onRequestClose}
           />
