@@ -2,7 +2,7 @@ import Foundation
 import KeychainAccess
 import ServiceManagement
 import StoreKit
-//import Sparkle
+import LaunchAtLogin
 
 extension Notification.Name {
     static let killLauncher = Notification.Name("killLauncher")
@@ -53,16 +53,7 @@ class CIDemonNative: NSObject {
 
   @objc
   func applyAutoLauncher(_ startAtLogin: Bool) {
-    let launcherAppId = "com.ospfranco.cidemon-launcher"
-    let runningApps = NSWorkspace.shared.runningApplications
-    let launcherIsRunning = runningApps.contains {
-       $0.bundleIdentifier == launcherAppId
-    }
-    SMLoginItemSetEnabled(launcherAppId as CFString, startAtLogin)
-
-    if launcherIsRunning {
-      DistributedNotificationCenter.default().post(name: .killLauncher, object: Bundle.main.bundleIdentifier)
-    }
+    LaunchAtLogin.isEnabled = startAtLogin
   }
 
   @objc
@@ -77,13 +68,4 @@ class CIDemonNative: NSObject {
   func requestReview() {
     SKStoreReviewController.requestReview()
   }
-
-//  @objc
-//  func checkForUpdates() {
-//    DispatchQueue.main.async {
-//      let updater = SUUpdater.shared()
-//      updater?.checkForUpdates(nil)
-//    }
-//  }
-
 }

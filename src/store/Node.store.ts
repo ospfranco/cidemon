@@ -597,7 +597,7 @@ export async function createNodeStore(root: IRootStore) {
     // create auto persist routine
     autorun(persist);
     // apply auto launch (user configured) setting
-    // autorun(() => cidemonNative.applyAutoLauncher(store.startAtLogin));
+    autorun(() => cidemonNative.applyAutoLauncher(store.startAtLogin));
     // start polling timer
     autorun(startTimer);
     // do the initial fetch of data
