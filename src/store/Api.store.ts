@@ -228,10 +228,10 @@ export let createApiStore = (root: IRootStore) => {
             let visitedBranches = new Set();
 
             let finalBuilds = bSet.data.filter((b: any) => {
-              if (visitedBranches.has(b.branch)) {
+              if (visitedBranches.has(b.triggered_workflow)) {
                 return false;
               } else {
-                visitedBranches.add(b.branch);
+                visitedBranches.add(b.triggered_workflow);
                 return true;
               }
             });

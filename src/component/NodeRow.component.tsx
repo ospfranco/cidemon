@@ -7,6 +7,7 @@ import {observer} from 'mobx-react-lite';
 import {useBoolean, TINT_MAPPING, useDynamic} from 'lib';
 import tw from 'tailwind-rn';
 import {useStore} from 'Root.store';
+import cn from 'classnames'
 
 let captureBranchRegex = /(.*)(\[.*\])(.*)/;
 
@@ -37,6 +38,8 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
 
   let textColor = dynamic(`text-gray-300`, `text-gray-800`);
   let subTextColor = dynamic(`text-gray-400`, `text-gray-600`);
+  let hoverColor = dynamic(`bg-blue-300`, `bg-blue-200`)
+  
   if (selected) {
     textColor = `text-white`;
     subTextColor = `text-gray-200`;
@@ -80,11 +83,10 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
       onPress={onPress}>
       <View
         style={[
-          tw(
-            `py-1 ${hovered ? `bg-blue-200 bg-opacity-50` : ``} ${
-              selected ? `bg-blue-500` : ``
-            } rounded`,
-          ),
+          tw(cn('py-1 rounded', {
+            [`${hoverColor} bg-opacity-50`]: hovered,
+            'bg-blue-500': selected
+          })),
           style,
         ]}>
         <Row vertical="center">

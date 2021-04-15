@@ -17,6 +17,7 @@ export interface BitriseBranchDto {
   slug: string
   branch: string
   finished_at?: string
+  triggered_workflow?: string
 }
 
 export enum BitriseStatus {

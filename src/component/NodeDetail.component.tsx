@@ -31,7 +31,6 @@ export function NodeDetail({node}: {node?: INode}) {
   let tintColor = TINT_MAPPING[node?.status ?? `pending`];
   let [tokens, setTokens] = useState<null | string[]>(null);
   let root = useStore();
-  let isDarkTheme = useDarkTheme();
   let dynamic = useDynamic();
 
   let labelStyle = tw(
@@ -73,9 +72,7 @@ export function NodeDetail({node}: {node?: INode}) {
           `h-full flex-1 justify-center items-center border-l ${borderColor}`,
         )}>
         <Text style={tw(`text-gray-500 italic p-2 text-center p-4`)}>
-          {root.node.repoOpeningsCount % 2 === 0
-            ? `Double click an item to quick open it`
-            : `Don't forget to recommend CI Demon to your colleagues 🙂`}
+          Double click an item to open it in the browser.
         </Text>
       </View>
     );

@@ -10,7 +10,7 @@
     "start": "react-native start",
     "test": "jest --forceExit",
     "test:ci": "jest --testLocationInResults --ci --outputFile=test_results.json --json",
-    "macos": "node node_modules/react-native-macos/local-cli/cli.js run-macos --scheme='macOS'",
+    "macos": "node node_modules/react-native-macos/local-cli/cli.js run-macos",
     "macos:start": "node node_modules/react-native-macos/local-cli/cli.js start --use-react-native-macos",
     "macos:install": "cd macos && pod install",
     "bump": "./scripts/bumpVersion.sh"
@@ -22,6 +22,7 @@
     "@react-navigation/stack": "^5.12.8",
     "axios": "^0.21.1",
     "base-64": "^1.0.0",
+    "classnames": "^2.3.1",
     "fuse.js": "^6.4.3",
     "github-api": "^3.3.0",
     "luxon": "^1.24.1",

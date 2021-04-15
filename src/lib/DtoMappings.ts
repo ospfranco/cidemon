@@ -205,10 +205,20 @@ export function mapBitriseTuplesToNode(
       jobId = ` #${branch.build_number}`
     }
 
+    let mainName = branch.branch
+
+    if(!mainName || mainName.length === 0) {
+      mainName = branch.commit_message ?? 'Unknown Branch'
+    }
+
+    if(branch.triggered_workflow) {
+      mainName += `- ${branch.triggered_workflow}`
+    }
+
     let node: INode = {
       id: `${`Bitrise`}-${repo.title}-${branch.branch}-${branch.build_number}`,
       url: `https://app.bitrise.io/build/${branch.slug}`,
-      label: `${repo.repo_owner}/${repo.title} [${branch.branch}]${jobId}`,
+      label: `${repo.repo_owner}/${repo.title} [${mainName}]${jobId}`,
       source: `Bitrise`,
       status,
       key,

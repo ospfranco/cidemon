@@ -17,7 +17,7 @@ export let GiftModal = ({visible, onRequestClose}: IProps) => {
 
   function openMail() {
     Linking.openURL(
-      `mailto:ospfranco@protonmail.com?subject=CI Demon%20Feedback`,
+      `mailto:ospfranco@protonmail.com?subject=CI Demon Feedback`,
     );
 
     onRequestClose();
@@ -37,27 +37,27 @@ export let GiftModal = ({visible, onRequestClose}: IProps) => {
         <View
           style={tw(`w-96 rounded p-4 ${dynamic(`bg-gray-900`, `bg-white`)}`)}>
           <Text style={tw(`text-lg font-semibold`)}>On this version</Text>
-          <Text style={tw('mt-2 text-gray-600')}>
-            Nodes can now be displayed on two rows, toggle it in the general
+          <Text style={tw('mt-2')}>
+            › Nodes can now be displayed on two rows, toggle it in the general
             config
           </Text>
-          <Text style={tw('mt-2 text-gray-600')}>
-            Have you checked out the http pings? useful to make sure your
+          <Text style={tw('mt-2')}>
+            › Have you checked out the http pings? useful to make sure your
             services are up and running
           </Text>
-          <Text style={tw('mt-2 text-gray-600')}>
-            All new UI, not only on the main screen but also on the config
+          <Text style={tw('mt-2')}>
+            › All new UI, not only on the main screen but also on the config
             screens
           </Text>
-          <Text style={tw('mt-2 text-gray-600')}>
-            Github checks now also show their time
+          <Text style={tw('mt-2')}>
+            ›  Github checks now also show a time stamp
           </Text>
-          <Text style={tw('mt-2 text-gray-600')}>
-            You can access github checks directly, just open the node and click
+          <Text style={tw('mt-2')}>
+            › You can access github checks directly, just open the node and click
             on the sub items
           </Text>
-          <Text style={tw('mt-2 text-gray-600')}>
-            Fixed gitlab for users with a lot of repos/pipelines
+          <Text style={tw('mt-2')}>
+            › Fixed gitlab for users with a lot of repos/pipelines
           </Text>
 
           <Text style={tw(`mt-4`)}>
@@ -71,8 +71,8 @@ export let GiftModal = ({visible, onRequestClose}: IProps) => {
           />
           <TempoButton
             style={tw(`mt-2`)}
-            title="Feedback"
-            onPress={onRequestClose}
+            title="Send Feedback"
+            onPress={openMail}
           />
         </View>
       </View>
