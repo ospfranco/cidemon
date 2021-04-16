@@ -1,6 +1,7 @@
 import {NativeModules} from 'react-native';
 
 interface CIDemonNative {
+  setStatusButtonText: (passed: number, running: number, failed: number) => void;
   requestReview: () => void;
   sendNotification: (title: string, payload: string, url: string) => void;
   securelyStore: (key: string, value: string) => void;
@@ -12,6 +13,7 @@ interface CIDemonNative {
 
 function createCIDemonNative(nativeModule: any): CIDemonNative {
   return {
+    setStatusButtonText: nativeModule.setStatusButtonText,
     requestReview: nativeModule.requestReview,
     sendNotification: __DEV__ ? () => null : nativeModule.sendNotification,
     securelyStore: nativeModule.securelyStore,

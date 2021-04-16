@@ -210,33 +210,32 @@ export async function createNodeStore(root: IRootStore) {
 
         // once a new set of valid nodes has been calculated
         // update the native icon on the menubar
-        if (NativeModules.TempomatNative) {
-          let failed = 0;
-          let running = 0;
-          let passed = 0;
-          for (let i = 0; i < finalNodes.length; i++) {
-            let status = finalNodes[i].status;
-            switch (status) {
-              case `passed`:
-                passed++;
-                break;
-              case `failed`:
-                failed++;
-                break;
-              case `running`:
-                running++;
-                break;
-              default:
-                break;
-            }
+        let failed = 0;
+        let running = 0;
+        let passed = 0;
+        for (let i = 0; i < finalNodes.length; i++) {
+          let status = finalNodes[i].status;
+          switch (status) {
+            case `passed`:
+              passed++;
+              break;
+            case `failed`:
+              failed++;
+              break;
+            case `running`:
+              running++;
+              break;
+            default:
+              break;
           }
-
-          NativeModules.TempomatNative.setStatusButtonText(
-            failed,
-            running,
-            passed,
-          );
         }
+
+        cidemonNative.setStatusButtonText(
+          failed,
+          running,
+          passed,
+        );
+        
         return finalNodes;
       },
 
