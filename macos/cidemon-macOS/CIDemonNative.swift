@@ -11,7 +11,7 @@ extension Notification.Name {
 private let keychain = Keychain(service: "Tempomat Keychain")
 
 @objc(CIDemonNative)
-class CIDemonNative: NSObject {
+class CIDemonNative: NSObject, NSSharingServicePickerDelegate {
   @objc
   static func requiresMainQueueSetup() -> Bool {
     return true
@@ -68,4 +68,36 @@ class CIDemonNative: NSObject {
   func requestReview() {
     SKStoreReviewController.requestReview()
   }
+
+  @objc
+  func showShareMenu(_ x: NSInteger, y: NSInteger, text: NSString) {
+    let sharingPicker = NSSharingServicePicker(items: [text])
+    sharingPicker.delegate = self
+
+    DispatchQueue.main.async {
+      let appDelegate = NSApp.delegate as? AppDelegate
+      let window = appDelegate?.getWindowObject()
+      if window != nil {
+        sharingPicker.show(relativeTo: NSRect(x: x, y: y, width: 1, height: 1), of: window!, preferredEdge: .minY)
+      }
+    }
+  }
+
+  func sharingServicePicker(_ sharingServicePicker: NSSharingServicePicker, sharingServicesForItems items: [Any], proposedSharingServices proposedServices: [NSSharingService]) -> [NSSharingService] {
+        guard let image = NSImage(named: NSImage.Name("copy")) else {
+            return proposedServices
+        }
+
+        var share = proposedServices
+        let customService = NSSharingService(title: "Copy Text", image: image, alternateImage: image, handler: {
+            if let text = items.first as? String {
+              NSPasteboard.general.clearContents()
+              NSPasteboard.general.setString(text, forType: .string)
+            }
+        })
+
+        share.insert(customService, at: 0)
+
+        return share
+    }
 }

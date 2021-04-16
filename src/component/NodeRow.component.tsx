@@ -4,10 +4,12 @@ import {Row} from './Row.component';
 import {Images} from 'Assets';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {observer} from 'mobx-react-lite';
-import {useBoolean, TINT_MAPPING, useDynamic} from 'lib';
+import {useBoolean, TINT_MAPPING, useDynamic, cidemonNative} from 'lib';
 import tw from 'tailwind-rn';
 import {useStore} from 'Root.store';
 import cn from 'classnames'
+import { TempoButton } from './TempoButton.component';
+import { Spacer } from './Spacer.component';
 
 let captureBranchRegex = /(.*)(\[.*\])(.*)/;
 
@@ -38,8 +40,8 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
 
   let textColor = dynamic(`text-gray-300`, `text-gray-800`);
   let subTextColor = dynamic(`text-gray-400`, `text-gray-600`);
-  let hoverColor = dynamic(`bg-blue-300`, `bg-blue-200`)
-  
+  let hoverColor = dynamic(`bg-blue-700`, `bg-blue-200`)
+
   if (selected) {
     textColor = `text-white`;
     subTextColor = `text-gray-200`;
@@ -74,6 +76,17 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
     }
   }
 
+  const shareLink = (x: number, y: number) => {
+    cidemonNative.showShareMenu(x, y, `Hey, this build:
+
+${node.url}
+
+has ${node.status}, can you take a look? Thanks!
+
+Shared via CI Demon.
+`)
+  }
+
   return (
     <TouchableOpacity
       // @ts-ignore
@@ -96,7 +109,22 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
           {node.source === `Ping` && (
             <Icon name="signal-variant" color={tintColor} style={styles.icon} />
           )}
-          {text}
+
+          <View style={{maxWidth: '90%'}}>
+            {text}
+          </View>
+
+          <Spacer />
+
+          {hovered 
+          ? <TempoButton
+              onPressWithPosition={shareLink}
+              style={'p-2'}
+            >
+              <Icon name="export-variant"/>
+            </TempoButton>
+            : <View style={tw('w-8')}/>
+          }
         </Row>
 
         {/* Sub nodes */}

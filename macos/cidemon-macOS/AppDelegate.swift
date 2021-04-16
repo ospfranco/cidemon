@@ -1,6 +1,5 @@
 import Foundation
 import Cocoa
-// import Sparkle
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate {
@@ -8,11 +7,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
   var window: NSWindow!
   var statusBarItem: NSStatusItem!
   var reactNativeBridge: ReactNativeBridge!
-//  var sparkleUpdater: SUUpdater!
+  var controller: ReactViewController!
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     reactNativeBridge = ReactNativeBridge()
-    let controller = ReactViewController(moduleName: "cidemon", bridge: reactNativeBridge.bridge)
+    controller = ReactViewController(moduleName: "cidemon", bridge: reactNativeBridge.bridge)
 
     var screenHeight = CGFloat(800)
     if(NSScreen.main != nil) {
@@ -59,10 +58,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
 
     NSUserNotificationCenter.default.delegate = self
-
-    // sparkleUpdater = SUUpdater.shared()
-    // sparkleUpdater.feedURL = URL(string: "http://localhost:3000/appcast.xml")
-    // sparkleUpdater.automaticallyChecksForUpdates = true
   }
 
   func userNotificationCenter(_ center: NSUserNotificationCenter, didActivate notification: NSUserNotification) {
@@ -70,7 +65,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     NSWorkspace.shared.open(url)
   }
 
-  @objc func togglePopover(_ sender: AnyObject?) {
+  @objc
+  func togglePopover(_ sender: AnyObject?) {
       if let button = self.statusBarItem.button {
           if let popover = self.popover {
               if popover.isShown {
@@ -107,5 +103,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
   func closeApp() {
     NSApp.terminate(nil)
+  }
+
+  func getWindowObject() -> NSView {
+    return controller.view
   }
 }

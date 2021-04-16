@@ -7,6 +7,7 @@ interface CIDemonNative {
   securelyRetrieve: (key: string) => string | null;
   applyAutoLauncher: (autoLauncherValue: boolean) => void;
   closeApp: () => void;
+  showShareMenu: (x: number, y: number, text: string) => void;
 }
 
 function createCIDemonNative(nativeModule: any): CIDemonNative {
@@ -17,6 +18,7 @@ function createCIDemonNative(nativeModule: any): CIDemonNative {
     securelyRetrieve: nativeModule.securelyRetrieve,
     applyAutoLauncher: nativeModule.applyAutoLauncher,
     closeApp: nativeModule.closeApp,
+    showShareMenu: nativeModule.showShareMenu
   };
 }
 

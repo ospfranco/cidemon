@@ -1,16 +1,17 @@
 import { useBoolean } from "lib"
-import React from "react"
+import React, { useState } from "react"
 import {TouchableOpacity, Text, StyleSheet} from "react-native"
 import tw from 'tailwind-rn'
 
 interface IProps {
-  onPress: () => void
+  onPress?: () => void
   title?: string
   primary?: boolean
   secondary?: boolean
   style?: any
   children?: any
   applyMargin?: boolean
+  onPressWithPosition?: (x: number, y: number) => void
 }
 
 export const TempoButton = ({
@@ -21,12 +22,22 @@ export const TempoButton = ({
   style,
   children,
   applyMargin,
+  onPressWithPosition
 }: IProps) => {
   const [hovered, onHover, offHover] = useBoolean()
+  const [coordinate, setCoordinate] = useState<any>();
+  const _onPress = () => {
+    onPress?.()
+    onPressWithPosition?.(coordinate.x + coordinate.width, coordinate.y + coordinate.height)
+  }
+
   if (secondary) {
     return (
       <TouchableOpacity
-        onPress={onPress}
+        onPress={_onPress}
+        onLayout={(e) =>
+          setCoordinate(e.nativeEvent.layout)
+        }
         // @ts-ignore
         enableFocusRing={false}
         style={[styles.secondaryButton, applyMargin && styles.margin, style]}>
@@ -36,18 +47,22 @@ export const TempoButton = ({
     )
   }
 
+
   // style={[styles.primaryButton, applyMargin && styles.margin, style]}>
 
   if (primary) {
     return (
       <TouchableOpacity
-        onPress={onPress}
+        onPress={_onPress}
+        onLayout={(e) =>
+          setCoordinate(e.nativeEvent.layout)
+        }
         // @ts-ignore
         enableFocusRing={false}
         onMouseEnter={onHover}
         onMouseLeave={offHover}
         style={[
-          tw(`${hovered? `bg-blue-400` : `bg-blue-500`} p-3 items-center rounded-lg`), 
+          tw(`${hovered? `bg-blue-400` : `bg-blue-500`} p-2 items-center rounded-lg`), 
           style
         ]}
       >
@@ -59,12 +74,15 @@ export const TempoButton = ({
 
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={_onPress}
+      onLayout={(e) =>
+        setCoordinate(e.nativeEvent.layout)
+      }
       // @ts-ignore
       enableFocusRing={false}
       onMouseEnter={onHover}
       onMouseLeave={offHover}
-      style={[tw(`${hovered? `bg-blue-300` : `bg-transparent`} p-3 items-center rounded-lg bg-opacity-25`), style]}
+      style={[tw(`${hovered? `bg-blue-300` : `bg-transparent`} p-2 items-center rounded-lg bg-opacity-25`), style]}
     >
       {!!title && <Text style={styles.flatButton}>{title}</Text>}
       {children}

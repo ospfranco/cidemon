@@ -18,6 +18,6 @@ RCT_EXTERN_METHOD(closeApp)
 
 RCT_EXTERN_METHOD(requestReview)
 
-// RCT_EXTERN_METHOD(checkForUpdates)
+RCT_EXTERN_METHOD(showShareMenu: (NSInteger)x y:(NSInteger)y text:(NSString) text)
 
 @end

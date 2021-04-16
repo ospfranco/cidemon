@@ -1,5 +1,5 @@
 import {Images} from 'Assets';
-import {TINT_MAPPING, useDarkTheme, useDynamic} from 'lib';
+import {cidemonNative, TINT_MAPPING, useDarkTheme, useDynamic} from 'lib';
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
@@ -30,6 +30,7 @@ export function NodeDetail({node}: {node?: INode}) {
   let icon = Images[`${node?.source.toLowerCase()}`];
   let tintColor = TINT_MAPPING[node?.status ?? `pending`];
   let [tokens, setTokens] = useState<null | string[]>(null);
+  let [coor, setCoor] = useState<null | {x: number, y: number}>(null)
   let root = useStore();
   let dynamic = useDynamic();
 
@@ -78,8 +79,23 @@ export function NodeDetail({node}: {node?: INode}) {
     );
   }
 
+
+  const shareLink = (x: number, y: number) => {
+    cidemonNative.showShareMenu(x + (coor?.x ?? 0), y, `Hey, this build:
+
+${node.url}
+
+has ${node.status}, can you take a look? Thanks!
+
+Shared via CI Demon.
+`)
+  }
+
   return (
     <ScrollView
+      onLayout={(e) => {
+        setCoor(e.nativeEvent.layout)
+      }}
       style={[tw(` border-l ${borderColor} h-full w-1/3 bg-opacity-50`)]}
       contentContainerStyle={tw(`p-2`)}>
       {!!node && (
@@ -205,6 +221,12 @@ export function NodeDetail({node}: {node?: INode}) {
               style={tw(`mx-4 items-center mt-4`)}
             />
           )}
+
+          <TempoButton
+            title="Share"
+            onPressWithPosition={shareLink}
+            style={tw(`mx-4 mt-4`)}
+          />
 
           <TempoButton
             title="Open"

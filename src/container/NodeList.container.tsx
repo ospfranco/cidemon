@@ -1,34 +1,31 @@
-import {StackNavigationProp} from '@react-navigation/stack';
-import {Images} from 'Assets';
+import { StackNavigationProp } from '@react-navigation/stack';
 import {
   EmptyNodesComponent,
-  GiftModal,
+
   NodeDetail,
   NodeRow,
   Row,
   Spacer,
-  TempoButton,
+  TempoButton
 } from 'component';
-import {idExtractor, useBoolean, useDarkTheme, useDynamic} from 'lib';
-import {observer} from 'mobx-react-lite';
-import React, {useState} from 'react';
+import { cidemonNative, idExtractor, useDarkTheme, useDynamic } from 'lib';
+import { observer } from 'mobx-react-lite';
+import React, { useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  Image,
+
   ListRenderItemInfo,
-  Platform,
+
   SafeAreaView,
   Text,
   TextInput,
-  View,
+  View
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useStore} from 'Root.store';
-import {IRootStackParams} from 'Route';
+import { useStore } from 'Root.store';
+import { IRootStackParams } from 'Route';
 import tw from 'tailwind-rn';
-
-let ICON_SIZE = Platform.OS === `macos` ? 14 : 24;
 
 interface IProps {
   navigation: StackNavigationProp<IRootStackParams, 'Home'>;
@@ -39,13 +36,14 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
   let darkTheme = useDarkTheme();
   let dynamic = useDynamic();
   let [selectedNodeId, setSelectedNodeId] = useState<string | null>();
-  let [updatesVisible, showUpdates, hideUpdates] = useBoolean();
 
-  let iconStyle = tw(`${darkTheme ? `text-white` : ``} text-base`);
+  let iconStyle = tw(`${darkTheme ? `text-white` : ``} text-base mr-1`);
 
-  function goToAddTokenScreen() {
+  let goToAddTokenScreen = () => {
     navigation.navigate(`AddToken`);
   }
+
+  const shareLink = (x: number, y: number) => cidemonNative.showShareMenu(x, y, 'Hey! Check out CI Demon, I use it to keep an eye on my builds: https://apps.apple.com/de/app/ci-demon/id1560355863?mt=12')
 
   function renderNodeItem({item}: ListRenderItemInfo<INode>) {
     let isSelected = selectedNodeId === item.id;
@@ -120,9 +118,12 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
           </TempoButton>
         )}
         <Spacer />
-        <TempoButton onPress={showUpdates}>
-          <Icon name="gift" style={iconStyle} />
+        <TempoButton onPressWithPosition={shareLink}>
+          <Icon name="account-multiple-plus" style={iconStyle} />
         </TempoButton>
+        {/* <TempoButton onPress={showUpdates}>
+          <Icon name="gift" style={iconStyle} />
+        </TempoButton> */}
       </Row>
 
       {/* Content */}
@@ -149,7 +150,7 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
         />
       </Row>
 
-      <GiftModal visible={updatesVisible} onRequestClose={hideUpdates} />
+      {/* <GiftModal visible={updatesVisible} onRequestClose={hideUpdates} /> */}
     </SafeAreaView>
   );
 });
