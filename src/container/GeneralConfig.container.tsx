@@ -207,6 +207,20 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
           </Row>
         </View>
         <Divider />
+        <TouchableOpacity onPress={root.node.openIssueRepo}>
+          <View style={settingsRowStyle}>
+            <Row style={styles.settingsRowInternal} vertical="center">
+              <Text>Report an issue</Text>
+              <Spacer />
+              <FoIcon
+                name="chevron-right"
+                size={14}
+                color={global.colors.gray200}
+              />
+            </Row>
+          </View>
+        </TouchableOpacity>
+        <Divider />
         <TouchableOpacity onPress={root.node.closeApp}>
           <View style={settingsRowStyle}>
             <Row style={styles.settingsRowInternal} vertical="center">

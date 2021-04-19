@@ -584,6 +584,10 @@ export async function createNodeStore(root: IRootStore) {
       removePingTest: (pingTest: PingTest) => {
         store.pingTests = store.pingTests.filter((test) => test !== pingTest);
       },
+
+      openIssueRepo: () => {
+        Linking.openURL('https://github.com/ospfranco/cidemon_issues')
+      }
     },
     {
       nodes: observable.shallow,
