@@ -344,7 +344,7 @@ export function mapGitlabTupleToNodes(
     })
 }
 
-export function mapGithubBranchToNode(
+export function mapGithubPrToNode(
   slug: string,
   pr: any,
   statuses: IGithubCheck[],
@@ -401,6 +401,73 @@ export function mapGithubBranchToNode(
     date: pr.updated_at,
     status: status,
     jobId: pr.id,
+    source: `Github`,
+    vcs: `github`,
+    key: key,
+    subItems: subItems,
+  }
+
+  return node
+}
+
+export function mapGithubBranchToNode(
+  slug: string,
+  branch: any,
+  statuses: IGithubCheck[],
+  key: string,
+): INode {
+  console.warn(`mapping branch`, branch)
+  let status: Status = `pending`
+  let subItems: ISubNode[] = []
+
+  if (statuses.length) {
+    status = `passed`
+
+    statuses.forEach(({name, conclusion, started_at, completed_at, details_url}) => {
+      let lStartedAt = DateTime.fromISO(started_at)
+
+      let subItem: ISubNode = {
+        label: name,
+        status: `pending`,
+        url: details_url
+      }
+      
+      if (!conclusion) {
+        if (status !== `failed`) {
+          status = `running`
+        }
+
+        let extraLabel = lStartedAt.toRelative({ unit: "minutes" })
+        subItem.extraLabel = extraLabel
+      } else {
+        let lCompletedAt = DateTime.fromISO(completed_at!)
+        let extraLabel = `${Math.round(lCompletedAt.diff(lStartedAt, 'minutes').minutes)}m`
+        subItem.extraLabel = extraLabel
+
+        if (
+          conclusion === `failure` ||
+          conclusion === `timed_out`
+        ) {
+          status = `failed`
+          subItem.status = `failed`
+        } else if (conclusion === `success`) {
+          subItem.status = `passed`
+        } else if (conclusion === `neutral`) {
+          subItem.status = `pending`
+        }
+      }
+
+      subItems.push(subItem)
+    })
+  }
+
+  let node: INode = {
+    id: branch.commit.sha,
+    url: branch.commit.url,
+    label: `${slug} [${branch.name}]`,
+    // date: pr.updated_at,
+    status: status,
+    // jobId: pr.id,
     source: `Github`,
     vcs: `github`,
     key: key,

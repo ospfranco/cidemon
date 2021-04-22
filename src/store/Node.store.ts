@@ -54,6 +54,8 @@ export async function createNodeStore(root: IRootStore) {
         showBuildNumber: JSStore.showBuildNumber,
         pingTests: JSStore.pingTests,
         doubleRowItems: JSStore.doubleRowItems,
+        githubFetchPrs: JSStore.githubFetchPrs,
+        githubFetchBranches: JSStore.githubFetchBranches
       }),
     );
   };
@@ -80,6 +82,8 @@ export async function createNodeStore(root: IRootStore) {
         store.showBuildNumber = parsedStore.showBuildNumber ?? false;
         store.pingTests = parsedStore.pingTests?.map(createPingTest) ?? [];
         store.doubleRowItems = parsedStore.doubleRowItems ?? false;
+        store.githubFetchPrs = parsedStore.githubFetchPrs ?? true;
+        store.githubFetchBranches = parsedStore.githubFetchBranches ?? true;
       });
     }
   };
@@ -100,6 +104,8 @@ export async function createNodeStore(root: IRootStore) {
       complexRegexes: [] as IIgnoreRegex[],
       githubRepos: [``] as string[],
       githubKey: `` as string,
+      githubFetchPrs: true,
+      githubFetchBranches: true,
       notificationsEnabled: false,
       startAtLogin: false,
       fetchInterval: 1,
@@ -283,7 +289,7 @@ export async function createNodeStore(root: IRootStore) {
           promises = promises.concat(
             store.githubRepos
               .filter((v) => v !== ``)
-              .map((slug) => root.api.fetchGithubNodes(store.githubKey, slug)),
+              .map((slug) => root.api.fetchGithubNodes({key: store.githubKey, slug, fetchPrs: store.githubFetchPrs, fetchBranches: store.githubFetchBranches})),
           );
         }
 
@@ -587,6 +593,14 @@ export async function createNodeStore(root: IRootStore) {
 
       openIssueRepo: () => {
         Linking.openURL('https://github.com/ospfranco/cidemon_issues')
+      },
+
+      toggleGithubFetchPrs: () => {
+        store.githubFetchPrs = !store.githubFetchPrs
+      },
+
+      toggleGithubFetchBranches: () => {
+        store.githubFetchBranches = !store.githubFetchBranches
       }
     },
     {

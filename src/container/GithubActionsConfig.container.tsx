@@ -7,11 +7,13 @@ import {
   StyleSheet,
   View,
   Linking,
+  Switch,
 } from "react-native";
 import { observer } from "mobx-react-lite";
 import { useStore } from "Root.store";
-import { Row, TempoButton } from "component";
+import { Divider, Row, Spacer, TempoButton } from "component";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import FoIcon from "react-native-vector-icons/FontAwesome"
 import { useDynamic } from "lib";
 import tw from "tailwind-rn";
 
@@ -31,13 +33,16 @@ export const GithubActionsConfigContainer = observer(() => {
   let dynamic = useDynamic();
 
   let inputFieldStyle = tw(`p-3 ${dynamic(`bg-gray-900`, `bg-gray-100`)}`);
+  let settingsRowStyle = tw(
+    `rounded-lg ${dynamic(`bg-gray-800`, `bg-gray-100`)}`,
+  );
 
   return (
     <ScrollView
       style={tw(`flex-1 ${dynamic(`bg-gray-700`, `bg-white`)}`)}
       contentContainerStyle={tw(`items-center`)}>
       <View style={tw(`w-96 py-4`)}>
-        <Text style={tw(`font-semibold py-3`)}>Github Personal Key</Text>
+        <Text style={tw(`font-semibold py-3`)}>Github integration settings</Text>
 
         <TextInput
           placeholder="Your Github Personal Key goes here"
@@ -45,7 +50,34 @@ export const GithubActionsConfigContainer = observer(() => {
           value={root.node.githubKey}
           onChangeText={root.node.setGithubKey}
           placeholderTextColor={placeHolderStyle}
+          secureTextEntry
         />
+        <Divider />
+        <TouchableOpacity onPress={root.node.toggleGithubFetchPrs}>
+          <View style={settingsRowStyle}>
+            <Row style={tw('py-3 px-4')} vertical="center">
+              <Text>Fetch pull requests</Text>
+              <Spacer />
+              <Switch
+                value={root.node.githubFetchPrs}
+                style={tw('h-4 w-4')}
+              />
+            </Row>
+          </View>
+        </TouchableOpacity>
+        <Divider />
+        <TouchableOpacity onPress={root.node.toggleGithubFetchBranches}>
+          <View style={settingsRowStyle}>
+            <Row style={tw('py-3 px-4')} vertical="center">
+              <Text>Fetch branches</Text>
+              <Spacer />
+              <Switch
+                value={root.node.githubFetchBranches}
+                style={tw('h-4 w-4')}
+              />
+            </Row>
+          </View>
+        </TouchableOpacity>
 
         <Text style={tw(`font-semibold py-3`)}>Subscribed repositories</Text>
 
@@ -79,9 +111,9 @@ export const GithubActionsConfigContainer = observer(() => {
         />
         <Text
           style={tw(`py-3`)}>
-          Due to the Github API limitations you have to specify each repository you want receive notifications.
+          {`The Github API has certain limitations, therefore you have to specify each repository you want see in the app.
 
-          Add a slot and add the username and repository.
+First add 'slot' and then add the username/repository combo.`}
         </Text>
         <View style={{ alignItems: `center` }}>
           <TempoButton

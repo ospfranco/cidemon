@@ -4,6 +4,7 @@ import {
   mapAppcenterTuplesToNodes,
   mapBitriseTuplesToNode,
   mapCircleCIProjects,
+  mapGithubPrToNode,
   mapGithubBranchToNode,
   mapGitlabTupleToNodes,
   mapTravisTuplesToNodes,
@@ -290,7 +291,7 @@ export let createApiStore = (root: IRootStore) => {
       }
     },
 
-    fetchGithubNodes: async (key: string, slug: string): Promise<INode[]> => {
+    fetchGithubNodes: async ({ key, slug, fetchPrs, fetchBranches }: { key: string, slug: string, fetchPrs: boolean, fetchBranches: boolean }): Promise<INode[]> => {
       try {
         const githubApi = new Github({
           token: key,
@@ -300,32 +301,73 @@ export let createApiStore = (root: IRootStore) => {
 
         const repo = githubApi.getRepo(username, reponame);
 
-        const pullRequestsRes = await repo.listPullRequests();
+        let nodes: INode[] = []
 
-        const pullRequests: any[] = pullRequestsRes.data;
+        if (fetchPrs) {
+          const pullRequestsRes = await repo.listPullRequests();
 
-        const checkPromises = pullRequests.map((pr: any) =>
-          get({
-            url: `https://api.github.com/repos/${slug}/commits/${pr.head.sha}/check-runs`,
-            headers: {
-              Accept: `application/vnd.github.v3+json`,
-              Authorization: `token ${key}`,
-            },
-          }),
-        );
+          const pullRequests: any[] = pullRequestsRes.data;
 
-        const statusesMatrix = await allSettled(checkPromises);
+          const checkPromises = pullRequests.map((pr: any) =>
+            get({
+              url: `https://api.github.com/repos/${slug}/commits/${pr.head.sha}/check-runs`,
+              headers: {
+                Accept: `application/vnd.github.v3+json`,
+                Authorization: `token ${key}`,
+              },
+            }),
+          );
 
-        return pullRequests.map((pr: any, index: number) => {
-          let statusRes = statusesMatrix[index];
+          const statusesMatrix = await allSettled(checkPromises);
 
-          let checks =
-            statusRes.status === "fulfilled"
-              ? statusRes.value.check_runs ?? []
-              : [];
+          const prNodes = pullRequests.map((pr: any, index: number) => {
+            let statusRes = statusesMatrix[index];
 
-          return mapGithubBranchToNode(slug, pr, checks, key);
-        });
+            let checks =
+              statusRes.status === "fulfilled"
+                ? statusRes.value.check_runs ?? []
+                : [];
+
+            return mapGithubPrToNode(slug, pr, checks, key);
+          });
+
+          nodes.push(...prNodes)
+        }
+
+        if (fetchBranches) {
+          const branches = await repo.listBranches()
+
+          const checkPromises = branches.data.map((branch: any) =>
+            get({
+              url: `https://api.github.com/repos/${slug}/commits/${branch.commit.sha}/check-runs`,
+              headers: {
+                Accept: `application/vnd.github.v3+json`,
+                Authorization: `token ${key}`,
+              },
+            })
+          )
+
+          const statusesMatrix = await allSettled(checkPromises);
+
+          const branchNodes = branches.data.map((branch: any, index: number) => {
+            let statusRes = statusesMatrix[index];
+
+            let checks =
+              statusRes.status === "fulfilled"
+                ? statusRes.value.check_runs ?? []
+                : [];
+
+            // return []
+
+            return mapGithubBranchToNode(slug, branch, checks, key);
+          });
+
+          nodes.push(...branchNodes)
+        }
+
+
+        return nodes;
+
       } catch (e) {
         console.warn(`Github error`, e);
         root.ui.addToast({
