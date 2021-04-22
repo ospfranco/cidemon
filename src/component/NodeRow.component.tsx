@@ -110,6 +110,10 @@ Shared via CI Demon.
             <Icon name="signal-variant" color={tintColor} style={styles.icon} />
           )}
 
+          {node.isPr && (
+            <Icon name="source-pull" style={styles.icon} />
+          )}
+
           <View style={{maxWidth: '90%'}}>
             {text}
           </View>

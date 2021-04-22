@@ -83,6 +83,9 @@ declare interface INode {
   // used for some extra field needed to make requests to the api
   extra?: string;
   subItems?: ISubNode[];
+  // added fields for small nice things
+  sha?: string;
+  isPr?: boolean;
 }
 
 declare interface IToast {

@@ -395,7 +395,7 @@ export function mapGithubPrToNode(
   }
 
   let node: INode = {
-    id: `${pr.id}`,
+    id: pr.id,
     url: pr.html_url,
     label: `${slug} [${pr.title}]`,
     date: pr.updated_at,
@@ -405,6 +405,8 @@ export function mapGithubPrToNode(
     vcs: `github`,
     key: key,
     subItems: subItems,
+    sha: pr.head.sha,
+    isPr: true
   }
 
   return node
@@ -471,6 +473,7 @@ export function mapGithubBranchToNode(
     vcs: `github`,
     key: key,
     subItems: subItems,
+    sha: branch.commit.sha
   }
 
   return node

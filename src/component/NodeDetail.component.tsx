@@ -206,6 +206,13 @@ Shared via CI Demon.
                 {node.date ? new Date(node.date!).toLocaleString() : `Unknown`}
               </Text>
             </Row>
+            {node.sha && (
+              <Row style={rowStyle}>
+                <Text style={labelStyle}>Commit SHA</Text>
+                <Text style={tw(`flex-1`)} selectable>{node.sha}</Text>
+              </Row>
+            )
+            }
             {node.source !== `Ping` && (
               <Row style={rowStyle}>
                 <Text style={labelStyle}>Version Control</Text>
