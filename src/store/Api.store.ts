@@ -335,9 +335,15 @@ export let createApiStore = (root: IRootStore) => {
         }
 
         if (fetchBranches) {
-          const branches = await repo.listBranches()
+          const branches = await get({
+            url: `https://api.github.com/repos/${slug}/branches?per_page=100`,
+            headers: {
+              Accept: `application/vnd.github.v3+json`,
+              Authorization: `token ${key}`,
+            },
+          })
 
-          const checkPromises = branches.data.map((branch: any) =>
+          const checkPromises = branches.map((branch: any) =>
             get({
               url: `https://api.github.com/repos/${slug}/commits/${branch.commit.sha}/check-runs`,
               headers: {
@@ -349,7 +355,7 @@ export let createApiStore = (root: IRootStore) => {
 
           const statusesMatrix = await allSettled(checkPromises);
 
-          const branchNodes = branches.data.map((branch: any, index: number) => {
+          const branchNodes = branches.map((branch: any, index: number) => {
             let statusRes = statusesMatrix[index];
 
             let checks =

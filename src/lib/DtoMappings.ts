@@ -416,7 +416,6 @@ export function mapGithubBranchToNode(
   statuses: IGithubCheck[],
   key: string,
 ): INode {
-  console.warn(`mapping branch`, branch)
   let status: Status = `pending`
   let subItems: ISubNode[] = []
 
