@@ -188,10 +188,10 @@ Shared via CI Demon.
               <Text style={labelStyle}>Source</Text>
               <Text style={tw(`flex-1`)}>{node.source ?? `Unknown`}</Text>
             </Row>
-            {node.source !== `Ping` && (
+            {node.source !== `Ping` && !!node.jobId && (
               <Row style={rowStyle}>
                 <Text style={labelStyle}>Job id</Text>
-                <Text style={tw(`flex-1`)}>{node.jobId ?? `Unknown`}</Text>
+                <Text style={tw(`flex-1`)}>{node.jobId}</Text>
               </Row>
             )}
             <Pressable onPress={open}>
@@ -200,12 +200,14 @@ Shared via CI Demon.
                 <Text style={tw(`flex-1 text-blue-500`)}>{node.url}</Text>
               </Row>
             </Pressable>
-            <Row style={rowStyle}>
-              <Text style={labelStyle}>Date</Text>
-              <Text style={tw(`flex-1`)}>
-                {node.date ? new Date(node.date!).toLocaleString() : `Unknown`}
-              </Text>
-            </Row>
+            {!!node.date && 
+              <Row style={rowStyle}>
+                <Text style={labelStyle}>Start Date</Text>
+                <Text style={tw(`flex-1`)}>
+                  {new Date(node.date!).toLocaleString()}
+                </Text>
+              </Row>
+            }
             {node.sha && (
               <Row style={rowStyle}>
                 <Text style={labelStyle}>Commit SHA</Text>
@@ -215,7 +217,7 @@ Shared via CI Demon.
             }
             {node.source !== `Ping` && (
               <Row style={rowStyle}>
-                <Text style={labelStyle}>Version Control</Text>
+                <Text style={labelStyle}>VCS</Text>
                 <Text style={tw(`flex-1`)}>{node.vcs}</Text>
               </Row>
             )}

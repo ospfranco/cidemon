@@ -37,7 +37,7 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
   let dynamic = useDynamic();
   let [selectedNodeId, setSelectedNodeId] = useState<string | null>();
 
-  let iconStyle = tw(`${darkTheme ? `text-white` : ``} text-base mr-1`);
+  let iconStyle = tw(`${darkTheme ? `text-white` : ``} text-base`);
 
   let goToAddTokenScreen = () => {
     navigation.navigate(`AddToken`);
