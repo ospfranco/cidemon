@@ -363,8 +363,6 @@ export let createApiStore = (root: IRootStore) => {
                 ? statusRes.value.check_runs ?? []
                 : [];
 
-            // return []
-
             return mapGithubBranchToNode(slug, branch, checks, key);
           });
 

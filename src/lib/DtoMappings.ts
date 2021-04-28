@@ -464,7 +464,7 @@ export function mapGithubBranchToNode(
 
   let node: INode = {
     id: branch.commit.sha,
-    url: branch.commit.url,
+    url: `https://github.com/${slug}/commit/${branch.commit.sha}`,
     label: `${slug} [${branch.name}]`,
     // date: pr.updated_at,
     status: status,
