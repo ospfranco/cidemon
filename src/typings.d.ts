@@ -86,6 +86,8 @@ declare interface INode {
   // added fields for small nice things
   sha?: string;
   isPr?: boolean;
+  username?: string;
+  userAvatarUrl?: string;
 }
 
 declare interface IToast {

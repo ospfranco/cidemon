@@ -114,6 +114,10 @@ Shared via CI Demon.
             <Icon name="source-pull" style={styles.icon} />
           )}
 
+          {!!node.userAvatarUrl && (
+            <Image source={{uri: node.userAvatarUrl }} style={tw('h-6 w-6 rounded-full mr-2')}/>
+          )}
+
           <View style={{maxWidth: '90%'}}>
             {text}
           </View>

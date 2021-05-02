@@ -100,35 +100,45 @@ Shared via CI Demon.
       contentContainerStyle={tw(`p-2`)}>
       {!!node && (
         <>
-          <Row
-            vertical="center"
-            style={tw(`px-3 py-4 border-b ${borderColor}`)}>
-            {!!icon && (
-              <Image
-                source={icon}
-                style={[tw(`h-7 w-7`), {tintColor}]}
-                resizeMode="contain"
-              />
-            )}
-            {node.source === `Ping` && (
-              <Icon name="signal-variant" size={32} color={tintColor} />
-            )}
-            <View style={tw(`px-4`)}>
-              {!tokens && (
-                <Text style={tw(`font-semibold text-xl`)}>{node.label}</Text>
+          <View
+            style={tw(`border-b ${borderColor}`)}
+          >
+            <Row
+              vertical="center"
+              style={tw(`px-3 py-4`)}>
+              {!!icon && (
+                <Image
+                  source={icon}
+                  style={[tw(`h-7 w-7`), {tintColor}]}
+                  resizeMode="contain"
+                />
               )}
-              {!!tokens && (
-                <>
-                  <Text style={tw(dynamic(`text-gray-400`, `text-gray-500`))}>
-                    {tokens[1]}
-                  </Text>
-                  <Text style={tw(`font-semibold text-lg`)}>
-                    {tokens[2].slice(1, tokens[2].length - 1)}
-                  </Text>
-                </>
+              {node.source === `Ping` && (
+                <Icon name="signal-variant" size={32} color={tintColor} />
               )}
-            </View>
-          </Row>
+              <View style={tw(`px-4`)}>
+                {!tokens && (
+                  <Text style={tw(`font-semibold text-xl`)}>{node.label}</Text>
+                )}
+                {!!tokens && (
+                  <>
+                    <Text style={tw(dynamic(`text-gray-400`, `text-gray-500`))}>
+                      {tokens[1]}
+                    </Text>
+                    <Text style={tw(`font-semibold text-lg`)}>
+                      {tokens[2].slice(1, tokens[2].length - 1)}
+                    </Text>
+                  </>
+                )}
+              </View>
+            </Row>
+            {!!node.username && (
+              <Row style={tw('px-3 mb-2')} vertical="center">
+                <Image source={{uri: node.userAvatarUrl}} style={tw(`h-9 w-9 rounded-full`)}/>
+                <Text style={tw('ml-2')}>{node.username}</Text>
+              </Row>
+            )}
+          </View>
           {!!node.subItems?.length && (
             <View style={tw(`pl-5 py-3 border-b ${borderColor}`)}>
               <Text

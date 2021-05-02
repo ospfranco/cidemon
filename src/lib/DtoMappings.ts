@@ -406,7 +406,9 @@ export function mapGithubPrToNode(
     key: key,
     subItems: subItems,
     sha: pr.head.sha,
-    isPr: true
+    isPr: true,
+    username: pr.user.login,
+    userAvatarUrl: pr.user.avatar_url
   }
 
   return node
