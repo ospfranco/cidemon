@@ -1,6 +1,5 @@
-import {cidemonNative} from 'lib';
-import {makeAutoObservable, runInAction} from 'mobx';
-import {IRootStore} from 'Root.store';
+import { makeAutoObservable, runInAction } from 'mobx';
+import { IRootStore } from 'Root.store';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export let createUIStore = (root: IRootStore) => {
@@ -15,6 +14,9 @@ export let createUIStore = (root: IRootStore) => {
         });
       }, 6000);
     },
+    clearToasts: () => {
+      store.toasts = []
+    }
     // checkForUpdates: () => {
     //   cidemonNative.checkForUpdates();
     // },

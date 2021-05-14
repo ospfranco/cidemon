@@ -8,7 +8,7 @@ import {
   toJS,
 } from 'mobx';
 import { createPingTest, PingTest } from 'model';
-import { Alert, Linking, NativeModules } from 'react-native';
+import { Alert, Linking } from 'react-native';
 import { IRootStore } from 'Root.store';
 import Fuse from 'fuse.js';
 
@@ -20,6 +20,25 @@ export enum SortingKey {
   date = `Date`,
   status = `Status`,
   name = `Name`,
+}
+
+export function debounce<T extends (...args: any[]) => any>(
+  ms: number,
+  callback: T
+): (...args: Parameters<T>) => Promise<ReturnType<T>> {
+  let timer: NodeJS.Timeout | undefined;
+
+  return (...args: Parameters<T>) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    return new Promise<ReturnType<T>>((resolve) => {
+      timer = setTimeout(() => {
+        const returnValue = callback(...args) as ReturnType<T>;
+        resolve(returnValue);
+      }, ms);
+    })
+  };
 }
 
 export async function createNodeStore(root: IRootStore) {
@@ -498,8 +517,14 @@ export async function createNodeStore(root: IRootStore) {
         store.githubRepos = newRepos;
       },
 
+      sendGithubKeyToast: debounce(2000, () => {
+        root.ui.clearToasts()
+        root.ui.addToast({ type: 'success', text: 'Github key saved' })
+      }),
+
       setGithubKey: (str: string) => {
         store.githubKey = str;
+        store.sendGithubKeyToast()
       },
 
       setNotificationsEnabled: (notificationsEnabled: boolean) => {
@@ -548,8 +573,13 @@ export async function createNodeStore(root: IRootStore) {
         store.fetchInterval = interval;
       },
 
+      sendGithubRepoToast: debounce(2000, () => {
+        root.ui.clearToasts()
+        root.ui.addToast({ type: 'success', text: 'Github slug saved' })
+      }),
       setGithubRepoAtIndex: (t: string, ii: number) => {
         store.githubRepos[ii] = t;
+        store.sendGithubRepoToast();
       },
 
       toggleFilterHardSwitch: () => {
@@ -597,10 +627,15 @@ export async function createNodeStore(root: IRootStore) {
 
       toggleGithubFetchPrs: () => {
         store.githubFetchPrs = !store.githubFetchPrs
+        root.ui.clearToasts()
+        root.ui.addToast({ type: `success`, text: `Fetching github pull requests: ${store.githubFetchPrs ? 'ON' : 'OFF'}` })
       },
 
       toggleGithubFetchBranches: () => {
         store.githubFetchBranches = !store.githubFetchBranches
+
+        root.ui.clearToasts()
+        root.ui.addToast({ type: `success`, text: `Fetching github branches: ${store.githubFetchBranches ? 'ON' : 'OFF'}` })
       }
     },
     {

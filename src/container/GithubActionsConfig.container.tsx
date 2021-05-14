@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Text,
   TextInput,
@@ -8,14 +8,13 @@ import {
   View,
   Linking,
   Switch,
-} from "react-native";
-import { observer } from "mobx-react-lite";
-import { useStore } from "Root.store";
-import { Divider, Row, Spacer, TempoButton } from "component";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import FoIcon from "react-native-vector-icons/FontAwesome"
-import { useDynamic } from "lib";
-import tw from "tailwind-rn";
+} from 'react-native';
+import {observer} from 'mobx-react-lite';
+import {useStore} from 'Root.store';
+import {Divider, Row, Spacer, TempoButton} from 'component';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useDynamic} from 'lib';
+import tw from 'tailwind-rn';
 
 let placeHolderStyle: any = {
   dynamic: {
@@ -25,7 +24,9 @@ let placeHolderStyle: any = {
 };
 
 function openGithubGuide() {
-  Linking.openURL(`https://tempomat.dev/githubTokenGuide/`);
+  Linking.openURL(
+    `https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon/`,
+  );
 }
 
 export const GithubActionsConfigContainer = observer(() => {
@@ -42,7 +43,9 @@ export const GithubActionsConfigContainer = observer(() => {
       style={tw(`flex-1 ${dynamic(`bg-gray-700`, `bg-white`)}`)}
       contentContainerStyle={tw(`items-center`)}>
       <View style={tw(`w-96 py-4`)}>
-        <Text style={tw(`font-semibold py-3`)}>Github integration settings</Text>
+        <Text style={tw(`font-semibold py-3`)}>
+          Github integration settings
+        </Text>
 
         <TextInput
           placeholder="Your Github Personal Key goes here"
@@ -58,10 +61,7 @@ export const GithubActionsConfigContainer = observer(() => {
             <Row style={tw('py-3 px-4')} vertical="center">
               <Text>Fetch pull requests</Text>
               <Spacer />
-              <Switch
-                value={root.node.githubFetchPrs}
-                style={tw('h-4 w-4')}
-              />
+              <Switch value={root.node.githubFetchPrs} style={tw('h-4 w-4')} />
             </Row>
           </View>
         </TouchableOpacity>
@@ -92,11 +92,11 @@ export const GithubActionsConfigContainer = observer(() => {
                 onChangeText={(t) => root.node.setGithubRepoAtIndex(t, ii)}
               />
 
-              <TouchableOpacity
-                onPress={() => root.node.deleteGithubRepo(ii)}>
-                <View style={tw(
-                  `${dynamic(`bg-gray-800`, `bg-gray-100`)} p-2 rounded ml-2`,
-                )}>
+              <TouchableOpacity onPress={() => root.node.deleteGithubRepo(ii)}>
+                <View
+                  style={tw(
+                    `${dynamic(`bg-gray-800`, `bg-gray-100`)} p-2 rounded ml-2`,
+                  )}>
                   <Icon name="delete" color={`red`} size={20} />
                 </View>
               </TouchableOpacity>
@@ -109,13 +109,12 @@ export const GithubActionsConfigContainer = observer(() => {
           title="Add slot"
           onPress={root.node.addEmptyGithubRepo}
         />
-        <Text
-          style={tw(`py-3`)}>
+        <Text style={tw(`py-3`)}>
           {`The Github API has certain limitations, therefore you have to specify each repository you want see in the app.
 
 First add 'slot' and then add the username/repository combo.`}
         </Text>
-        <View style={{ alignItems: `center` }}>
+        <View style={{alignItems: `center`}}>
           <TempoButton
             title="How do I create a Github Personal Key"
             onPress={openGithubGuide}
