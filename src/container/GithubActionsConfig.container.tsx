@@ -78,6 +78,19 @@ export const GithubActionsConfigContainer = observer(() => {
             </Row>
           </View>
         </TouchableOpacity>
+        <Divider />
+        <TouchableOpacity onPress={root.node.toggleGithubFetchWorkflows}>
+          <View style={settingsRowStyle}>
+            <Row style={tw('py-3 px-4')} vertical="center">
+              <Text>Fetch workflows</Text>
+              <Spacer />
+              <Switch
+                value={root.node.githubFetchWorkflows}
+                style={tw('h-4 w-4')}
+              />
+            </Row>
+          </View>
+        </TouchableOpacity>
 
         <Text style={tw(`font-semibold py-3`)}>Subscribed repositories</Text>
 

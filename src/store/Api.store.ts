@@ -292,7 +292,7 @@ export let createApiStore = (root: IRootStore) => {
       }
     },
 
-    fetchGithubNodes: async ({ key, slug, fetchPrs, fetchBranches }: { key: string, slug: string, fetchPrs: boolean, fetchBranches: boolean }): Promise<INode[]> => {
+    fetchGithubNodes: async ({ key, slug, fetchPrs, fetchBranches, fetchWorkflows }: { key: string, slug: string, fetchPrs: boolean, fetchBranches: boolean, fetchWorkflows: boolean }): Promise<INode[]> => {
       try {
         const githubApi = new Github({
           token: key,
@@ -370,31 +370,29 @@ export let createApiStore = (root: IRootStore) => {
           nodes.push(...branchNodes)
         }
 
+        if (fetchWorkflows) {
+          const runsRes = await get({
+            url: `https://api.github.com/repos/${slug}/actions/runs?per_page=100`,
+            headers: {
+              Accept: `application/vnd.github.v3+json`,
+              Authorization: `token ${key}`,
+            },
+          })
 
-        const runsRes = await get({
-          url: `https://api.github.com/repos/${slug}/actions/runs?per_page=100`,
-          headers: {
-            Accept: `application/vnd.github.v3+json`,
-            Authorization: `token ${key}`,
-          },
-        })
+          const visitedRuns: Record<string, boolean> = {}
+          const runs = runsRes.workflow_runs.reduce((acc: any[], run: any) => {
+            if (!visitedRuns[run.workflow_id]) {
+              visitedRuns[run.workflow_id] = true
+              acc.push(run)
+            }
 
-        const visitedRuns: Record<string, boolean> = {}
-        const runs = runsRes.workflow_runs.reduce((acc: any[], run: any) => {
-          if (!visitedRuns[run.workflow_id]) {
-            visitedRuns[run.workflow_id] = true
-            acc.push(run)
-          }
+            return acc
+          }, [])
 
-          return acc
-        }, [])
+          const runsNodes: any[] = runs.map((run: any) => mapGithubActionRunToNode(slug, run, key))
 
-        console.warn({ runs })
-
-        const runsNodes: any[] = runs.map((run: any) => mapGithubActionRunToNode(slug, run, key))
-
-        nodes.push(...runsNodes.flat())
-
+          nodes.push(...runsNodes.flat())
+        }
 
         return nodes;
 

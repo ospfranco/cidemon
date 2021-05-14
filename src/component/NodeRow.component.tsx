@@ -116,9 +116,11 @@ Shared via CI Demon.
             <Icon name="signal-variant" color={tintColor} style={styles.icon} />
           )}
 
-          {node.isPr && <Icon name="source-pull" style={styles.icon} />}
+          {node.isPr && <Icon name="source-pull" style={styles.nodeIcon} />}
 
-          {node.isAction && <Icon name="source-branch" style={styles.icon} />}
+          {node.isAction && (
+            <Icon name="source-branch" style={styles.nodeIcon} />
+          )}
 
           {!!node.userAvatarUrl && (
             <Image
@@ -178,6 +180,11 @@ const styles = StyleSheet.create({
     marginRight: global.metrics.pm,
   },
   icon: {
+    marginLeft: global.metrics.ps,
+    marginRight: global.metrics.pm,
+    fontSize: global.metrics.tl,
+  },
+  nodeIcon: {
     marginLeft: global.metrics.ps,
     marginRight: global.metrics.pm,
     fontSize: global.metrics.tl,

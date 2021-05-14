@@ -75,6 +75,7 @@ export async function createNodeStore(root: IRootStore) {
         doubleRowItems: JSStore.doubleRowItems,
         githubFetchPrs: JSStore.githubFetchPrs,
         githubFetchBranches: JSStore.githubFetchBranches,
+        githubFetchWorkflows: JSStore.githubFetchWorkflows,
         useSimpleIcon: JSStore.useSimpleIcon
       }),
     );
@@ -105,6 +106,7 @@ export async function createNodeStore(root: IRootStore) {
         store.githubFetchPrs = parsedStore.githubFetchPrs ?? true;
         store.githubFetchBranches = parsedStore.githubFetchBranches ?? true;
         store.useSimpleIcon = parsedStore.useSimpleIcon ?? false;
+        store.githubFetchWorkflows = parsedStore.githubFetchWorkflows ?? false;
       });
     }
   };
@@ -127,6 +129,7 @@ export async function createNodeStore(root: IRootStore) {
       githubKey: `` as string,
       githubFetchPrs: true,
       githubFetchBranches: true,
+      githubFetchWorkflows: false,
       notificationsEnabled: false,
       startAtLogin: false,
       fetchInterval: 1,
@@ -312,7 +315,7 @@ export async function createNodeStore(root: IRootStore) {
           promises = promises.concat(
             store.githubRepos
               .filter((v) => v !== ``)
-              .map((slug) => root.api.fetchGithubNodes({ key: store.githubKey, slug, fetchPrs: store.githubFetchPrs, fetchBranches: store.githubFetchBranches })),
+              .map((slug) => root.api.fetchGithubNodes({ key: store.githubKey, slug, fetchPrs: store.githubFetchPrs, fetchBranches: store.githubFetchBranches, fetchWorkflows: store.githubFetchWorkflows })),
           );
         }
 
@@ -640,6 +643,12 @@ export async function createNodeStore(root: IRootStore) {
 
         root.ui.clearToasts()
         root.ui.addToast({ type: `success`, text: `Fetching github branches: ${store.githubFetchBranches ? 'ON' : 'OFF'}` })
+      },
+
+      toggleGithubFetchWorkflows: () => {
+        store.githubFetchWorkflows = !store.githubFetchWorkflows;
+        root.ui.clearToasts()
+        root.ui.addToast({ type: `success`, text: `Fetching github workflows: ${store.githubFetchWorkflows ? 'ON' : 'OFF'}` })
       },
 
       toggleUseSimpleIcon: () => {
