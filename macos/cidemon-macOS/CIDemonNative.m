@@ -4,7 +4,7 @@
 
 @interface RCT_EXTERN_MODULE(CIDemonNative, NSObject)
 
-RCT_EXTERN_METHOD(setStatusButtonText: (NSInteger)failed running:(NSInteger)running passed:(NSInteger)passed)
+RCT_EXTERN_METHOD(setStatusButtonText: (NSInteger)failed running:(NSInteger)running passed:(NSInteger)passed useSimpleIcon:(BOOL)useSimpleIcon)
 
 RCT_EXTERN_METHOD(securelyStore: (NSString)key payload:(NSString)payload resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject)
 

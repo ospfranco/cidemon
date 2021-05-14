@@ -18,10 +18,10 @@ class CIDemonNative: NSObject, NSSharingServicePickerDelegate {
   }
 
   @objc
-  func setStatusButtonText(_ failed: NSInteger, running: NSInteger, passed: NSInteger) {
+  func setStatusButtonText(_ failed: NSInteger, running: NSInteger, passed: NSInteger, useSimpleIcon: Bool) {
     DispatchQueue.main.async {
       let appDelegate = NSApp.delegate as? AppDelegate
-      appDelegate?.setStatusText(failed: failed, running: running, passed: passed)
+      appDelegate?.setStatusText(failed: failed, running: running, passed: passed, useSimpleIcon: useSimpleIcon)
     }
   }
 

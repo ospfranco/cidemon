@@ -197,6 +197,31 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
 
         <View style={settingsRowStyle}>
           <Row style={styles.settingsRowInternal} vertical="center">
+            <Text>Use simple status bar icon</Text>
+            <Spacer />
+            <Switch
+              value={root.node.useSimpleIcon}
+              onValueChange={root.node.toggleUseSimpleIcon}
+              style={styles.switch}
+            />
+          </Row>
+          <Divider />
+        </View>
+        <View style={settingsRowStyle}>
+          <Row style={styles.settingsRowInternal} vertical="center">
+            <Text>Show items in two rows</Text>
+            <Spacer />
+            <Switch
+              value={root.node.doubleRowItems}
+              onValueChange={root.node.toggleDoubleRowItems}
+              style={styles.switch}
+            />
+          </Row>
+          {global.isMacOS && <Divider />}
+        </View>
+
+        <View style={settingsRowStyle}>
+          <Row style={styles.settingsRowInternal} vertical="center">
             <Text>Launch on login</Text>
             <Spacer />
             <Switch

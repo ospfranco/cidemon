@@ -80,7 +80,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
       }
   }
 
-  func setStatusText(failed: NSInteger, running: NSInteger, passed: NSInteger) {
+  func setStatusText(failed: NSInteger, running: NSInteger, passed: NSInteger, useSimpleIcon: Bool) {
+    if(useSimpleIcon) {
+      if let button = self.statusBarItem.button {
+        if(running > 0) {
+          button.image = NSImage(named: "simple_pending")
+        } else if(failed > 0) {
+          button.image = NSImage(named: "simple_failed")
+        } else if(running > 0) {
+          button.image = NSImage(named: "simple_passed")
+        } else {
+          button.image = NSImage(named: "simple_initial")
+        }
+      }
+      return
+    }
+    
     var statuses: [String] = []
     if(running > 0) {
       statuses.append("pending")

@@ -1,7 +1,7 @@
-import {NativeModules} from 'react-native';
+import { NativeModules } from 'react-native';
 
 interface CIDemonNative {
-  setStatusButtonText: (passed: number, running: number, failed: number) => void;
+  setStatusButtonText: (passed: number, running: number, failed: number, simpleIcon: boolean) => void;
   requestReview: () => void;
   sendNotification: (title: string, payload: string, url: string) => void;
   securelyStore: (key: string, value: string) => void;

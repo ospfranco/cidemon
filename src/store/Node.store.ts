@@ -74,7 +74,8 @@ export async function createNodeStore(root: IRootStore) {
         pingTests: JSStore.pingTests,
         doubleRowItems: JSStore.doubleRowItems,
         githubFetchPrs: JSStore.githubFetchPrs,
-        githubFetchBranches: JSStore.githubFetchBranches
+        githubFetchBranches: JSStore.githubFetchBranches,
+        useSimpleIcon: JSStore.useSimpleIcon
       }),
     );
   };
@@ -103,6 +104,7 @@ export async function createNodeStore(root: IRootStore) {
         store.doubleRowItems = parsedStore.doubleRowItems ?? false;
         store.githubFetchPrs = parsedStore.githubFetchPrs ?? true;
         store.githubFetchBranches = parsedStore.githubFetchBranches ?? true;
+        store.useSimpleIcon = parsedStore.useSimpleIcon ?? false;
       });
     }
   };
@@ -135,6 +137,7 @@ export async function createNodeStore(root: IRootStore) {
       showBuildNumber: false,
       pingTests: [] as PingTest[],
       doubleRowItems: false,
+      useSimpleIcon: false,
 
       //    _____                            _           _
       //   / ____|                          | |         | |
@@ -259,6 +262,7 @@ export async function createNodeStore(root: IRootStore) {
           failed,
           running,
           passed,
+          store.useSimpleIcon
         );
 
         return finalNodes;
@@ -636,15 +640,21 @@ export async function createNodeStore(root: IRootStore) {
 
         root.ui.clearToasts()
         root.ui.addToast({ type: `success`, text: `Fetching github branches: ${store.githubFetchBranches ? 'ON' : 'OFF'}` })
+      },
+
+      toggleUseSimpleIcon: () => {
+        store.useSimpleIcon = !store.useSimpleIcon;
+
+        store.fetchNodes();
       }
     },
     {
+      // @ts-ignore
       nodes: observable.shallow,
     },
   );
 
-  // after store is created
-  // Hydrate previous state
+  // Hydrate after creation
   await hydrate().then(() => {
     // create auto persist routine
     autorun(persist);
