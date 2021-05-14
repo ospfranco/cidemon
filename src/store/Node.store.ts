@@ -1,4 +1,4 @@
-import {mapPingTest, cidemonNative} from 'lib';
+import { mapPingTest, cidemonNative } from 'lib';
 import {
   autorun,
   configure,
@@ -7,9 +7,9 @@ import {
   runInAction,
   toJS,
 } from 'mobx';
-import {createPingTest, PingTest} from 'model';
-import {Alert, Linking, NativeModules} from 'react-native';
-import {IRootStore} from 'Root.store';
+import { createPingTest, PingTest } from 'model';
+import { Alert, Linking, NativeModules } from 'react-native';
+import { IRootStore } from 'Root.store';
 import Fuse from 'fuse.js';
 
 configure({
@@ -241,7 +241,7 @@ export async function createNodeStore(root: IRootStore) {
           running,
           passed,
         );
-        
+
         return finalNodes;
       },
 
@@ -289,7 +289,7 @@ export async function createNodeStore(root: IRootStore) {
           promises = promises.concat(
             store.githubRepos
               .filter((v) => v !== ``)
-              .map((slug) => root.api.fetchGithubNodes({key: store.githubKey, slug, fetchPrs: store.githubFetchPrs, fetchBranches: store.githubFetchBranches})),
+              .map((slug) => root.api.fetchGithubNodes({ key: store.githubKey, slug, fetchPrs: store.githubFetchPrs, fetchBranches: store.githubFetchBranches })),
           );
         }
 
@@ -449,7 +449,7 @@ export async function createNodeStore(root: IRootStore) {
 
         let id = Math.random().toString(36).substring(2);
 
-        store.complexRegexes.push({id, regex: pattern, inverted});
+        store.complexRegexes.push({ id, regex: pattern, inverted });
         return true;
       },
 
@@ -592,7 +592,7 @@ export async function createNodeStore(root: IRootStore) {
       },
 
       openIssueRepo: () => {
-        Linking.openURL('https://github.com/ospfranco/cidemon_issues')
+        Linking.openURL('https://github.com/ospfranco/cidemon_issues/issues/new/choose')
       },
 
       toggleGithubFetchPrs: () => {
