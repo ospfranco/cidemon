@@ -8,6 +8,7 @@ import {
   mapGithubBranchToNode,
   mapGitlabTupleToNodes,
   mapTravisTuplesToNodes,
+  mapGithubActionRunToNode
 } from "lib";
 import {
   AppcenterRepoDto,
@@ -368,6 +369,31 @@ export let createApiStore = (root: IRootStore) => {
 
           nodes.push(...branchNodes)
         }
+
+
+        const runsRes = await get({
+          url: `https://api.github.com/repos/${slug}/actions/runs?per_page=100`,
+          headers: {
+            Accept: `application/vnd.github.v3+json`,
+            Authorization: `token ${key}`,
+          },
+        })
+
+        const visitedRuns: Record<string, boolean> = {}
+        const runs = runsRes.workflow_runs.reduce((acc: any[], run: any) => {
+          if (!visitedRuns[run.workflow_id]) {
+            visitedRuns[run.workflow_id] = true
+            acc.push(run)
+          }
+
+          return acc
+        }, [])
+
+        console.warn({ runs })
+
+        const runsNodes: any[] = runs.map((run: any) => mapGithubActionRunToNode(slug, run, key))
+
+        nodes.push(...runsNodes.flat())
 
 
         return nodes;

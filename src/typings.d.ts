@@ -86,6 +86,7 @@ declare interface INode {
   // added fields for small nice things
   sha?: string;
   isPr?: boolean;
+  isAction?: boolean;
   username?: string;
   userAvatarUrl?: string;
 }

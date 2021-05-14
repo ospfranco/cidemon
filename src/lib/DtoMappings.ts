@@ -14,7 +14,7 @@ import {
   GitlabPipelineDto,
   IGithubCheck,
 } from "model"
-import {PingTest} from "model"
+import { PingTest } from "model"
 
 interface IParsingOptions {
   showBuildNumber: boolean
@@ -119,9 +119,8 @@ export function mapAppcenterTuplesToNodes(
     let urlFriendlyBranchName = branch.branch.name.replace(`/`, `%2F`)
 
     let node: INode = {
-      id: `${`AppCenter`}-${repo.owner.name}-${repo.name}-${
-        branch.branch.name
-      }`,
+      id: `${`AppCenter`}-${repo.owner.name}-${repo.name}-${branch.branch.name
+        }`,
       url: `https://appcenter.ms/users/${repo.owner.name}/apps/${repo.name}/build/branches/${urlFriendlyBranchName}`,
       label: `${repo.owner.name}/${repo.name} [${branch.branch.name}]${jobId}`,
       source: `AppCenter`,
@@ -207,11 +206,11 @@ export function mapBitriseTuplesToNode(
 
     let mainName = branch.branch
 
-    if(!mainName || mainName.length === 0) {
+    if (!mainName || mainName.length === 0) {
       mainName = branch.commit_message ?? 'Unknown Branch'
     }
 
-    if(branch.triggered_workflow) {
+    if (branch.triggered_workflow) {
       mainName += `- ${branch.triggered_workflow}`
     }
 
@@ -356,7 +355,7 @@ export function mapGithubPrToNode(
   if (statuses.length) {
     status = `passed`
 
-    statuses.forEach(({name, conclusion, started_at, completed_at, details_url}) => {
+    statuses.forEach(({ name, conclusion, started_at, completed_at, details_url }) => {
       let lStartedAt = DateTime.fromISO(started_at)
 
       let subItem: ISubNode = {
@@ -364,7 +363,7 @@ export function mapGithubPrToNode(
         status: `pending`,
         url: details_url
       }
-      
+
       if (!conclusion) {
         if (status !== `failed`) {
           status = `running`
@@ -426,7 +425,7 @@ export function mapGithubBranchToNode(
   if (statuses.length) {
     status = `passed`
 
-    statuses.forEach(({name, conclusion, started_at, completed_at, details_url}) => {
+    statuses.forEach(({ name, conclusion, started_at, completed_at, details_url }) => {
       let lStartedAt = DateTime.fromISO(started_at)
 
       let subItem: ISubNode = {
@@ -434,7 +433,7 @@ export function mapGithubBranchToNode(
         status: `pending`,
         url: details_url
       }
-      
+
       if (!conclusion) {
         if (status !== `failed`) {
           status = `running`
@@ -476,6 +475,40 @@ export function mapGithubBranchToNode(
     key: key,
     subItems: subItems,
     sha: branch.commit.sha
+  }
+
+  return node
+}
+
+export function mapGithubActionRunToNode(
+  slug: string,
+  run: any,
+  key: string,
+): INode {
+  let status: Status = `pending`
+
+  if (
+    run.conclusion === `failure` ||
+    run.conclusion === `timed_out`
+  ) {
+    status = `failed`
+  } else if (run.conclusion === `success`) {
+    status = `passed`
+  } else if (run.conclusion === `neutral`) {
+    status = `pending`
+  }
+
+  let node: INode = {
+    id: run.id,
+    url: `https://github.com/${slug}/actions/runs/${run.id}`,
+    label: `${slug} [${run.name}]`,
+    date: run.updated_at,
+    status: status,
+    source: `Github`,
+    vcs: `github`,
+    key: key,
+    sha: run.head_sha,
+    isAction: true
   }
 
   return node

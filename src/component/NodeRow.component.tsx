@@ -7,9 +7,9 @@ import {observer} from 'mobx-react-lite';
 import {useBoolean, TINT_MAPPING, useDynamic, cidemonNative} from 'lib';
 import tw from 'tailwind-rn';
 import {useStore} from 'Root.store';
-import cn from 'classnames'
-import { TempoButton } from './TempoButton.component';
-import { Spacer } from './Spacer.component';
+import cn from 'classnames';
+import {TempoButton} from './TempoButton.component';
+import {Spacer} from './Spacer.component';
 
 let captureBranchRegex = /(.*)(\[.*\])(.*)/;
 
@@ -40,7 +40,7 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
 
   let textColor = dynamic(`text-gray-300`, `text-gray-800`);
   let subTextColor = dynamic(`text-gray-400`, `text-gray-600`);
-  let hoverColor = dynamic(`bg-blue-700`, `bg-blue-200`)
+  let hoverColor = dynamic(`bg-blue-700`, `bg-blue-200`);
 
   if (selected) {
     textColor = `text-white`;
@@ -77,15 +77,19 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
   }
 
   const shareLink = (x: number, y: number) => {
-    cidemonNative.showShareMenu(x, y, `Hey, this build:
+    cidemonNative.showShareMenu(
+      x,
+      y,
+      `Hey, this build:
 
 ${node.url}
 
 has ${node.status}, can you take a look? Thanks!
 
 Shared via CI Demon.
-`)
-  }
+`,
+    );
+  };
 
   return (
     <TouchableOpacity
@@ -96,10 +100,12 @@ Shared via CI Demon.
       onPress={onPress}>
       <View
         style={[
-          tw(cn('py-1 rounded', {
-            [`${hoverColor} bg-opacity-50`]: hovered,
-            'bg-blue-500': selected
-          })),
+          tw(
+            cn('py-1 rounded', {
+              [`${hoverColor} bg-opacity-50`]: hovered,
+              'bg-blue-500': selected,
+            }),
+          ),
           style,
         ]}>
         <Row vertical="center">
@@ -110,29 +116,28 @@ Shared via CI Demon.
             <Icon name="signal-variant" color={tintColor} style={styles.icon} />
           )}
 
-          {node.isPr && (
-            <Icon name="source-pull" style={styles.icon} />
-          )}
+          {node.isPr && <Icon name="source-pull" style={styles.icon} />}
+
+          {node.isAction && <Icon name="source-branch" style={styles.icon} />}
 
           {!!node.userAvatarUrl && (
-            <Image source={{uri: node.userAvatarUrl }} style={tw('h-6 w-6 rounded-full mr-2')}/>
+            <Image
+              source={{uri: node.userAvatarUrl}}
+              style={tw('h-6 w-6 rounded-full mr-2')}
+            />
           )}
 
-          <View style={{maxWidth: '90%'}}>
-            {text}
-          </View>
+          <View style={{maxWidth: '90%'}}>{text}</View>
 
           <Spacer />
 
-          {hovered 
-          ? <TempoButton
-              onPressWithPosition={shareLink}
-              style={'p-2'}
-            >
-              <Icon name="export-variant"/>
+          {hovered ? (
+            <TempoButton onPressWithPosition={shareLink} style={'p-2'}>
+              <Icon name="export-variant" />
             </TempoButton>
-            : <View style={tw('w-8')}/>
-          }
+          ) : (
+            <View style={tw('w-8')} />
+          )}
         </Row>
 
         {/* Sub nodes */}
