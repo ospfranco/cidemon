@@ -2,7 +2,7 @@
 
 <h3 align="center">A macOS menu bar application to monitor your CI jobs</h3>
 
-![cidemon](https://user-images.githubusercontent.com/1634213/129089815-5397e592-f638-4a3b-8845-731ba5ebed15.png)
+![cidemon](https://user-images.githubusercontent.com/1634213/129091153-df219f7c-6094-497a-a4eb-17ecf7a0a4b5.png)
 
 <div align="center">
   <pre align="center">
