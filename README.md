@@ -2,11 +2,11 @@
 
 <h3 align="center">A macOS menu bar application to monitor your CI jobs</h3>
 
-<!-- ![Frame 2](https://user-images.githubusercontent.com/1634213/127499575-aed1d0e2-8a93-42ab-917e-badaab8916f6.png) -->
+![cidemon](https://user-images.githubusercontent.com/1634213/129089815-5397e592-f638-4a3b-8845-731ba5ebed15.png)
 
 <div align="center">
   <pre align="center">
-    <a href="https://github.com/ospfranco/react-native-quick-sqlite/blob/main/example/patches/typeorm%2B0.2.31.patch">Get it on the mac app store</a>
+    <a href="https://apps.apple.com/de/app/ci-demon/id1560355863?mt=12h">Get it on the mac app store</a>
     Or build it yourself!
   </pre>
   <a align="center" href="https://github.com/ospfranco?tab=followers">
