@@ -8,6 +8,7 @@ import {
   Pressable,
   ScrollView,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -30,7 +31,7 @@ export function NodeDetail({node}: {node?: INode}) {
   let icon = Images[`${node?.source.toLowerCase()}`];
   let tintColor = TINT_MAPPING[node?.status ?? `pending`];
   let [tokens, setTokens] = useState<null | string[]>(null);
-  let [coor, setCoor] = useState<null | {x: number, y: number}>(null)
+  let [coor, setCoor] = useState<null | {x: number; y: number}>(null);
   let root = useStore();
   let dynamic = useDynamic();
 
@@ -79,33 +80,32 @@ export function NodeDetail({node}: {node?: INode}) {
     );
   }
 
-
   const shareLink = (x: number, y: number) => {
-    cidemonNative.showShareMenu(x + (coor?.x ?? 0), y, `Hey, this build:
+    cidemonNative.showShareMenu(
+      x + (coor?.x ?? 0),
+      y,
+      `Hey, this build:
 
 ${node.url}
 
 has ${node.status}, can you take a look? Thanks!
 
 Shared via CI Demon.
-`)
-  }
+`,
+    );
+  };
 
   return (
     <ScrollView
       onLayout={(e) => {
-        setCoor(e.nativeEvent.layout)
+        setCoor(e.nativeEvent.layout);
       }}
       style={[tw(` border-l ${borderColor} h-full w-1/3 bg-opacity-50`)]}
       contentContainerStyle={tw(`p-2`)}>
       {!!node && (
         <>
-          <View
-            style={tw(`border-b ${borderColor}`)}
-          >
-            <Row
-              vertical="center"
-              style={tw(`px-3 py-4`)}>
+          <View style={tw(`border-b ${borderColor}`)}>
+            <Row vertical="center" style={tw(`px-3 py-4`)}>
               {!!icon && (
                 <Image
                   source={icon}
@@ -134,7 +134,10 @@ Shared via CI Demon.
             </Row>
             {!!node.username && (
               <Row style={tw('px-3 mb-2')} vertical="center">
-                <Image source={{uri: node.userAvatarUrl}} style={tw(`h-9 w-9 rounded-full`)}/>
+                <Image
+                  source={{uri: node.userAvatarUrl}}
+                  style={tw(`h-9 w-9 rounded-full`)}
+                />
                 <Text style={tw('ml-2')}>{node.username}</Text>
               </Row>
             )}
@@ -148,7 +151,7 @@ Shared via CI Demon.
                 Sub-items
               </Text>
               {node.subItems.map((subItem: ISubNode, index: number) => (
-                <TempoButton
+                <TouchableOpacity
                   onPress={() => {
                     if (subItem.url) {
                       Linking.openURL(subItem.url);
@@ -176,7 +179,7 @@ Shared via CI Demon.
                       )}
                     </Text>
                   </Row>
-                </TempoButton>
+                </TouchableOpacity>
               ))}
             </View>
           )}
@@ -210,21 +213,22 @@ Shared via CI Demon.
                 <Text style={tw(`flex-1 text-blue-500`)}>{node.url}</Text>
               </Row>
             </Pressable>
-            {!!node.date && 
+            {!!node.date && (
               <Row style={rowStyle}>
                 <Text style={labelStyle}>Start Date</Text>
                 <Text style={tw(`flex-1`)}>
                   {new Date(node.date!).toLocaleString()}
                 </Text>
               </Row>
-            }
+            )}
             {node.sha && (
               <Row style={rowStyle}>
                 <Text style={labelStyle}>Commit SHA</Text>
-                <Text style={tw(`flex-1`)} selectable>{node.sha}</Text>
+                <Text style={tw(`flex-1`)} selectable>
+                  {node.sha}
+                </Text>
               </Row>
-            )
-            }
+            )}
             {node.source !== `Ping` && (
               <Row style={rowStyle}>
                 <Text style={labelStyle}>VCS</Text>

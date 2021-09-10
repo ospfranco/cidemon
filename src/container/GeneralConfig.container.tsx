@@ -18,11 +18,9 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import FoIcon from 'react-native-vector-icons/FontAwesome';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {cidemonNative, useDynamic} from 'lib';
-import pkg from '../../package.json';
 import tw from 'tailwind-rn';
 import {IRootStackParams} from 'Route';
 import {Picker} from '@react-native-picker/picker';
-import {Link} from '@react-navigation/native';
 
 interface IProps {
   navigation: StackNavigationProp<IRootStackParams, 'Configuration'>;
@@ -207,18 +205,6 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
           </Row>
           <Divider />
         </View>
-        <View style={settingsRowStyle}>
-          <Row style={styles.settingsRowInternal} vertical="center">
-            <Text>Show items in two rows</Text>
-            <Spacer />
-            <Switch
-              value={root.node.doubleRowItems}
-              onValueChange={root.node.toggleDoubleRowItems}
-              style={styles.switch}
-            />
-          </Row>
-          {global.isMacOS && <Divider />}
-        </View>
 
         <View style={settingsRowStyle}>
           <Row style={styles.settingsRowInternal} vertical="center">
@@ -327,7 +313,7 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
           </View>
         </Row> */}
 
-        <Text style={tw(`self-center p-4 font-bold`)}>v{pkg.version}</Text>
+        {/* <Text style={tw(`self-center p-4 font-bold`)}>v{pkg.version}</Text> */}
 
         {__DEV__ && (
           <View style={tw(`p-4 rounded-lg border border-red-500 mb-8`)}>

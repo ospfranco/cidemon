@@ -1,31 +1,31 @@
-import { StackNavigationProp } from '@react-navigation/stack';
+import {Assets, StackNavigationProp} from '@react-navigation/stack';
 import {
   EmptyNodesComponent,
-
   NodeDetail,
   NodeRow,
   Row,
   Spacer,
-  TempoButton
+  TempoButton,
 } from 'component';
-import { cidemonNative, idExtractor, useDarkTheme, useDynamic } from 'lib';
-import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import {cidemonNative, idExtractor, useDarkTheme, useDynamic} from 'lib';
+import {observer} from 'mobx-react-lite';
+import React, {useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
-
+  Image,
+  Linking,
   ListRenderItemInfo,
-
   SafeAreaView,
   Text,
-  TextInput,
-  View
+  View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useStore } from 'Root.store';
-import { IRootStackParams } from 'Route';
-import tw from 'tailwind-rn';
+import {useStore} from 'Root.store';
+import {IRootStackParams} from 'Route';
+import {tw} from 'tailwind';
+import {getColor} from 'tailwind-rn';
+import {Images} from 'Assets';
 
 interface IProps {
   navigation: StackNavigationProp<IRootStackParams, 'Home'>;
@@ -37,15 +37,23 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
   let dynamic = useDynamic();
   let [selectedNodeId, setSelectedNodeId] = useState<string | null>();
 
-  let iconStyle = tw(`${darkTheme ? `text-white` : ``} text-base`);
+  let iconStyle = [
+    tw(`${darkTheme ? `text-white` : ``} text-base`),
+    {lineHeight: 16},
+  ];
 
   let goToAddTokenScreen = () => {
     navigation.navigate(`AddToken`);
-  }
+  };
 
-  const shareLink = (x: number, y: number) => cidemonNative.showShareMenu(x, y, 'Hey! Check out CI Demon, I use it to keep an eye on my builds: https://apps.apple.com/de/app/ci-demon/id1560355863?mt=12')
+  const shareLink = (x: number, y: number) =>
+    cidemonNative.showShareMenu(
+      x,
+      y,
+      'Hey! Check out CI Demon, I use it to keep an eye on my builds: https://apps.apple.com/de/app/ci-demon/id1560355863?mt=12',
+    );
 
-  function renderNodeItem({item}: ListRenderItemInfo<INode>) {
+  const renderNodeItem = ({item}: ListRenderItemInfo<INode>) => {
     let isSelected = selectedNodeId === item.id;
     return (
       <NodeRow
@@ -60,82 +68,88 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
         selected={isSelected}
       />
     );
-  }
+  };
 
   return (
     <SafeAreaView style={tw(`flex-1`)}>
-      {/* Header */}
-      <Row
-        vertical="center"
-        style={tw(`${dynamic(`bg-gray-900`, `bg-gray-100`)} px-3 py-1`)}>
-        <TextInput
-          value={root.node.searchQuery}
-          onChangeText={root.node.setSearchQuery}
-          placeholder="Search..."
-          style={tw(
-            `ml-1 mr-4 p-2 ${dynamic(`bg-gray-700`, `bg-white`)} rounded w-96`,
-          )}
-          autoFocus
-          multiline
-          placeholderTextColor={global.colors.gray300}
-        />
-
-        <TempoButton onPress={root.node.toggleFilterHardSwitch}>
-          <Row
-            vertical="center"
-            style={tw(
-              `px-2 ${!!root.node.complexRegexes.length ? `` : `opacity-50`}`,
-            )}>
-            <Icon name="filter" style={iconStyle} />
-            <Text style={tw(dynamic(`text-gray-300`, `text-gray-600`))}>
-              {root.node.filterHardOffSwitch || !root.node.complexRegexes.length
-                ? `Off`
-                : `On`}
-            </Text>
-          </Row>
-        </TempoButton>
-
-        <TempoButton onPress={root.node.toggleSorting}>
-          <Row vertical="center" style={tw(`px-2`)}>
-            <Icon name="sort-descending" style={iconStyle} />
-            <Text style={tw(darkTheme ? `text-gray-300` : `text-gray-600`)}>
-              {root.node.sortingKey}
-            </Text>
-          </Row>
-        </TempoButton>
-
-        <TempoButton onPress={() => navigation.navigate(`Configuration`)}>
-          <Icon name="settings" style={iconStyle} />
-        </TempoButton>
-
-        {root.node.fetching ? (
-          <View style={tw(`ml-4`)}>
-            <ActivityIndicator />
-          </View>
-        ) : (
-          <TempoButton onPress={root.node.fetchNodes}>
-            <Icon name="refresh" style={iconStyle} />
-          </TempoButton>
-        )}
-        <Spacer />
-        <TempoButton onPressWithPosition={shareLink}>
-          <Icon name="account-multiple-plus" style={iconStyle} />
-        </TempoButton>
-        {/* <TempoButton onPress={showUpdates}>
-          <Icon name="gift" style={iconStyle} />
-        </TempoButton> */}
-      </Row>
-
       {/* Content */}
       <Row style={tw(`flex-1 w-full ${dynamic(`bg-gray-800`, `bg-white`)} `)}>
         {/* Node List */}
         <View style={tw(`w-2/3`)}>
+          <Row
+            vertical="center"
+            style={tw(`px-4 py-3 ${dynamic(`bg-gray-400`, `bg-white`)}`)}>
+            {root.node.fetching ? (
+              <TempoButton onPress={root.node.fetchNodes} primary>
+                <ActivityIndicator size={16} color="white" />
+              </TempoButton>
+            ) : (
+              <TempoButton onPress={root.node.fetchNodes} primary>
+                <Icon
+                  name="refresh"
+                  style={iconStyle}
+                  color={getColor('gray-100')}
+                />
+              </TempoButton>
+            )}
+
+            <View style={tw('w-2')} />
+            <TempoButton onPress={root.node.toggleFilterHardSwitch}>
+              <Row
+                vertical="center"
+                style={tw(
+                  `px-2 ${
+                    !!root.node.complexRegexes.length ? `` : `opacity-50`
+                  }`,
+                )}>
+                <Text
+                  style={tw(
+                    `${dynamic(
+                      `text-gray-300`,
+                      `text-gray-600`,
+                    )} font-bold mr-1`,
+                  )}>
+                  Filters:
+                </Text>
+
+                <Text style={tw(dynamic(`text-gray-300`, `text-gray-600`))}>
+                  {root.node.filterHardOffSwitch ||
+                  !root.node.complexRegexes.length
+                    ? `Off`
+                    : `On`}
+                </Text>
+              </Row>
+            </TempoButton>
+            <View style={tw('w-2')} />
+
+            <TempoButton onPress={root.node.toggleSorting}>
+              <Row vertical="center" style={tw(`px-2`)}>
+                <Text
+                  style={tw(
+                    `${dynamic(
+                      `text-gray-300`,
+                      `text-gray-600`,
+                    )} font-bold mr-1`,
+                  )}>
+                  Sort by:
+                </Text>
+                <Text style={tw(darkTheme ? `text-gray-300` : `text-gray-600`)}>
+                  {root.node.sortingKey}
+                </Text>
+              </Row>
+            </TempoButton>
+
+            <Spacer />
+            <TempoButton onPress={() => navigation.navigate(`Configuration`)}>
+              <Icon name="settings" style={iconStyle} />
+            </TempoButton>
+          </Row>
           <FlatList
             showsVerticalScrollIndicator={false}
             data={root.node.sortedFilteredNodes}
             renderItem={renderNodeItem}
             keyExtractor={idExtractor}
-            contentContainerStyle={tw(`p-2 flex-grow`)}
+            contentContainerStyle={tw(`flex-grow`)}
             ListEmptyComponent={
               <EmptyNodesComponent onAddToken={goToAddTokenScreen} />
             }
@@ -150,7 +164,40 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
         />
       </Row>
 
-      {/* <GiftModal visible={updatesVisible} onRequestClose={hideUpdates} /> */}
+      {/* Welcome */}
+      {!root.node.welcomeShown && (
+        <View
+          style={tw(
+            'absolute top-0 left-0 right-0 bottom-0 bg-white items-center justify-center',
+          )}>
+          <Text style={tw('text-2xl')}>Hi! I'm Oscar!</Text>
+          <Image
+            source={Images.profile}
+            style={tw('rounded-full h-32 w-32 my-4')}
+          />
+          <Text style={tw('py-2')}>
+            First of all thank you for trying out CI Demon!
+          </Text>
+          <Text style={tw('py-2')}>
+            It's the result of many months and a lot of hard work and I'm giving
+            it away for free.
+          </Text>
+          <Text style={tw('py-2')}>
+            All I ask is that you follow me on Twitter and share it with your
+            friends!
+          </Text>
+          <Text style={tw('pt-10')}>Thanks a lot!</Text>
+
+          <View style={tw('h-12')} />
+          <TempoButton
+            primary
+            title="Sure thing buddy!"
+            onPress={() => {
+              Linking.openURL('https://twitter.com/ospfranco');
+              root.node.dismissWelcome();
+            }}></TempoButton>
+        </View>
+      )}
     </SafeAreaView>
   );
 });

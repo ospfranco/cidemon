@@ -5,7 +5,7 @@ import {Images} from 'Assets';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {observer} from 'mobx-react-lite';
 import {useBoolean, TINT_MAPPING, useDynamic, cidemonNative} from 'lib';
-import tw from 'tailwind-rn';
+import {tw} from 'tailwind';
 import {useStore} from 'Root.store';
 import cn from 'classnames';
 import {TempoButton} from './TempoButton.component';
@@ -39,13 +39,13 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
   let tintColor = TINT_MAPPING[node.status];
 
   let textColor = dynamic(`text-gray-300`, `text-gray-800`);
-  let subTextColor = dynamic(`text-gray-400`, `text-gray-600`);
-  let hoverColor = dynamic(`bg-blue-700`, `bg-blue-200`);
+  let subTextColor = dynamic(`text-gray-400`, `text-gray-500`);
+  let hoverColor = dynamic(`bg-blue-700`, `bg-coolGray-200`);
 
-  if (selected) {
-    textColor = `text-white`;
-    subTextColor = `text-gray-200`;
-  }
+  // if (selected) {
+  //   textColor = `text-white`;
+  //   subTextColor = `text-gray-200`;
+  // }
 
   let text;
 
@@ -58,7 +58,7 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
           <Text style={tw(`text-xs ${subTextColor}`)}>
             {tokens[1]} {tokens[3] ? `- ${tokens[3]}` : ``}
           </Text>
-          <Text style={tw(textColor)}>
+          <Text style={tw(`${textColor} font-semibold`)}>
             {tokens[2].substring(1, tokens[2].length - 1)}
           </Text>
         </View>
@@ -100,26 +100,42 @@ Shared via CI Demon.
       onPress={onPress}>
       <View
         style={[
-          tw(
-            cn('py-1 rounded', {
-              [`${hoverColor} bg-opacity-50`]: hovered,
-              'bg-blue-500': selected,
-            }),
-          ),
+          tw('py-2 px-4 border-b border-gray-100', {
+            [`${hoverColor} bg-opacity-50`]: hovered,
+            'bg-sky-50': selected,
+          }),
           style,
         ]}>
         <Row vertical="center">
           {!!icon && (
-            <Image source={icon} style={[styles.imageIcon, {tintColor}]} />
-          )}
-          {node.source === `Ping` && (
-            <Icon name="signal-variant" color={tintColor} style={styles.icon} />
+            <View style={tw('mr-2')}>
+              <Image source={icon} style={[styles.imageIcon, {tintColor}]} />
+            </View>
           )}
 
-          {node.isPr && <Icon name="source-pull" style={styles.nodeIcon} />}
+          {node.source === `Ping` && (
+            <View style={tw('mr-2')}>
+              <Icon
+                name="signal-variant"
+                color={tintColor}
+                style={styles.icon}
+              />
+            </View>
+          )}
 
           {node.isAction && (
-            <Icon name="source-branch" style={styles.nodeIcon} />
+            <View style={tw('mr-2')}>
+              <Icon name="source-branch" style={styles.nodeIcon} />
+            </View>
+          )}
+
+          <View style={tw('flex-1')}>{text}</View>
+
+          {node.isPr && (
+            <>
+              <Text style={tw('text-xs font-light ')}>PR</Text>
+              <View style={tw('w-2')} />
+            </>
           )}
 
           {!!node.userAvatarUrl && (
@@ -129,38 +145,57 @@ Shared via CI Demon.
             />
           )}
 
-          <View style={{maxWidth: '90%'}}>{text}</View>
-
-          <Spacer />
-
-          {hovered ? (
+          {/* {hovered ? (
             <TempoButton onPressWithPosition={shareLink} style={'p-2'}>
               <Icon name="export-variant" />
             </TempoButton>
           ) : (
             <View style={tw('w-8')} />
-          )}
+          )} */}
         </Row>
 
         {/* Sub nodes */}
         {node.status === `failed` && node.subItems && (
-          <View style={tw(`pl-8 pt-1`)}>
-            {node.subItems.map((subItem: ISubNode, index: number) => (
+          <View style={tw(`pl-3`)}>
+            {node.subItems.map((subItem: ISubNode, index: number, items) => (
               <Row key={`${node.id}-sub-${index}`} vertical="center">
-                <View
+                <View style={tw('items-center mr-5')}>
+                  <View
+                    style={[
+                      tw('h-2'),
+                      {width: 1, backgroundColor: TINT_MAPPING[subItem.status]},
+                    ]}
+                  />
+                  <View
+                    style={[
+                      styles.statusIndicator,
+                      {backgroundColor: TINT_MAPPING[subItem.status]},
+                    ]}
+                  />
+
+                  <View
+                    style={[
+                      {
+                        width: 1,
+                        backgroundColor: TINT_MAPPING[subItem.status],
+                      },
+                      tw('h-2', {'bg-transparent': index === items.length - 1}),
+                    ]}
+                  />
+                </View>
+
+                <Text
                   style={[
-                    styles.statusIndicator,
-                    {backgroundColor: TINT_MAPPING[subItem.status]},
-                  ]}
-                />
-                <Text style={tw(`text-sm ${subTextColor}`)}>
+                    tw(`text-xs`),
+                    {
+                      color:
+                        subItem.status === 'failed'
+                          ? TINT_MAPPING[subItem.status]
+                          : null,
+                    },
+                  ]}>
                   {subItem.label}
-                  {!!subItem.extraLabel && (
-                    <Text style={tw(`text-xs ${subTextColor}`)}>
-                      {' '}
-                      ({subItem.extraLabel})
-                    </Text>
-                  )}
+                  {!!subItem.extraLabel && <Text> · {subItem.extraLabel}</Text>}
                 </Text>
               </Row>
             ))}
@@ -173,11 +208,9 @@ Shared via CI Demon.
 
 const styles = StyleSheet.create({
   imageIcon: {
-    height: global.metrics.imgSmall,
-    width: global.metrics.imgSmall,
+    height: 32,
+    width: 32,
     resizeMode: `contain`,
-    marginLeft: global.metrics.ps,
-    marginRight: global.metrics.pm,
   },
   icon: {
     marginLeft: global.metrics.ps,
@@ -193,6 +226,5 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    marginRight: 5,
   },
 });

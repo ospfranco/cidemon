@@ -1,4 +1,4 @@
-import { mapPingTest, cidemonNative } from 'lib';
+import {mapPingTest, cidemonNative} from 'lib';
 import {
   autorun,
   configure,
@@ -7,9 +7,9 @@ import {
   runInAction,
   toJS,
 } from 'mobx';
-import { createPingTest, PingTest } from 'model';
-import { Alert, Linking } from 'react-native';
-import { IRootStore } from 'Root.store';
+import {createPingTest, PingTest} from 'model';
+import {Alert, Linking} from 'react-native';
+import {IRootStore} from 'Root.store';
 import Fuse from 'fuse.js';
 
 configure({
@@ -24,7 +24,7 @@ export enum SortingKey {
 
 export function debounce<T extends (...args: any[]) => any>(
   ms: number,
-  callback: T
+  callback: T,
 ): (...args: Parameters<T>) => Promise<ReturnType<T>> {
   let timer: NodeJS.Timeout | undefined;
 
@@ -37,7 +37,7 @@ export function debounce<T extends (...args: any[]) => any>(
         const returnValue = callback(...args) as ReturnType<T>;
         resolve(returnValue);
       }, ms);
-    })
+    });
   };
 }
 
@@ -76,7 +76,8 @@ export async function createNodeStore(root: IRootStore) {
         githubFetchPrs: JSStore.githubFetchPrs,
         githubFetchBranches: JSStore.githubFetchBranches,
         githubFetchWorkflows: JSStore.githubFetchWorkflows,
-        useSimpleIcon: JSStore.useSimpleIcon
+        useSimpleIcon: JSStore.useSimpleIcon,
+        welcomeShown: JSStore.welcomeShown,
       }),
     );
   };
@@ -107,6 +108,7 @@ export async function createNodeStore(root: IRootStore) {
         store.githubFetchBranches = parsedStore.githubFetchBranches ?? true;
         store.useSimpleIcon = parsedStore.useSimpleIcon ?? false;
         store.githubFetchWorkflows = parsedStore.githubFetchWorkflows ?? false;
+        store.welcomeShown = parsedStore.welcomeShown ?? false;
       });
     }
   };
@@ -141,6 +143,7 @@ export async function createNodeStore(root: IRootStore) {
       pingTests: [] as PingTest[],
       doubleRowItems: false,
       useSimpleIcon: false,
+      welcomeShown: false,
 
       //    _____                            _           _
       //   / ____|                          | |         | |
@@ -265,7 +268,7 @@ export async function createNodeStore(root: IRootStore) {
           failed,
           running,
           passed,
-          store.useSimpleIcon
+          store.useSimpleIcon,
         );
 
         return finalNodes;
@@ -315,7 +318,15 @@ export async function createNodeStore(root: IRootStore) {
           promises = promises.concat(
             store.githubRepos
               .filter((v) => v !== ``)
-              .map((slug) => root.api.fetchGithubNodes({ key: store.githubKey, slug, fetchPrs: store.githubFetchPrs, fetchBranches: store.githubFetchBranches, fetchWorkflows: store.githubFetchWorkflows })),
+              .map((slug) =>
+                root.api.fetchGithubNodes({
+                  key: store.githubKey,
+                  slug,
+                  fetchPrs: store.githubFetchPrs,
+                  fetchBranches: store.githubFetchBranches,
+                  fetchWorkflows: store.githubFetchWorkflows,
+                }),
+              ),
           );
         }
 
@@ -475,7 +486,7 @@ export async function createNodeStore(root: IRootStore) {
 
         let id = Math.random().toString(36).substring(2);
 
-        store.complexRegexes.push({ id, regex: pattern, inverted });
+        store.complexRegexes.push({id, regex: pattern, inverted});
         return true;
       },
 
@@ -525,13 +536,13 @@ export async function createNodeStore(root: IRootStore) {
       },
 
       sendGithubKeyToast: debounce(2000, () => {
-        root.ui.clearToasts()
-        root.ui.addToast({ type: 'success', text: 'Github key saved' })
+        root.ui.clearToasts();
+        root.ui.addToast({type: 'success', text: 'Github key saved'});
       }),
 
       setGithubKey: (str: string) => {
         store.githubKey = str;
-        store.sendGithubKeyToast()
+        store.sendGithubKeyToast();
       },
 
       setNotificationsEnabled: (notificationsEnabled: boolean) => {
@@ -581,8 +592,8 @@ export async function createNodeStore(root: IRootStore) {
       },
 
       sendGithubRepoToast: debounce(2000, () => {
-        root.ui.clearToasts()
-        root.ui.addToast({ type: 'success', text: 'Github slug saved' })
+        root.ui.clearToasts();
+        root.ui.addToast({type: 'success', text: 'Github slug saved'});
       }),
       setGithubRepoAtIndex: (t: string, ii: number) => {
         store.githubRepos[ii] = t;
@@ -629,33 +640,54 @@ export async function createNodeStore(root: IRootStore) {
       },
 
       openIssueRepo: () => {
-        Linking.openURL('https://github.com/ospfranco/cidemon_issues/issues/new/choose')
+        Linking.openURL(
+          'https://github.com/ospfranco/cidemon_issues/issues/new/choose',
+        );
       },
 
       toggleGithubFetchPrs: () => {
-        store.githubFetchPrs = !store.githubFetchPrs
-        root.ui.clearToasts()
-        root.ui.addToast({ type: `success`, text: `Fetching github pull requests: ${store.githubFetchPrs ? 'ON' : 'OFF'}` })
+        store.githubFetchPrs = !store.githubFetchPrs;
+        root.ui.clearToasts();
+        root.ui.addToast({
+          type: `success`,
+          text: `Fetching github pull requests: ${
+            store.githubFetchPrs ? 'ON' : 'OFF'
+          }`,
+        });
       },
 
       toggleGithubFetchBranches: () => {
-        store.githubFetchBranches = !store.githubFetchBranches
+        store.githubFetchBranches = !store.githubFetchBranches;
 
-        root.ui.clearToasts()
-        root.ui.addToast({ type: `success`, text: `Fetching github branches: ${store.githubFetchBranches ? 'ON' : 'OFF'}` })
+        root.ui.clearToasts();
+        root.ui.addToast({
+          type: `success`,
+          text: `Fetching github branches: ${
+            store.githubFetchBranches ? 'ON' : 'OFF'
+          }`,
+        });
       },
 
       toggleGithubFetchWorkflows: () => {
         store.githubFetchWorkflows = !store.githubFetchWorkflows;
-        root.ui.clearToasts()
-        root.ui.addToast({ type: `success`, text: `Fetching github workflows: ${store.githubFetchWorkflows ? 'ON' : 'OFF'}` })
+        root.ui.clearToasts();
+        root.ui.addToast({
+          type: `success`,
+          text: `Fetching github workflows: ${
+            store.githubFetchWorkflows ? 'ON' : 'OFF'
+          }`,
+        });
       },
 
       toggleUseSimpleIcon: () => {
         store.useSimpleIcon = !store.useSimpleIcon;
 
         store.fetchNodes();
-      }
+      },
+
+      dismissWelcome: () => {
+        store.welcomeShown = true;
+      },
     },
     {
       // @ts-ignore

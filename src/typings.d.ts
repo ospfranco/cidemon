@@ -1,14 +1,12 @@
 /* eslint-disable eslint-comments/no-unlimited-disable */
 /* eslint-disable */
 
-declare module "github-api";
-declare module "base-64";
-declare module "promise.allsettled" {
+declare module 'github-api';
+declare module 'base-64';
+declare module 'promise.allsettled' {
   function allSettled(
     promises: Promise<T>[],
-  ): Array<
-    { status: "fulfilled"; value: T } | { status: "rejected"; reason: any }
-  >;
+  ): Array<{status: 'fulfilled'; value: T} | {status: 'rejected'; reason: any}>;
   export = allSettled;
 }
 
@@ -32,11 +30,12 @@ declare var global: {
   metrics: IMetrics;
   colors: any;
   isMacOS: boolean;
-  os: "ios" | "macos" | "android" | "web" | "windows";
+  os: 'ios' | 'macos' | 'android' | 'web' | 'windows';
 };
 
-declare module "*.png";
-declare module "*.jpg";
+declare module '*.png';
+declare module '*.jpg';
+declare module '*.jpeg';
 declare interface IIgnoreRegex {
   id: string;
   regex: string;
