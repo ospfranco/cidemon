@@ -46,13 +46,6 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
     navigation.navigate(`AddToken`);
   };
 
-  const shareLink = (x: number, y: number) =>
-    cidemonNative.showShareMenu(
-      x,
-      y,
-      'Hey! Check out CI Demon, I use it to keep an eye on my builds: https://apps.apple.com/de/app/ci-demon/id1560355863?mt=12',
-    );
-
   const renderNodeItem = ({item}: ListRenderItemInfo<INode>) => {
     let isSelected = selectedNodeId === item.id;
     return (
@@ -71,7 +64,11 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
   };
 
   return (
-    <SafeAreaView style={tw(`flex-1`)}>
+    <SafeAreaView
+      style={tw(`flex-1`, {
+        'bg-white': !isDark,
+        'bg-gray-900': isDark,
+      })}>
       {/* Content */}
       <Row style={tw(`flex-1 w-full`)}>
         {/* Node List */}
