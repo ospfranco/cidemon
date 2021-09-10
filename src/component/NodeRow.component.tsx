@@ -4,7 +4,13 @@ import {Row} from './Row.component';
 import {Images} from 'Assets';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {observer} from 'mobx-react-lite';
-import {useBoolean, TINT_MAPPING, useDynamic, cidemonNative} from 'lib';
+import {
+  useBoolean,
+  TINT_MAPPING,
+  useDynamic,
+  cidemonNative,
+  useDarkTheme,
+} from 'lib';
 import {tw} from 'tailwind';
 import {useStore} from 'Root.store';
 import cn from 'classnames';
@@ -21,11 +27,12 @@ interface IProps {
 }
 
 export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
-  let root = useStore();
-  let doubleRow = root.node.doubleRowItems;
-  let [hovered, onHover, offHover] = useBoolean();
-  let [tokens, setTokens] = useState<null | string[]>(null);
-  let dynamic = useDynamic();
+  const root = useStore();
+  const doubleRow = root.node.doubleRowItems;
+  const [hovered, onHover, offHover] = useBoolean();
+  const [tokens, setTokens] = useState<null | string[]>(null);
+  const dynamic = useDynamic();
+  const isDark = useDarkTheme();
 
   useEffect(() => {
     const newTokens = captureBranchRegex.exec(node.label);
@@ -40,12 +47,7 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
 
   let textColor = dynamic(`text-gray-300`, `text-gray-800`);
   let subTextColor = dynamic(`text-gray-400`, `text-gray-500`);
-  let hoverColor = dynamic(`bg-blue-700`, `bg-coolGray-200`);
-
-  // if (selected) {
-  //   textColor = `text-white`;
-  //   subTextColor = `text-gray-200`;
-  // }
+  let hoverColor = dynamic(`bg-gray-700`, `bg-coolGray-200`);
 
   let text;
 
@@ -100,9 +102,12 @@ Shared via CI Demon.
       onPress={onPress}>
       <View
         style={[
-          tw('py-2 px-4 border-b border-gray-100', {
+          tw('py-2 pl-4 border-b', {
             [`${hoverColor} bg-opacity-50`]: hovered,
-            'bg-sky-50': selected,
+            'bg-sky-50': !isDark && selected,
+            'bg-sky-900': isDark && selected,
+            'border-gray-100': !isDark,
+            'border-gray-800': isDark,
           }),
           style,
         ]}>
@@ -144,15 +149,16 @@ Shared via CI Demon.
               style={tw('h-6 w-6 rounded-full mr-2')}
             />
           )}
-
-          {/* {hovered ? (
-            <TempoButton onPressWithPosition={shareLink} style={'p-2'}>
-              <Icon name="export-variant" />
-            </TempoButton>
-          ) : (
-            <View style={tw('w-8')} />
-          )} */}
         </Row>
+
+        {/* {node.status === 'failed' && (
+          <TempoButton
+            onPressWithPosition={shareLink}
+            primary
+            style={tw('absolute right-3 bottom-3')}>
+            <Icon name="bell" />
+          </TempoButton>
+        )} */}
 
         {/* Sub nodes */}
         {node.status === `failed` && node.subItems && (

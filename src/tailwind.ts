@@ -5,4 +5,4 @@ import classNames from 'classnames';
 const {tailwind, getColor} = create(styles);
 
 export const cw = getColor;
-export const tw = (...styles: any[]) => tailwind(classNames(styles));
+export const tw = (...styles: any[]) => tailwind(classNames(...styles));

@@ -33,12 +33,12 @@ interface IProps {
 
 export let NodeListContainer = observer(({navigation}: IProps) => {
   let root = useStore();
-  let darkTheme = useDarkTheme();
+  let isDark = useDarkTheme();
   let dynamic = useDynamic();
   let [selectedNodeId, setSelectedNodeId] = useState<string | null>();
 
   let iconStyle = [
-    tw(`${darkTheme ? `text-white` : ``} text-base`),
+    tw(`${isDark ? `text-white` : ``} text-base`),
     {lineHeight: 16},
   ];
 
@@ -73,12 +73,10 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
   return (
     <SafeAreaView style={tw(`flex-1`)}>
       {/* Content */}
-      <Row style={tw(`flex-1 w-full ${dynamic(`bg-gray-800`, `bg-white`)} `)}>
+      <Row style={tw(`flex-1 w-full`)}>
         {/* Node List */}
         <View style={tw(`w-2/3`)}>
-          <Row
-            vertical="center"
-            style={tw(`px-4 py-3 ${dynamic(`bg-gray-400`, `bg-white`)}`)}>
+          <Row vertical="center" style={tw(`px-4 py-3`)}>
             {root.node.fetching ? (
               <TempoButton onPress={root.node.fetchNodes} primary>
                 <ActivityIndicator size={16} color="white" />
@@ -133,7 +131,7 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
                   )}>
                   Sort by:
                 </Text>
-                <Text style={tw(darkTheme ? `text-gray-300` : `text-gray-600`)}>
+                <Text style={tw(isDark ? `text-gray-300` : `text-gray-600`)}>
                   {root.node.sortingKey}
                 </Text>
               </Row>
@@ -168,7 +166,11 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
       {!root.node.welcomeShown && (
         <View
           style={tw(
-            'absolute top-0 left-0 right-0 bottom-0 bg-white items-center justify-center',
+            'absolute top-0 left-0 right-0 bottom-0 items-center justify-center',
+            {
+              'bg-white': !isDark,
+              'bg-gray-900': isDark,
+            },
           )}>
           <Text style={tw('text-2xl')}>Hi! I'm Oscar!</Text>
           <Image

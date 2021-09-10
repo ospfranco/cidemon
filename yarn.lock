@@ -6579,10 +6579,10 @@ react-native-iphone-x-helper@^1.3.0:
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
 
-react-native-macos@^0.63.23:
-  version "0.63.23"
-  resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.63.23.tgz#9dd4afb0786415e29ecaf3cdc44f8975f6ffd34b"
-  integrity sha512-ofFMO2YC3DSUP+vtFXyTf9XC4R+xuJ3jZWBNuIrYhg7mRMTo7z6BiG/VELYStnemQKReWNEQv0FblsDQ98ktpA==
+react-native-macos@0.63.37:
+  version "0.63.37"
+  resolved "https://registry.yarnpkg.com/react-native-macos/-/react-native-macos-0.63.37.tgz#d16cb4cf5cf31570f5e7d94a6652e879d8a6ba32"
+  integrity sha512-TQuKiuQqPAhDm5GVKTbkir/lo1leQjdkc9RDzwnydbvxNiMBcon7ohLDtTQqftmwCfI4S809q+bu19vehAKwKw==
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@react-native-community/cli" "^4.10.0"

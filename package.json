@@ -34,7 +34,7 @@
     "react": "16.13.1",
     "react-native": "0.63.4",
     "react-native-get-random-values": "^1.6.0",
-    "react-native-macos": "^0.63.23",
+    "react-native-macos": "0.63.37",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "2.16.1",
     "react-native-vector-icons": "6.6.0",

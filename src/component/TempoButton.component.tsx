@@ -1,6 +1,11 @@
-import {useBoolean} from 'lib';
+import {useBoolean, useDarkTheme} from 'lib';
 import React, {useState} from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  GestureResponderEvent,
+} from 'react-native';
 import {tw} from 'tailwind';
 
 interface IProps {
@@ -26,7 +31,10 @@ export const TempoButton = ({
 }: IProps) => {
   const [hovered, onHover, offHover] = useBoolean();
   const [coordinate, setCoordinate] = useState<any>();
-  const _onPress = () => {
+  const isDark = useDarkTheme();
+  const _onPress = (e: GestureResponderEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     onPress?.();
     onPressWithPosition?.(
       coordinate.x + coordinate.width,
@@ -48,12 +56,18 @@ export const TempoButton = ({
     );
   }
 
-  // style={[styles.primaryButton, applyMargin && styles.margin, style]}>
-
   if (primary) {
     return (
       <TouchableOpacity
+        onPressIn={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
         onPress={_onPress}
+        onPressOut={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
         onLayout={(e) => setCoordinate(e.nativeEvent.layout)}
         // @ts-ignore
         enableFocusRing={false}
@@ -62,8 +76,10 @@ export const TempoButton = ({
         style={[
           tw(
             `${
-              hovered ? `bg-blue-400` : `bg-blue-500`
-            } px-3 py-2 items-center rounded border border-blue-500`,
+              hovered
+                ? `bg-blue-400 border-blue-500`
+                : `bg-blue-500 border-blue-600`
+            } px-3 py-2 items-center rounded border `,
           ),
           style,
         ]}>
@@ -82,11 +98,12 @@ export const TempoButton = ({
       onMouseEnter={onHover}
       onMouseLeave={offHover}
       style={[
-        tw(
-          `${
-            hovered ? `bg-gray-300` : `bg-transparent`
-          } px-3 py-2 items-center bg-opacity-25 border rounded border-gray-300`,
-        ),
+        tw('px-3 py-2 items-center bg-opacity-25 border rounded', {
+          'bg-gray-300': !isDark && hovered,
+          'bg-gray-700': isDark && hovered,
+          'border-gray-600': isDark,
+          'border-gray-200': !isDark,
+        }),
         style,
       ]}>
       {!!title && <Text style={styles.flatButton}>{title}</Text>}
