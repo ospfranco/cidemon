@@ -18,7 +18,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import FoIcon from 'react-native-vector-icons/FontAwesome';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {cidemonNative, useDynamic} from 'lib';
-import tw from 'tailwind-rn';
+import {tw} from 'tailwind';
 import {IRootStackParams} from 'Route';
 import {Picker} from '@react-native-picker/picker';
 
@@ -31,23 +31,11 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
   let {tokens} = root.node;
   let dynamic = useDynamic();
 
-  let settingsRowStyle = tw(
-    `rounded-lg ${dynamic(`bg-gray-800`, `bg-gray-100`)}`,
-  );
-
-  function openTwitter() {
-    Linking.openURL(`https://twitter.com/tempomat_app`);
-  }
-
-  function openMail() {
-    Linking.openURL(
-      `mailto:ospfranco@protonmail.com?subject=CI Demon%20Support%20Request`,
-    );
-  }
+  let settingsRowStyle = tw(`${dynamic(`bg-gray-800`, `bg-gray-100`)}`);
 
   return (
     <ScrollView
-      style={tw(`flex-1 ${dynamic(`bg-gray-700`, `bg-white`)}`)}
+      style={tw(`flex-1 ${dynamic(`bg-gray-900`, `bg-white`)}`)}
       contentContainerStyle={tw(`items-center`)}>
       <View style={tw(`w-96`)}>
         <Text style={tw(`py-3 mt-2 font-bold`)}>Tokens</Text>
@@ -122,16 +110,16 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
             <Row style={tw(`px-4 py-2`)} vertical="center">
               <Text>Polling Interval</Text>
               <Spacer />
+              <Text style={tw(`text-gray-500`)}>minutes</Text>
               <Picker
                 selectedValue={root.node.fetchInterval}
-                style={tw(`h-6 w-14 p-0`)}
+                style={tw(`h-6 w-12 p-0`)}
                 onValueChange={(v) => root.node.setFetchInterval(v as any)}>
                 <Picker.Item label="1" value={1} />
                 <Picker.Item label="2" value={2} />
                 <Picker.Item label="3" value={3} />
                 <Picker.Item label="5" value={5} />
               </Picker>
-              <Text style={tw(`text-gray-500`)}>Mins.</Text>
             </Row>
             <Divider />
           </View>
@@ -140,7 +128,8 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
         <View style={settingsRowStyle}>
           <Row style={styles.settingsRowInternal} vertical="center">
             <Text>
-              Notify on <Text style={tw(`text-red-500`)}>failing</Text> builds
+              <Text style={tw(`text-red-500`)}>Failing</Text> builds
+              notifications
             </Text>
             <Spacer />
             <Switch
@@ -155,7 +144,8 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
         <View style={settingsRowStyle}>
           <Row style={styles.settingsRowInternal} vertical="center">
             <Text>
-              Notify on <Text style={tw(`text-green-500`)}>passing</Text> builds
+              <Text style={tw(`text-green-500`)}>Passing</Text> builds
+              notifications
             </Text>
             <Spacer />
             <Switch
@@ -182,7 +172,7 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
 
         <View style={settingsRowStyle}>
           <Row style={styles.settingsRowInternal} vertical="center">
-            <Text>Show items in two rows</Text>
+            <Text>Two row item names</Text>
             <Spacer />
             <Switch
               value={root.node.doubleRowItems}
@@ -195,7 +185,7 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
 
         <View style={settingsRowStyle}>
           <Row style={styles.settingsRowInternal} vertical="center">
-            <Text>Use simple status bar icon</Text>
+            <Text>Simple status bar icon</Text>
             <Spacer />
             <Switch
               value={root.node.useSimpleIcon}
@@ -245,75 +235,6 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
             </Row>
           </View>
         </TouchableOpacity>
-
-        <Row vertical="center" horizontal="center" style={tw(`mt-8`)}>
-          {/* <Image source={Images.profile} style={tw(`h-20 w-20 rounded-full`)} /> */}
-          <View style={tw(`ml-3 items-center`)}>
-            <Text>
-              Created by <Text style={tw(`font-bold`)}>Oscar Franco</Text>
-            </Text>
-            <Row style={tw(`mt-2`)}>
-              <TempoButton
-                onPress={() =>
-                  Linking.openURL(`https://twitter.com/ospfranco`)
-                }>
-                <FontAwesomeIcon
-                  name="twitter"
-                  size={30}
-                  style={tw(`text-blue-400`)}
-                />
-              </TempoButton>
-              <TempoButton
-                onPress={() => Linking.openURL(`https://github.com/ospfranco`)}>
-                <FontAwesomeIcon name="github" size={30} />
-              </TempoButton>
-              <TempoButton
-                onPress={() => Linking.openURL(`https://ospfranco.github.io`)}>
-                <FontAwesomeIcon
-                  name="paper-plane"
-                  size={30}
-                  style={tw(`text-blue-400`)}
-                />
-              </TempoButton>
-            </Row>
-            <Text>If you have any trouble whatsoever just contact me!</Text>
-          </View>
-        </Row>
-
-        {/* <Row vertical="center" horizontal="center" style={tw(`mt-8`)}>
-          <Image source={Images.tempomat} style={tw(`h-20 w-20`)} />
-          <View style={tw(`ml-3`)}>
-            <Text>
-              Follow Tempomat
-            </Text>
-            <Row style={tw(`mt-2`)}>
-              <TempoButton
-                onPress={() =>
-                  Linking.openURL(`https://twitter.com/tempomat_app`)
-                }>
-                <FontAwesomeIcon
-                  name="twitter"
-                  size={30}
-                  style={tw(`text-blue-400`)}
-                />
-              </TempoButton>
-              <TempoButton
-                onPress={() => Linking.openURL(`https://github.com/ospfranco/tempomat`)}>
-                <FontAwesomeIcon name="github" size={30} />
-              </TempoButton>
-              <TempoButton
-                onPress={() => Linking.openURL(`https://tempomat.dev`)}>
-                <FontAwesomeIcon
-                  name="window-maximize"
-                  size={30}
-                  style={tw(`text-green-400`)}
-                />
-              </TempoButton>
-            </Row>
-          </View>
-        </Row> */}
-
-        {/* <Text style={tw(`self-center p-4 font-bold`)}>v{pkg.version}</Text> */}
 
         {__DEV__ && (
           <View style={tw(`p-4 rounded-lg border border-red-500 mb-8`)}>

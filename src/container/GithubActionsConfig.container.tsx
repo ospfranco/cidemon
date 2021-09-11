@@ -14,7 +14,7 @@ import {useStore} from 'Root.store';
 import {Divider, Row, Spacer, TempoButton} from 'component';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDynamic} from 'lib';
-import tw from 'tailwind-rn';
+import {tw} from 'tailwind';
 
 let placeHolderStyle: any = {
   dynamic: {

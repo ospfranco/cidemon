@@ -1,6 +1,6 @@
-import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   NodeListContainer,
   AddTokenContainer,
@@ -8,12 +8,12 @@ import {
   GithubActionsConfigContainer,
   GeneralConfigContainer,
   PingConfigContainer,
-} from "container";
-import { Image } from "react-native";
-import { Images } from "Assets";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useDarkTheme } from "lib";
-import tw from "tailwind-rn";
+} from 'container';
+import {Image} from 'react-native';
+import {Images} from 'Assets';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useDarkTheme} from 'lib';
+import {tw} from 'tailwind';
 
 export type IRootStackParams = {
   Home: undefined;
@@ -38,7 +38,7 @@ const ConfigurationRoutes = () => {
         name="GeneralConfig"
         component={GeneralConfigContainer}
         options={{
-          tabBarIcon: ({ color }: { color: string }) => (
+          tabBarIcon: ({color}: {color: string}) => (
             <Icon name="wrench" size={20} color={color} />
           ),
           title: `General`,
@@ -48,7 +48,7 @@ const ConfigurationRoutes = () => {
         name="IgnoreConfig"
         component={IgnoreConfigContainer}
         options={{
-          tabBarIcon: ({ color }: { color: string }) => (
+          tabBarIcon: ({color}: {color: string}) => (
             <Icon name="eye" size={20} color={color} />
           ),
           title: `Filters`,
@@ -58,7 +58,7 @@ const ConfigurationRoutes = () => {
         name="PingConfig"
         component={PingConfigContainer}
         options={{
-          tabBarIcon: ({ color }: { color: string }) => (
+          tabBarIcon: ({color}: {color: string}) => (
             <Icon name="heart-pulse" size={20} color={color} />
           ),
           title: `Health checks`,
@@ -68,7 +68,7 @@ const ConfigurationRoutes = () => {
         name="GithubActions"
         component={GithubActionsConfigContainer}
         options={{
-          tabBarIcon: ({ color }: { color: string }) => (
+          tabBarIcon: ({color}: {color: string}) => (
             <Image
               source={Images.github_bar}
               style={{
@@ -107,7 +107,11 @@ export const Routes = () => {
         }}
       />
       <RootStack.Screen name="Configuration" component={ConfigurationRoutes} />
-      <RootStack.Screen name="AddToken" component={AddTokenContainer} options={{title: `New Token`,}}/>
+      <RootStack.Screen
+        name="AddToken"
+        component={AddTokenContainer}
+        options={{title: `New Token`}}
+      />
     </RootStack.Navigator>
   );
 };

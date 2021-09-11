@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,13 +6,13 @@ import {
   TextInput,
   StyleSheet,
   Switch,
-} from "react-native";
-import { Divider, Row, Spacer, TempoButton } from "component";
-import { useStore } from "Root.store";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { observer } from "mobx-react-lite";
-import tw from "tailwind-rn";
-import { useDarkTheme, useDynamic } from "lib";
+} from 'react-native';
+import {Divider, Row, Spacer, TempoButton} from 'component';
+import {useStore} from 'Root.store';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {observer} from 'mobx-react-lite';
+import {tw} from 'tailwind';
+import {useDynamic} from 'lib';
 
 let placeHolderStyle: any = {
   dynamic: {
@@ -69,7 +69,7 @@ export const IgnoreConfigContainer = observer(() => {
                 <Text>{info.item.regex}</Text>
                 <Spacer />
                 {info.item.inverted && (
-                  <Text style={{ fontStyle: `italic` }}>Inverted </Text>
+                  <Text style={{fontStyle: `italic`}}>Inverted </Text>
                 )}
 
                 <Icon
@@ -102,22 +102,22 @@ export const IgnoreConfigContainer = observer(() => {
               </Text>
             </View>
           }
-          style={tw(`flex-1 rounded-lg ${dynamic(`bg-gray-800`, `bg-gray-100`)}`)}
+          style={tw(
+            `flex-1 rounded-lg ${dynamic(`bg-gray-800`, `bg-gray-100`)}`,
+          )}
         />
 
         <Text style={tw(`font-semibold py-3`)}>Add new regex</Text>
         <Row>
           <View>
             <TextInput
-              style={tw(
-                `${dynamic(`bg-gray-800`, `bg-gray-100`)} w-96 p-3`,
-              )}
+              style={tw(`${dynamic(`bg-gray-800`, `bg-gray-100`)} w-96 p-3`)}
               placeholder="Regex..."
               value={regex}
               onChangeText={setRegex}
               placeholderTextColor={placeHolderStyle}
             />
-            {error && <Text style={{ color: `red` }}>Not a valid regex</Text>}
+            {error && <Text style={{color: `red`}}>Not a valid regex</Text>}
             <Row vertical="center">
               <Text style={tw(`ml-1`)}>Inverted </Text>
               <Switch
@@ -130,26 +130,25 @@ export const IgnoreConfigContainer = observer(() => {
               </Text>
             </Row>
           </View>
-
         </Row>
-          <Row style={tw(`py-4`)} horizontal="flex-end">
+        <Row style={tw(`py-4`)} horizontal="flex-end">
+          <TempoButton
+            title={id ? `Save` : `Add`}
+            onPress={commit}
+            primary
+            style={tw(`w-24`)}
+          />
+          {!!id && (
             <TempoButton
-              title={id ? `Save` : `Add`}
-              onPress={commit}
-              primary
-              style={tw(`w-24`)}
+              title={`Cancel`}
+              onPress={() => {
+                setId(null);
+                setRegex(``);
+                setInverted(false);
+              }}
             />
-            {!!id && (
-              <TempoButton
-                title={`Cancel`}
-                onPress={() => {
-                  setId(null);
-                  setRegex(``);
-                  setInverted(false);
-                }}
-              />
-            )}
-          </Row>
+          )}
+        </Row>
       </View>
     </View>
   );
@@ -213,7 +212,7 @@ let styles = StyleSheet.create({
     },
     paddingRight: 10,
   },
-  emptyContainer: { justifyContent: `center`, height: 200 },
+  emptyContainer: {justifyContent: `center`, height: 200},
   flex1: {
     flex: 1,
   },

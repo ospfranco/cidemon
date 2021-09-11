@@ -105,7 +105,7 @@ Shared via CI Demon.
       {!!node && (
         <>
           <View style={tw(`border-b ${borderColor}`)}>
-            <Row vertical="center" style={tw(`px-3 py-4`)}>
+            <Row vertical="center" style={tw(`px-3 pt-4 pb-2`)}>
               {!!icon && (
                 <Image
                   source={icon}
@@ -125,7 +125,7 @@ Shared via CI Demon.
                     <Text style={tw(dynamic(`text-gray-400`, `text-gray-500`))}>
                       {tokens[1]}
                     </Text>
-                    <Text style={tw(`font-semibold text-lg`)}>
+                    <Text style={tw(`font-semibold `)}>
                       {tokens[2].slice(1, tokens[2].length - 1)}
                     </Text>
                   </>
@@ -133,10 +133,10 @@ Shared via CI Demon.
               </View>
             </Row>
             {!!node.username && (
-              <Row style={tw('px-3 mb-2')} vertical="center">
+              <Row style={tw('pl-14 mb-2')} vertical="center">
                 <Image
                   source={{uri: node.userAvatarUrl}}
-                  style={tw(`h-9 w-9 rounded-full`)}
+                  style={tw(`h-7 w-7 rounded-full`)}
                 />
                 <Text style={tw('ml-2')}>{node.username}</Text>
               </Row>
@@ -148,7 +148,7 @@ Shared via CI Demon.
                 style={tw(
                   `mb-2 text-base ${dynamic(`text-gray-400`, `text-gray-500`)}`,
                 )}>
-                Sub-items
+                Checks
               </Text>
               {node.subItems.map((subItem: ISubNode, index: number) => (
                 <TouchableOpacity
@@ -193,10 +193,6 @@ Shared via CI Demon.
               )}>
               Information
             </Text>
-            <Row style={rowStyle}>
-              <Text style={labelStyle}>Status</Text>
-              <Text style={tw(`flex-1 capitalize`)}>{node.status}</Text>
-            </Row>
             <Row style={rowStyle}>
               <Text style={labelStyle}>Source</Text>
               <Text style={tw(`flex-1`)}>{node.source ?? `Unknown`}</Text>

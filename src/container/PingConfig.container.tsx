@@ -1,18 +1,17 @@
-import { PingCardComponent, Row, TempoButton } from "component";
-import { idExtractor, useDynamic } from "lib";
-import { observer } from "mobx-react-lite";
-import { PingTest } from "model";
-import React, { useState } from "react";
+import {PingCardComponent, Row, TempoButton} from 'component';
+import {idExtractor, useDynamic} from 'lib';
+import {observer} from 'mobx-react-lite';
+import {PingTest} from 'model';
+import React, {useState} from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import { useStore } from "Root.store";
-import tw from "tailwind-rn";
-
+} from 'react-native';
+import {useStore} from 'Root.store';
+import {tw} from 'tailwind';
 
 function EmptyPingTests() {
   return (
@@ -27,15 +26,20 @@ export let PingConfigContainer = observer(() => {
   let dynamic = useDynamic();
   let [pingTest, setSelectedPing] = useState<PingTest | null>(null);
 
-  function renderPingItem({ item }: ListRenderItemInfo<PingTest>) {
+  function renderPingItem({item}: ListRenderItemInfo<PingTest>) {
     return (
       <TouchableOpacity onPress={() => setSelectedPing(item)}>
         <View
           style={tw(
-            `rounded p-2 ${pingTest === item ? `bg-blue-400 bg-opacity-50` : ``}`,
+            `rounded p-2 ${
+              pingTest === item ? `bg-blue-400 bg-opacity-50` : ``
+            }`,
           )}>
-          <Text>{item.name || "No name"}</Text>
-          <Text style={tw(`text-xs ${dynamic(`text-gray-300`,`text-gray-500`)}`)}>{item.url || "No url"}</Text>
+          <Text>{item.name || 'No name'}</Text>
+          <Text
+            style={tw(`text-xs ${dynamic(`text-gray-300`, `text-gray-500`)}`)}>
+            {item.url || 'No url'}
+          </Text>
         </View>
       </TouchableOpacity>
     );
@@ -58,8 +62,8 @@ export let PingConfigContainer = observer(() => {
         <TempoButton
           title="New health check"
           onPress={() => {
-            let test = root.node.addPingTest()
-            setSelectedPing(test)
+            let test = root.node.addPingTest();
+            setSelectedPing(test);
           }}
           primary
           style={tw(`mt-4`)}

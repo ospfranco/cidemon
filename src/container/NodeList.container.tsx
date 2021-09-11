@@ -175,22 +175,23 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
             style={tw('rounded-full h-32 w-32 my-4')}
           />
           <Text style={tw('py-2')}>
-            First of all thank you for trying out CI Demon!
+            Thank <Text style={tw('font-bold')}>YOU</Text> for trying out CI
+            Demon
           </Text>
           <Text style={tw('py-2')}>
-            It's the result of many months and a lot of hard work and I'm giving
-            it away for free.
+            It's the result of many months, a lot of hard work and I'm giving it
+            away for free.
           </Text>
           <Text style={tw('py-2')}>
-            All I ask is that you follow me on Twitter and share it with your
-            friends!
+            <Text style={tw('font-bold')}>Reviewing the app</Text> helps me
+            create more tools, same for following me on Twitter.
           </Text>
-          <Text style={tw('pt-10')}>Thanks a lot!</Text>
+          <Text style={tw('pt-10 font-bold')}>Thanks a lot!</Text>
 
           <View style={tw('h-12')} />
           <TempoButton
             primary
-            title="Sure thing buddy!"
+            title="Continue"
             onPress={() => {
               Linking.openURL('https://twitter.com/ospfranco');
               root.node.dismissWelcome();
