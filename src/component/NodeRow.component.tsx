@@ -25,7 +25,7 @@ interface IProps {
 
 export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
   const root = useStore();
-  const doubleRow = root.node.doubleRowItems;
+  const doubleRow = true;
   const [hovered, onHover, offHover] = useBoolean();
   const [tokens, setTokens] = useState<null | string[]>(null);
   const dynamic = useDynamic();

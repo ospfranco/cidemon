@@ -170,7 +170,7 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
           {global.isMacOS && <Divider />}
         </View>
 
-        <View style={settingsRowStyle}>
+        {/* <View style={settingsRowStyle}>
           <Row style={styles.settingsRowInternal} vertical="center">
             <Text>Two row item names</Text>
             <Spacer />
@@ -181,7 +181,7 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
             />
           </Row>
           {global.isMacOS && <Divider />}
-        </View>
+        </View> */}
 
         <View style={settingsRowStyle}>
           <Row style={styles.settingsRowInternal} vertical="center">
