@@ -1,21 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {Text, Image, StyleSheet, View, TouchableOpacity} from 'react-native';
-import {Row} from './Row.component';
 import {Images} from 'Assets';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {observer} from 'mobx-react-lite';
 import {
-  useBoolean,
-  TINT_MAPPING,
-  useDynamic,
   cidemonNative,
+  TINT_MAPPING,
+  useBoolean,
   useDarkTheme,
+  useDynamic,
 } from 'lib';
-import {tw} from 'tailwind';
+import {observer} from 'mobx-react-lite';
+import React, {useEffect, useState} from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useStore} from 'Root.store';
-import cn from 'classnames';
-import {TempoButton} from './TempoButton.component';
-import {Spacer} from './Spacer.component';
+import {tw} from 'tailwind';
+import {Row} from './Row.component';
 
 let captureBranchRegex = /(.*)(\[.*\])(.*)/;
 
@@ -45,8 +42,8 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
 
   let tintColor = TINT_MAPPING[node.status];
 
-  let textColor = dynamic(`text-gray-300`, `text-gray-800`);
-  let subTextColor = dynamic(`text-gray-400`, `text-gray-500`);
+  let textColor = dynamic(`text-gray-100`, `text-gray-800`);
+  let subTextColor = dynamic(`text-coolGray-400`, `text-gray-500`);
   let hoverColor = dynamic(`bg-gray-700`, `bg-coolGray-200`);
 
   let text;
@@ -57,11 +54,11 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
     if (doubleRow) {
       text = (
         <View>
+          <Text style={tw(`${textColor}`)}>
+            {tokens[2].substring(1, tokens[2].length - 1)}
+          </Text>
           <Text style={tw(`text-xs ${subTextColor}`)}>
             {tokens[1]} {tokens[3] ? `- ${tokens[3]}` : ``}
-          </Text>
-          <Text style={tw(`${textColor} font-semibold`)}>
-            {tokens[2].substring(1, tokens[2].length - 1)}
           </Text>
         </View>
       );
@@ -102,12 +99,10 @@ Shared via CI Demon.
       onPress={onPress}>
       <View
         style={[
-          tw('py-2 pl-4 border-b', {
+          tw('py-1 pl-4', {
             [`${hoverColor} bg-opacity-50`]: hovered,
             'bg-sky-50': !isDark && selected,
             'bg-sky-900': isDark && selected,
-            'border-gray-100': !isDark,
-            'border-gray-800': isDark,
           }),
           style,
         ]}>
@@ -192,13 +187,9 @@ Shared via CI Demon.
 
                 <Text
                   style={[
-                    tw(`text-xs`),
-                    {
-                      color:
-                        subItem.status === 'failed'
-                          ? TINT_MAPPING[subItem.status]
-                          : null,
-                    },
+                    tw(`text-xs`, {
+                      'font-bold': subItem.status === 'failed',
+                    }),
                   ]}>
                   {subItem.label}
                   {!!subItem.extraLabel && <Text> · {subItem.extraLabel}</Text>}

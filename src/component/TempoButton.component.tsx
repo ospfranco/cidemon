@@ -79,7 +79,7 @@ export const TempoButton = ({
               hovered
                 ? `bg-blue-400 border-blue-500`
                 : `bg-blue-500 border-blue-600`
-            } px-3 py-2 items-center rounded border `,
+            } px-3 py-2 items-center rounded `,
           ),
           style,
         ]}>
@@ -98,11 +98,9 @@ export const TempoButton = ({
       onMouseEnter={onHover}
       onMouseLeave={offHover}
       style={[
-        tw('px-3 py-2 items-center bg-opacity-25 border rounded', {
+        tw('px-2 py-2 items-center bg-opacity-25 rounded', {
           'bg-gray-300': !isDark && hovered,
           'bg-gray-700': isDark && hovered,
-          'border-gray-600': isDark,
-          'border-gray-200': !isDark,
         }),
         style,
       ]}>
@@ -129,14 +127,6 @@ const styles = StyleSheet.create({
     },
     alignItems: `center`,
     borderRadius: 7,
-    //@ts-ignore
-    borderColor: {
-      dynamic: {
-        dark: `#333`,
-        light: `#CCC`,
-      },
-    },
-    borderWidth: 1,
   },
   margin: {
     margin: global.metrics.pl,

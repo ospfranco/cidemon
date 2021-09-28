@@ -1,15 +1,15 @@
-import {Assets, StackNavigationProp} from '@react-navigation/stack';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {Images} from 'Assets';
 import {
   EmptyNodesComponent,
-  NodeDetail,
   NodeRow,
   Row,
   Spacer,
   TempoButton,
 } from 'component';
-import {cidemonNative, idExtractor, useDarkTheme, useDynamic} from 'lib';
+import {idExtractor, useDarkTheme, useDynamic} from 'lib';
 import {observer} from 'mobx-react-lite';
-import React, {useState} from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -25,7 +25,6 @@ import {useStore} from 'Root.store';
 import {IRootStackParams} from 'Route';
 import {tw} from 'tailwind';
 import {getColor} from 'tailwind-rn';
-import {Images} from 'Assets';
 
 interface IProps {
   navigation: StackNavigationProp<IRootStackParams, 'Home'>;
@@ -35,7 +34,6 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
   let root = useStore();
   let isDark = useDarkTheme();
   let dynamic = useDynamic();
-  let [selectedNodeId, setSelectedNodeId] = useState<string | null>();
 
   let iconStyle = [
     tw(`${isDark ? `text-white` : ``} text-base`),
@@ -47,146 +45,128 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
   };
 
   const renderNodeItem = ({item}: ListRenderItemInfo<INode>) => {
-    let isSelected = selectedNodeId === item.id;
     return (
       <NodeRow
         node={item}
         onPress={() => {
-          if (isSelected) {
-            root.node.openNode(item.url);
-          } else {
-            setSelectedNodeId(item.id);
-          }
+          root.node.openNode(item.url);
         }}
-        selected={isSelected}
       />
     );
   };
 
   return (
-    <SafeAreaView
-      style={tw(`flex-1`, {
-        'bg-white': !isDark,
-        'bg-gray-900': isDark,
-      })}>
+    <SafeAreaView style={tw(`flex-1`)}>
       {/* Content */}
-      <Row style={tw(`flex-1 w-full`)}>
-        {/* Node List */}
-        <View style={tw(`w-2/3`)}>
-          <Row vertical="center" style={tw(`px-4 py-3`)}>
-            {root.node.fetching ? (
-              <TempoButton onPress={root.node.fetchNodes} primary>
-                <ActivityIndicator size={16} color="white" />
-              </TempoButton>
-            ) : (
-              <TempoButton onPress={root.node.fetchNodes} primary>
-                <Icon
-                  name="refresh"
-                  style={iconStyle}
-                  color={getColor('gray-100')}
-                />
-              </TempoButton>
-            )}
 
-            <View style={tw('w-2')} />
-            <TempoButton onPress={root.node.toggleFilterHardSwitch}>
-              <Row
-                vertical="center"
+      {/* Node List */}
+      <View style={tw(`flex-1`)}>
+        <Row
+          vertical="center"
+          style={tw(`px-4 py-2 border-b`, {
+            'border-gray-600': isDark,
+            'border-gray-200': !isDark,
+          })}>
+          <TempoButton onPress={() => navigation.navigate(`Configuration`)}>
+            <Icon name="settings" style={iconStyle} />
+          </TempoButton>
+          <View style={tw('w-2')} />
+          <TempoButton onPress={root.node.toggleFilterHardSwitch}>
+            <Row
+              vertical="center"
+              style={tw(
+                `${!!root.node.complexRegexes.length ? `` : `opacity-50`}`,
+              )}>
+              <Text
                 style={tw(
-                  `px-2 ${
-                    !!root.node.complexRegexes.length ? `` : `opacity-50`
-                  }`,
+                  `${dynamic(`text-gray-300`, `text-gray-600`)} font-bold mr-1`,
                 )}>
-                <Text
-                  style={tw(
-                    `${dynamic(
-                      `text-gray-300`,
-                      `text-gray-600`,
-                    )} font-bold mr-1`,
-                  )}>
-                  Filters:
-                </Text>
+                Filters:
+              </Text>
 
-                <Text style={tw(dynamic(`text-gray-300`, `text-gray-600`))}>
-                  {root.node.filterHardOffSwitch ||
-                  !root.node.complexRegexes.length
-                    ? `Off`
-                    : `On`}
-                </Text>
-              </Row>
+              <Text style={tw(dynamic(`text-gray-300`, `text-gray-600`))}>
+                {root.node.filterHardOffSwitch ||
+                !root.node.complexRegexes.length
+                  ? `Off`
+                  : `On`}
+              </Text>
+            </Row>
+          </TempoButton>
+          <View style={tw('w-2')} />
+
+          <TempoButton onPress={root.node.toggleSorting}>
+            <Row vertical="center">
+              <Text
+                style={tw(
+                  `${dynamic(`text-gray-300`, `text-gray-600`)} font-bold mr-1`,
+                )}>
+                Sort by:
+              </Text>
+              <Text style={tw(isDark ? `text-gray-300` : `text-gray-600`)}>
+                {root.node.sortingKey}
+              </Text>
+            </Row>
+          </TempoButton>
+
+          <Spacer />
+          {root.node.fetching ? (
+            <TempoButton onPress={root.node.fetchNodes} primary>
+              <ActivityIndicator size={16} color="white" />
             </TempoButton>
-            <View style={tw('w-2')} />
-
-            <TempoButton onPress={root.node.toggleSorting}>
-              <Row vertical="center" style={tw(`px-2`)}>
-                <Text
-                  style={tw(
-                    `${dynamic(
-                      `text-gray-300`,
-                      `text-gray-600`,
-                    )} font-bold mr-1`,
-                  )}>
-                  Sort by:
-                </Text>
-                <Text style={tw(isDark ? `text-gray-300` : `text-gray-600`)}>
-                  {root.node.sortingKey}
-                </Text>
-              </Row>
+          ) : (
+            <TempoButton onPress={root.node.fetchNodes} primary>
+              <Icon
+                name="refresh"
+                style={iconStyle}
+                color={getColor('gray-100')}
+              />
             </TempoButton>
-
-            <Spacer />
-            <TempoButton onPress={() => navigation.navigate(`Configuration`)}>
-              <Icon name="settings" style={iconStyle} />
-            </TempoButton>
-          </Row>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={root.node.sortedFilteredNodes}
-            renderItem={renderNodeItem}
-            keyExtractor={idExtractor}
-            contentContainerStyle={tw(`flex-grow`)}
-            ListEmptyComponent={
-              <EmptyNodesComponent onAddToken={goToAddTokenScreen} />
-            }
-          />
-        </View>
-
-        {/* Right hand detail */}
-        <NodeDetail
-          node={root.node.sortedFilteredNodes.find(
-            (n) => n.id === selectedNodeId,
           )}
+        </Row>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={root.node.sortedFilteredNodes}
+          renderItem={renderNodeItem}
+          keyExtractor={idExtractor}
+          contentContainerStyle={tw(`flex-grow py-2`)}
+          ListEmptyComponent={
+            <EmptyNodesComponent onAddToken={goToAddTokenScreen} />
+          }
         />
-      </Row>
+      </View>
 
       {/* Welcome */}
       {!root.node.welcomeShown && (
         <View
           style={tw(
-            'absolute top-0 left-0 right-0 bottom-0 items-center justify-center',
+            'absolute top-0 left-0 right-0 bottom-0 justify-center p-6',
             {
               'bg-white': !isDark,
               'bg-gray-900': isDark,
             },
           )}>
-          <Text style={tw('text-2xl')}>Hi! I'm Oscar!</Text>
           <Image
-            source={Images.profile}
-            style={tw('rounded-full h-32 w-32 my-4')}
+            source={Images.tempomat}
+            style={tw('rounded-full h-20 w-20 mr-4')}
           />
-          <Text style={tw('py-2')}>
-            Thank <Text style={tw('font-bold')}>YOU</Text> for trying out CI
-            Demon
-          </Text>
-          <Text style={tw('py-2')}>
-            It's the result of many months, a lot of hard work and I'm giving it
-            away for free.
-          </Text>
-          <Text style={tw('py-2')}>
-            <Text style={tw('font-bold')}>Reviewing the app</Text> helps me
-            create more tools, same for following me on Twitter.
-          </Text>
-          <Text style={tw('pt-10 font-bold')}>Thanks a lot!</Text>
+
+          <View>
+            <Text style={tw('py-4 text-3xl font-thin')}>
+              Welcome to CI Demon.
+            </Text>
+
+            <Text style={tw('py-2 text-left font-light')}>
+              Start by generating an access token on your CI, then save it the
+              settings. Afterwards, your repositories and CI Jobs will be
+              automatically polled.
+            </Text>
+
+            <Text style={tw('py-2 text-left font-light')}>
+              <Text style={tw('font-semibold')}>Reviewing the app</Text> helps
+              me create more tools, same for following me on Twitter.
+            </Text>
+            <Text style={tw('pt-2 text-xl font-light')}>Thanks a lot!</Text>
+          </View>
 
           <View style={tw('h-12')} />
           <TempoButton

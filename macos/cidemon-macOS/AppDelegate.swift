@@ -19,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     }
 
     let windowHeight = Int(min(screenHeight / 1.5, 700))
-    let windowWidth = Int(min(screenHeight, 1000))
+    let windowWidth = Int(min(screenHeight, 600))
 
     popover = NSPopover()
     popover.contentSize = NSSize(width: windowWidth, height: windowHeight)
