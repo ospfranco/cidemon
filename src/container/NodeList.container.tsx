@@ -65,7 +65,7 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
           vertical="center"
           style={tw(`px-4 py-2 border-b`, {
             'border-gray-600': isDark,
-            'border-gray-200': !isDark,
+            'border-gray-400': !isDark,
           })}>
           <TempoButton onPress={() => navigation.navigate(`Configuration`)}>
             <Icon name="settings" style={iconStyle} />
@@ -77,14 +77,9 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
               style={tw(
                 `${!!root.node.complexRegexes.length ? `` : `opacity-50`}`,
               )}>
-              <Text
-                style={tw(
-                  `${dynamic(`text-gray-300`, `text-gray-600`)} font-bold mr-1`,
-                )}>
-                Filters:
-              </Text>
+              <Text style={tw(`font-bold mr-1`)}>Filters:</Text>
 
-              <Text style={tw(dynamic(`text-gray-300`, `text-gray-600`))}>
+              <Text>
                 {root.node.filterHardOffSwitch ||
                 !root.node.complexRegexes.length
                   ? `Off`
@@ -96,15 +91,8 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
 
           <TempoButton onPress={root.node.toggleSorting}>
             <Row vertical="center">
-              <Text
-                style={tw(
-                  `${dynamic(`text-gray-300`, `text-gray-600`)} font-bold mr-1`,
-                )}>
-                Sort by:
-              </Text>
-              <Text style={tw(isDark ? `text-gray-300` : `text-gray-600`)}>
-                {root.node.sortingKey}
-              </Text>
+              <Text style={tw(`font-bold mr-1`)}>Sort by:</Text>
+              <Text>{root.node.sortingKey}</Text>
             </Row>
           </TempoButton>
 

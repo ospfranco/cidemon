@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -7,17 +7,17 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
-} from "react-native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { Row, Spacer, Divider, TempoButton } from "component";
-import { observer } from "mobx-react-lite";
-import { useStore } from "Root.store";
-import { IRootStackParams } from "Route";
-import tw from "tailwind-rn";
-import { useDynamic } from "lib";
+} from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {Row, Spacer, Divider, TempoButton} from 'component';
+import {observer} from 'mobx-react-lite';
+import {useStore} from 'Root.store';
+import {IRootStackParams} from 'Route';
+import tw from 'tailwind-rn';
+import {useDynamic} from 'lib';
 
 interface IProps {
-  navigation: StackNavigationProp<IRootStackParams, "AddToken">;
+  navigation: StackNavigationProp<IRootStackParams, 'AddToken'>;
 }
 
 const sources: Source[] = [
@@ -28,7 +28,7 @@ const sources: Source[] = [
   `TravisCI`,
 ];
 
-export const AddTokenContainer = observer(({ navigation }: IProps) => {
+export const AddTokenContainer = observer(({navigation}: IProps) => {
   let root = useStore();
   let [source, setSource] = useState<Source>(`CircleCI`);
   let [name, setName] = useState(``);
@@ -39,20 +39,20 @@ export const AddTokenContainer = observer(({ navigation }: IProps) => {
   let inputFieldStyle = tw(`p-3 ${dynamic(`bg-gray-900`, `bg-gray-100`)}`);
 
   function addToken() {
-    if(!name) {
+    if (!name) {
       root.ui.addToast({
-        text: "Please add a name",
-        type: "error"
-      })
-      return
+        text: 'Please add a name',
+        type: 'error',
+      });
+      return;
     }
-    
-    if(!key) {
+
+    if (!key) {
       root.ui.addToast({
-        text: "Please add a key",
-        type: "error"
-      })
-      return
+        text: 'Please add a key',
+        type: 'error',
+      });
+      return;
     }
 
     root.node.addToken(source, name, key);
@@ -60,12 +60,10 @@ export const AddTokenContainer = observer(({ navigation }: IProps) => {
   }
 
   return (
-    <ScrollView 
-      style={tw(`flex-1 ${dynamic(`bg-gray-700`, `bg-white`)}`)}
-      contentContainerStyle={tw(`items-center`)}
-    >
+    <ScrollView
+      style={tw(`flex-1 bg-transparent`)}
+      contentContainerStyle={tw(`items-center bg-transparent`)}>
       <View style={tw(`w-96`)}>
-
         <Text style={tw(`py-3 font-bold`)}>Name</Text>
         <TextInput
           style={inputFieldStyle}
@@ -93,10 +91,14 @@ export const AddTokenContainer = observer(({ navigation }: IProps) => {
                 <View
                   style={[
                     inputFieldStyle,
-                    tw(`p-3 rounded-lg ${item === source ? `bg-blue-500` : ``}`),
+                    tw(
+                      `p-3 rounded-lg ${item === source ? `bg-blue-500` : ``}`,
+                    ),
                   ]}>
                   <Row vertical="center">
-                    <Text style={tw(`${item === source ? `text-white` : ``}`)}>{item}</Text>
+                    <Text style={tw(`${item === source ? `text-white` : ``}`)}>
+                      {item}
+                    </Text>
                     <Spacer />
                     <Switch
                       value={item === source}

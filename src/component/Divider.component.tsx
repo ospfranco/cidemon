@@ -1,10 +1,10 @@
-import { useDynamic } from "lib"
-import React from "react"
-import {View} from "react-native"
-import tw from 'tailwind-rn'
+import {useDynamic} from 'lib';
+import React from 'react';
+import {View} from 'react-native';
+import tw from 'tailwind-rn';
 
 interface IProps {
-  width?: number | string
+  width?: number | string;
   alignSelf?:
     | `auto`
     | `flex-start`
@@ -12,11 +12,19 @@ interface IProps {
     | `center`
     | `stretch`
     | `baseline`
-    | undefined
-  style?: any
+    | undefined;
+  style?: any;
 }
 
 export const Divider = ({width = `100%`, alignSelf, style}: IProps) => {
-  const dynamic = useDynamic()
-  return (<View style={[{height: 1, width, alignSelf}, tw(dynamic(`bg-gray-700`, `bg-white`)), style]} />)
-}
+  const dynamic = useDynamic();
+  return (
+    <View
+      style={[
+        {height: 1, width, alignSelf},
+        tw(dynamic(`bg-gray-700`, `bg-gray-300`)),
+        style,
+      ]}
+    />
+  );
+};

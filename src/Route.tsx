@@ -13,7 +13,7 @@ import {Image} from 'react-native';
 import {Images} from 'Assets';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDarkTheme} from 'lib';
-import {tw} from 'tailwind';
+import {tw, cw} from 'tailwind';
 
 export type IRootStackParams = {
   Home: undefined;
@@ -21,50 +21,61 @@ export type IRootStackParams = {
   AddToken: undefined;
   PollingIntervalConfig: undefined;
 };
+
 let RootStack = createStackNavigator<IRootStackParams>();
-let ConfigurationStack = createBottomTabNavigator();
+let ConfigurationTabStack = createBottomTabNavigator();
 
 const ConfigurationRoutes = () => {
   let isDarkMode = useDarkTheme();
 
   return (
-    <ConfigurationStack.Navigator
-      tabBarOptions={{
-        // inactiveBackgroundColor: isDarkMode ? global.colors.gray900 : `white`,
-        // activeBackgroundColor: isDarkMode ? global.colors.gray1000 : `white`,
-        style: tw(`border-0 ${isDarkMode ? `bg-gray-800` : `bg-gray-100`}`),
+    <ConfigurationTabStack.Navigator
+      sceneContainerStyle={{backgroundColor: 'transparent'}}
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: tw(
+          {
+            'bg-white': !isDarkMode,
+            'bg-gray-800': isDarkMode,
+          },
+          'bg-opacity-40 border-0',
+        ),
       }}>
-      <ConfigurationStack.Screen
+      <ConfigurationTabStack.Screen
         name="GeneralConfig"
         component={GeneralConfigContainer}
         options={{
-          tabBarIcon: ({color}: {color: string}) => (
-            <Icon name="wrench" size={20} color={color} />
+          tabBarIcon: ({focused}) => (
+            <Icon
+              name="settings"
+              size={20}
+              color={focused ? cw('sky-500') : undefined}
+            />
           ),
-          title: `General`,
+          title: ``,
         }}
       />
-      <ConfigurationStack.Screen
+      <ConfigurationTabStack.Screen
         name="IgnoreConfig"
         component={IgnoreConfigContainer}
         options={{
           tabBarIcon: ({color}: {color: string}) => (
             <Icon name="eye" size={20} color={color} />
           ),
-          title: `Filters`,
+          title: ``,
         }}
       />
-      <ConfigurationStack.Screen
+      <ConfigurationTabStack.Screen
         name="PingConfig"
         component={PingConfigContainer}
         options={{
           tabBarIcon: ({color}: {color: string}) => (
             <Icon name="heart-pulse" size={20} color={color} />
           ),
-          title: `Health checks`,
+          title: ``,
         }}
       />
-      <ConfigurationStack.Screen
+      <ConfigurationTabStack.Screen
         name="GithubActions"
         component={GithubActionsConfigContainer}
         options={{
@@ -78,10 +89,10 @@ const ConfigurationRoutes = () => {
               }}
             />
           ),
-          title: `Github Actions`,
+          title: ``,
         }}
       />
-    </ConfigurationStack.Navigator>
+    </ConfigurationTabStack.Navigator>
   );
 };
 
@@ -101,16 +112,21 @@ export const Routes = () => {
         component={NodeListContainer}
         options={{
           headerShown: false,
-          cardStyle: {
-            backgroundColor: `transparent`,
-          },
         }}
       />
-      <RootStack.Screen name="Configuration" component={ConfigurationRoutes} />
+      <RootStack.Screen
+        name="Configuration"
+        component={ConfigurationRoutes}
+        options={{
+          headerShown: false,
+        }}
+      />
       <RootStack.Screen
         name="AddToken"
         component={AddTokenContainer}
-        options={{title: `New Token`}}
+        options={{
+          title: `Add Token`,
+        }}
       />
     </RootStack.Navigator>
   );

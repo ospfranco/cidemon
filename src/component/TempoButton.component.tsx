@@ -98,10 +98,13 @@ export const TempoButton = ({
       onMouseEnter={onHover}
       onMouseLeave={offHover}
       style={[
-        tw('px-2 py-2 items-center bg-opacity-25 rounded', {
-          'bg-gray-300': !isDark && hovered,
-          'bg-gray-700': isDark && hovered,
-        }),
+        tw(
+          {
+            'bg-gray-100': !isDark && hovered,
+            'bg-gray-700': isDark && hovered,
+          },
+          'px-2 py-2 items-center bg-opacity-30 rounded',
+        ),
         style,
       ]}>
       {!!title && <Text style={styles.flatButton}>{title}</Text>}
