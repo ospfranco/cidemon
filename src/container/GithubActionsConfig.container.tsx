@@ -13,7 +13,7 @@ import {observer} from 'mobx-react-lite';
 import {useStore} from 'Root.store';
 import {Divider, Row, Spacer, TempoButton} from 'component';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useDynamic} from 'lib';
+import {useDarkTheme, useDynamic} from 'lib';
 import {tw} from 'tailwind';
 
 let placeHolderStyle: any = {
@@ -29,77 +29,113 @@ function openGithubGuide() {
   );
 }
 
-export const GithubActionsConfigContainer = observer(() => {
+export const GithubActionsConfigContainer = observer(({navigation}: any) => {
   let root = useStore();
   let dynamic = useDynamic();
+  const isDark = useDarkTheme();
 
   let inputFieldStyle = tw(`p-3 ${dynamic(`bg-gray-900`, `bg-gray-100`)}`);
-  let settingsRowStyle = tw(
-    `rounded-lg ${dynamic(`bg-gray-800`, `bg-gray-100`)}`,
-  );
+  let settingsRowStyle = tw('');
 
   return (
-    <ScrollView
-      style={tw(`flex-1 ${dynamic(`bg-gray-700`, `bg-white`)}`)}
-      contentContainerStyle={tw(`items-center`)}>
-      <View style={tw(`w-96 py-4`)}>
-        <Text style={tw(`font-semibold py-3`)}>
-          Github integration settings
+    <ScrollView style={tw(`flex-1`)} contentContainerStyle={tw(`items-center`)}>
+      <View style={tw(`w-full px-6`)}>
+        <TouchableOpacity onPress={() => navigation.popToTop()}>
+          <Text style={tw(`mt-6 font-bold text-2xl`)}>← Github</Text>
+        </TouchableOpacity>
+
+        <Text style={tw(`py-3`)}>
+          {`In order to connect with github, first you need to generate an access token and then subscribe to each repository individually (sorry! API limitations).`}
         </Text>
 
+        <Text style={tw('text-cyan-500')} onPress={openGithubGuide}>
+          How do I create an Access Token?
+        </Text>
+
+        {/* <TempoButton
+          title=
+          onPress={openGithubGuide}
+        /> */}
+
+        <Text style={tw(`py-3 text-xs font-light`)}>ACCESS TOKEN</Text>
         <TextInput
           placeholder="Your Github Personal Key goes here"
-          style={inputFieldStyle}
+          style={tw(
+            {
+              'bg-white': !isDark,
+              'bg-gray-900': isDark,
+            },
+            `px-3 py-2 bg-opacity-70 rounded-lg`,
+          )}
           value={root.node.githubKey}
           onChangeText={root.node.setGithubKey}
           placeholderTextColor={placeHolderStyle}
           secureTextEntry
         />
-        <Divider />
-        <TouchableOpacity onPress={root.node.toggleGithubFetchPrs}>
-          <View style={settingsRowStyle}>
-            <Row style={tw('py-3 px-4')} vertical="center">
-              <Text>Fetch pull requests</Text>
-              <Spacer />
-              <Switch value={root.node.githubFetchPrs} style={tw('h-4 w-4')} />
-            </Row>
-          </View>
-        </TouchableOpacity>
-        <Divider />
-        <TouchableOpacity onPress={root.node.toggleGithubFetchBranches}>
-          <View style={settingsRowStyle}>
-            <Row style={tw('py-3 px-4')} vertical="center">
-              <Text>Fetch branches</Text>
-              <Spacer />
-              <Switch
-                value={root.node.githubFetchBranches}
-                style={tw('h-4 w-4')}
-              />
-            </Row>
-          </View>
-        </TouchableOpacity>
-        <Divider />
-        <TouchableOpacity onPress={root.node.toggleGithubFetchWorkflows}>
-          <View style={settingsRowStyle}>
-            <Row style={tw('py-3 px-4')} vertical="center">
-              <Text>Fetch workflows</Text>
-              <Spacer />
-              <Switch
-                value={root.node.githubFetchWorkflows}
-                style={tw('h-4 w-4')}
-              />
-            </Row>
-          </View>
-        </TouchableOpacity>
 
-        <Text style={tw(`font-semibold py-3`)}>Subscribed repositories</Text>
+        <Text style={tw(`py-3 text-xs font-light`)}>ITEMS TO FETCH</Text>
+        <View
+          style={tw(
+            {
+              'bg-white': !isDark,
+              'bg-gray-900': isDark,
+            },
+            'rounded-lg bg-opacity-70',
+          )}>
+          <TouchableOpacity onPress={root.node.toggleGithubFetchPrs}>
+            <View style={settingsRowStyle}>
+              <Row style={tw('py-3 px-4')} vertical="center">
+                <Text>Fetch pull requests</Text>
+                <Spacer />
+                <Switch
+                  value={root.node.githubFetchPrs}
+                  style={tw('h-4 w-4')}
+                />
+              </Row>
+            </View>
+          </TouchableOpacity>
+          <Divider />
+          <TouchableOpacity onPress={root.node.toggleGithubFetchBranches}>
+            <View style={settingsRowStyle}>
+              <Row style={tw('py-3 px-4')} vertical="center">
+                <Text>Fetch branches</Text>
+                <Spacer />
+                <Switch
+                  value={root.node.githubFetchBranches}
+                  style={tw('h-4 w-4')}
+                />
+              </Row>
+            </View>
+          </TouchableOpacity>
+          <Divider />
+          <TouchableOpacity onPress={root.node.toggleGithubFetchWorkflows}>
+            <View style={settingsRowStyle}>
+              <Row style={tw('py-3 px-4')} vertical="center">
+                <Text>Fetch workflows</Text>
+                <Spacer />
+                <Switch
+                  value={root.node.githubFetchWorkflows}
+                  style={tw('h-4 w-4')}
+                />
+              </Row>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <Text style={tw(`py-3 text-xs font-light`)}>OBSERVED REPOSITORIES</Text>
 
         {root.node.githubRepos.map((r, ii) => {
           return (
             <Row key={`github-repo-${ii}`} vertical="center" style={tw(`mb-3`)}>
               <TextInput
                 placeholder={`[user name]/[repository name]`}
-                style={[inputFieldStyle, tw(`flex-1`)]}
+                style={tw(
+                  {
+                    'bg-white': !isDark,
+                    'bg-gray-900': isDark,
+                  },
+                  `px-3 py-2 bg-opacity-70 rounded-lg flex-1`,
+                )}
                 placeholderTextColor={placeHolderStyle}
                 value={r}
                 onChangeText={(t) => root.node.setGithubRepoAtIndex(t, ii)}
@@ -117,22 +153,15 @@ export const GithubActionsConfigContainer = observer(() => {
           );
         })}
 
-        <TempoButton
-          primary
-          title="Add slot"
-          onPress={root.node.addEmptyGithubRepo}
-        />
-        <Text style={tw(`py-3`)}>
-          {`The Github API has certain limitations, therefore you have to specify each repository you want see in the app.
-
-First add 'slot' and then add the username/repository combo.`}
-        </Text>
-        <View style={{alignItems: `center`}}>
+        <Row>
           <TempoButton
-            title="How do I create a Github Personal Key"
-            onPress={openGithubGuide}
+            primary
+            title="Add slot"
+            onPress={root.node.addEmptyGithubRepo}
+            style={tw('flex-1')}
           />
-        </View>
+          <View style={tw('w-11 h-4')} />
+        </Row>
       </View>
     </ScrollView>
   );

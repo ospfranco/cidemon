@@ -546,33 +546,11 @@ export async function createNodeStore(root: IRootStore) {
       },
 
       setNotificationsEnabled: (notificationsEnabled: boolean) => {
-        if (global.isMacOS) {
-          store.notificationsEnabled = notificationsEnabled;
-        } else {
-          Alert.alert(
-            `Hold on!`,
-            `Push notifications will be available on mobile devices in the near future, if you want to be notified when the feature is available, just send us an E-Mail`,
-            [
-              {
-                text: `Close`,
-                onPress: () => null,
-              },
-              {
-                text: `I want notifications!`,
-                onPress: () =>
-                  Linking.openURL(
-                    `mailto:ospfranco@protonmail.com?subject=Tempomat%Push%20Notifications%20Request`,
-                  ),
-              },
-            ],
-          );
-        }
+        store.notificationsEnabled = notificationsEnabled;
       },
 
       setPassingNotificationsEnabled: (v: boolean) => {
-        if (global.isMacOS) {
-          store.passingNotificationsEnabled = v;
-        }
+        store.passingNotificationsEnabled = v;
       },
 
       setStartAtLogin: (startAtLogin: boolean) => {

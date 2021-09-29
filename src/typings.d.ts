@@ -29,7 +29,6 @@ interface IMetrics {
 declare var global: {
   metrics: IMetrics;
   colors: any;
-  isMacOS: boolean;
   os: 'ios' | 'macos' | 'android' | 'web' | 'windows';
 };
 

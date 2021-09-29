@@ -9,9 +9,8 @@ import {
   GeneralConfigContainer,
   PingConfigContainer,
 } from 'container';
-import {Image} from 'react-native';
-import {Images} from 'Assets';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import {useDarkTheme} from 'lib';
 import {tw, cw} from 'tailwind';
 
@@ -35,10 +34,10 @@ const ConfigurationRoutes = () => {
         headerShown: false,
         tabBarStyle: tw(
           {
-            'bg-white': !isDarkMode,
-            'bg-gray-800': isDarkMode,
+            'border-gray-200': !isDarkMode,
+            'border-gray-700': isDarkMode,
           },
-          'bg-opacity-40 border-0',
+          'bg-opacity-40',
         ),
       }}>
       <ConfigurationTabStack.Screen
@@ -59,34 +58,39 @@ const ConfigurationRoutes = () => {
         name="IgnoreConfig"
         component={IgnoreConfigContainer}
         options={{
-          tabBarIcon: ({color}: {color: string}) => (
-            <Icon name="eye" size={20} color={color} />
+          tabBarIcon: ({focused}) => (
+            <Icon
+              name="eye"
+              size={20}
+              color={focused ? cw('sky-500') : undefined}
+            />
           ),
           title: ``,
         }}
       />
-      <ConfigurationTabStack.Screen
+      {/* <ConfigurationTabStack.Screen
         name="PingConfig"
         component={PingConfigContainer}
         options={{
-          tabBarIcon: ({color}: {color: string}) => (
-            <Icon name="heart-pulse" size={20} color={color} />
+          tabBarIcon: ({focused}) => (
+            <Icon
+              name="heart-pulse"
+              size={20}
+              color={focused ? cw('sky-500') : undefined}
+            />
           ),
           title: ``,
         }}
-      />
+      /> */}
       <ConfigurationTabStack.Screen
         name="GithubActions"
         component={GithubActionsConfigContainer}
         options={{
-          tabBarIcon: ({color}: {color: string}) => (
-            <Image
-              source={Images.github_bar}
-              style={{
-                tintColor: color,
-                height: global.metrics.imgSmall,
-                width: global.metrics.imgSmall,
-              }}
+          tabBarIcon: ({color, focused}) => (
+            <FontAwesomeIcon
+              name="github"
+              size={20}
+              color={focused ? cw('sky-500') : undefined}
             />
           ),
           title: ``,

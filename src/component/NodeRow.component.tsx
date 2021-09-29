@@ -100,7 +100,7 @@ Shared via CI Demon.
       <View
         style={[
           tw('py-1 pl-4', {
-            [`${hoverColor} bg-opacity-50`]: hovered,
+            [`${hoverColor} bg-opacity-40`]: hovered,
             'bg-sky-50': !isDark && selected,
             'bg-sky-900': isDark && selected,
           }),

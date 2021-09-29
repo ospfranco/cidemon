@@ -1,26 +1,27 @@
+import {Picker} from '@react-native-picker/picker';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {Images} from 'Assets';
+import {Divider, Row, Spacer} from 'component';
+import {useDarkTheme, useDynamic} from 'lib';
+import {observer} from 'mobx-react-lite';
 import React from 'react';
 import {
+  Image,
+  StyleSheet,
+  Switch,
   Text,
+  TouchableOpacity,
   View,
   ScrollView,
-  TouchableOpacity,
-  Image,
-  Switch,
-  StyleSheet,
   Linking,
 } from 'react-native';
-import {observer} from 'mobx-react-lite';
-import {useStore} from 'Root.store';
-import {Row, Spacer, Divider, TempoButton} from 'component';
-import {Images} from 'Assets';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
 import FoIcon from 'react-native-vector-icons/FontAwesome';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {cidemonNative, useDarkTheme, useDynamic} from 'lib';
-import {tw} from 'tailwind';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useStore} from 'Root.store';
 import {IRootStackParams} from 'Route';
-import {Picker} from '@react-native-picker/picker';
+import {tw} from 'tailwind';
+// @ts-ignore
+import {version} from '../../package.json';
 
 interface IProps {
   navigation: StackNavigationProp<IRootStackParams, 'Configuration'>;
@@ -35,9 +36,9 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
   let settingsRowStyle = tw(``);
 
   return (
-    <View style={tw(`flex-1 items-center`)}>
-      <View style={tw(`w-full px-6`)}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+    <ScrollView style={tw(`flex-1`)} showsVerticalScrollIndicator={false}>
+      <View style={tw(`w-full pl-6 pr-3`)}>
+        <TouchableOpacity onPress={() => navigation.popToTop()}>
           <Text style={tw(`mt-6 font-bold text-2xl`)}>← Settings</Text>
         </TouchableOpacity>
 
@@ -47,6 +48,7 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
           style={tw(
             {
               'bg-white': !isDark,
+              'bg-gray-900': isDark,
             },
             'rounded-lg bg-opacity-70',
           )}>
@@ -113,8 +115,9 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
           style={tw(
             {
               'bg-white': !isDark,
+              'bg-gray-900': isDark,
             },
-            'rounded-lg bg-opacity-70 mb-12',
+            'rounded-lg bg-opacity-70',
           )}>
           <View style={settingsRowStyle}>
             <Row style={tw(`px-4 py-2`)} vertical="center">
@@ -269,8 +272,37 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
             />
           </View>
         )} */}
+        <Text style={tw('font-thin text-3xl pt-2')}>CI Demon</Text>
+        <Text style={tw('font-thin text-sm')}>v{version}</Text>
+        <Row>
+          <Text
+            style={tw('text-sky-500 font-light')}
+            onPress={() => {
+              Linking.openURL(`https://ospfranco.com/`);
+            }}>
+            Oscar Franco
+          </Text>
+          <Text style={tw('px-2')}>·</Text>
+          <Text
+            style={tw('text-sky-500 font-light')}
+            onPress={() => {
+              Linking.openURL(
+                `https://apps.apple.com/de/app/ci-demon/id1560355863?l=en&mt=12`,
+              );
+            }}>
+            Share
+          </Text>
+          <Text style={tw('px-2')}>·</Text>
+          <Text
+            style={tw('text-sky-500 font-light')}
+            onPress={() => {
+              Linking.openURL(`https://github.com/ospfranco/cidemon`);
+            }}>
+            Source Code
+          </Text>
+        </Row>
       </View>
-    </View>
+    </ScrollView>
   );
 });
 

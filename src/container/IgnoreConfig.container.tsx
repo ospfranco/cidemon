@@ -6,13 +6,16 @@ import {
   TextInput,
   StyleSheet,
   Switch,
+  TouchableOpacity,
 } from 'react-native';
 import {Divider, Row, Spacer, TempoButton} from 'component';
 import {useStore} from 'Root.store';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {observer} from 'mobx-react-lite';
 import {tw} from 'tailwind';
-import {useDynamic} from 'lib';
+import {useDarkTheme, useDynamic} from 'lib';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {IRootStackParams} from 'Route';
 
 let placeHolderStyle: any = {
   dynamic: {
@@ -21,13 +24,18 @@ let placeHolderStyle: any = {
   },
 };
 
-export const IgnoreConfigContainer = observer(() => {
+interface IProps {
+  navigation: StackNavigationProp<IRootStackParams, 'Configuration'>;
+}
+
+export const IgnoreConfigContainer = observer(({navigation}: IProps) => {
   let root = useStore();
   let [regex, setRegex] = useState(``);
   let [inverted, setInverted] = useState(false);
   let [id, setId] = useState<string | null>(null);
   let [error, setError] = useState(false);
-  let dynamic = useDynamic();
+  const isDark = useDarkTheme();
+  const dynamic = useDynamic();
 
   function commit() {
     if (id) {
@@ -52,11 +60,13 @@ export const IgnoreConfigContainer = observer(() => {
   }
 
   return (
-    <View
-      style={tw(`flex-1 ${dynamic(`bg-gray-700`, `bg-white`)} items-center`)}>
-      <View style={tw(`w-96 flex-1`)}>
-        <Text style={tw(`font-semibold py-3`)}>Ignore list</Text>
+    <View style={tw(`flex-1 items-center`)}>
+      <View style={tw(`w-full px-6 flex-1`)}>
+        <TouchableOpacity onPress={() => navigation.popToTop()}>
+          <Text style={tw(`mt-6 font-bold text-2xl`)}>← Filters</Text>
+        </TouchableOpacity>
 
+        <Text style={tw(`py-3 text-xs font-light`)}>IGNORED REGEXES</Text>
         <FlatList
           data={root.node.complexRegexes}
           renderItem={(info) => (
@@ -103,15 +113,26 @@ export const IgnoreConfigContainer = observer(() => {
             </View>
           }
           style={tw(
-            `flex-1 rounded-lg ${dynamic(`bg-gray-800`, `bg-gray-100`)}`,
+            {
+              'bg-white': !isDark,
+              'bg-gray-900': isDark,
+            },
+            'rounded-lg bg-opacity-70 mb-3',
           )}
         />
 
-        <Text style={tw(`font-semibold py-3`)}>Add new regex</Text>
-        <Row>
+        <Text style={tw(`py-3 text-xs font-light`)}>NEW REGEX</Text>
+
+        <Row style={tw('pb-4')}>
           <View>
             <TextInput
-              style={tw(`${dynamic(`bg-gray-800`, `bg-gray-100`)} w-96 p-3`)}
+              style={tw(
+                {
+                  'bg-white': !isDark,
+                  'bg-gray-900': isDark,
+                },
+                `w-96 px-3 py-2 bg-opacity-70 rounded-lg`,
+              )}
               placeholder="Regex..."
               value={regex}
               onChangeText={setRegex}
@@ -120,23 +141,21 @@ export const IgnoreConfigContainer = observer(() => {
             {error && <Text style={{color: `red`}}>Not a valid regex</Text>}
             <Row vertical="center">
               <Text style={tw(`ml-1`)}>Inverted </Text>
+              <Text style={tw(`px-1 text-gray-400`)}>
+                (Show matching branches)
+              </Text>
               <Switch
                 value={inverted}
                 onValueChange={() => setInverted(!inverted)}
                 style={tw(`w-6`)}
               />
-              <Text style={tw(`px-1 text-gray-400`)}>
-                (Show matching branches)
-              </Text>
             </Row>
           </View>
-        </Row>
-        <Row style={tw(`py-4`)} horizontal="flex-end">
           <TempoButton
             title={id ? `Save` : `Add`}
             onPress={commit}
             primary
-            style={tw(`w-24`)}
+            style={tw(`w-24 ml-4`)}
           />
           {!!id && (
             <TempoButton

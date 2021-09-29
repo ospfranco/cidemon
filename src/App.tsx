@@ -29,10 +29,6 @@ LogBox.ignoreLogs([
   `focusTextInput must be called with a host component`,
 ]);
 
-let os = Platform.OS;
-global.os = os;
-global.isMacOS = os === `macos`;
-
 const theme = {
   colors: {
     background: 'transparent',
