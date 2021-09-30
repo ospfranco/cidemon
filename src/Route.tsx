@@ -34,8 +34,8 @@ const ConfigurationRoutes = () => {
         headerShown: false,
         tabBarStyle: tw(
           {
-            'border-gray-200': !isDarkMode,
-            'border-gray-700': isDarkMode,
+            'border-gray-600': !isDarkMode,
+            'border-gray-800': isDarkMode,
           },
           'bg-opacity-40',
         ),
@@ -110,28 +110,11 @@ export const Routes = () => {
         headerStyle: [
           tw(`border-0 ${isDarkMode ? `bg-gray-800` : `bg-gray-100`}`),
         ],
+        headerShown: false,
       }}>
-      <RootStack.Screen
-        name="Home"
-        component={NodeListContainer}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <RootStack.Screen
-        name="Configuration"
-        component={ConfigurationRoutes}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <RootStack.Screen
-        name="AddToken"
-        component={AddTokenContainer}
-        options={{
-          title: `Add Token`,
-        }}
-      />
+      <RootStack.Screen name="Home" component={NodeListContainer} />
+      <RootStack.Screen name="Configuration" component={ConfigurationRoutes} />
+      <RootStack.Screen name="AddToken" component={AddTokenContainer} />
     </RootStack.Navigator>
   );
 };

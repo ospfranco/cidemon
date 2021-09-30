@@ -24,8 +24,6 @@ interface IProps {
 }
 
 export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
-  const root = useStore();
-  const doubleRow = true;
   const [hovered, onHover, offHover] = useBoolean();
   const [tokens, setTokens] = useState<null | string[]>(null);
   const dynamic = useDynamic();
@@ -48,47 +46,20 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
 
   let text;
 
-  if (!tokens) {
-    text = <Text style={tw(`text-sm ${textColor}`)}>{node.label}</Text>;
-  } else {
-    if (doubleRow) {
-      text = (
-        <View>
-          <Text style={tw(`${textColor}`)}>
-            {tokens[2].substring(1, tokens[2].length - 1)}
-          </Text>
-          <Text style={tw(`text-xs ${subTextColor}`)}>
-            {tokens[1]} {tokens[3] ? `- ${tokens[3]}` : ``}
-          </Text>
-        </View>
-      );
-    } else {
-      text = (
-        <Text style={tw(`text-sm ${textColor}`)}>
-          {tokens[1]}
-          <Text style={tw(`text-sm ${textColor} font-semibold`)}>
-            {tokens[2]}
-          </Text>
-          {tokens[3]}
+  if (tokens) {
+    text = (
+      <View>
+        <Text style={tw(`${textColor}`)}>
+          {tokens[2].substring(1, tokens[2].length - 1)}
         </Text>
-      );
-    }
-  }
-
-  const shareLink = (x: number, y: number) => {
-    cidemonNative.showShareMenu(
-      x,
-      y,
-      `Hey, this build:
-
-${node.url}
-
-has ${node.status}, can you take a look? Thanks!
-
-Shared via CI Demon.
-`,
+        <Text style={tw(`text-xs ${subTextColor}`)}>
+          {tokens[1]} {tokens[3] ? `- ${tokens[3]}` : ``}
+        </Text>
+      </View>
     );
-  };
+  } else {
+    text = <Text style={tw(`text-sm ${textColor}`)}>{node.label}</Text>;
+  }
 
   return (
     <TouchableOpacity
@@ -145,15 +116,6 @@ Shared via CI Demon.
             />
           )}
         </Row>
-
-        {/* {node.status === 'failed' && (
-          <TempoButton
-            onPressWithPosition={shareLink}
-            primary
-            style={tw('absolute right-3 bottom-3')}>
-            <Icon name="bell" />
-          </TempoButton>
-        )} */}
 
         {/* Sub nodes */}
         {node.status === `failed` && node.subItems && (

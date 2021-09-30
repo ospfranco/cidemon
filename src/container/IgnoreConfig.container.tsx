@@ -141,9 +141,7 @@ export const IgnoreConfigContainer = observer(({navigation}: IProps) => {
             {error && <Text style={{color: `red`}}>Not a valid regex</Text>}
             <Row vertical="center">
               <Text style={tw(`ml-1`)}>Inverted </Text>
-              <Text style={tw(`px-1 text-gray-400`)}>
-                (Show matching branches)
-              </Text>
+              <Text style={tw(`px-1`)}>(Show matching branches)</Text>
               <Switch
                 value={inverted}
                 onValueChange={() => setInverted(!inverted)}
