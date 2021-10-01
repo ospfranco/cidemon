@@ -75,11 +75,11 @@ export const TempoButton = ({
         onMouseLeave={offHover}
         style={[
           tw(
-            `${
-              hovered
-                ? `bg-blue-400 border-blue-500`
-                : `bg-blue-500 border-blue-600`
-            } px-3 py-2 items-center rounded `,
+            {
+              'bg-sky-500': hovered,
+              'bg-blue-500': !hovered,
+            },
+            `px-3 py-1 items-center rounded`,
           ),
           style,
         ]}>
@@ -103,7 +103,7 @@ export const TempoButton = ({
             'bg-gray-100': !isDark && hovered,
             'bg-gray-700': isDark && hovered,
           },
-          'px-2 py-2 items-center bg-opacity-30 rounded',
+          'px-2 py-1 items-center bg-opacity-30 rounded',
         ),
         style,
       ]}>

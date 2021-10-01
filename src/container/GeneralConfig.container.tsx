@@ -272,34 +272,31 @@ export let GeneralConfigContainer = observer(({navigation}: IProps) => {
             />
           </View>
         )} */}
-        <Text style={tw('font-thin text-3xl pt-2')}>CI Demon</Text>
-        <Text style={tw('font-thin text-sm')}>v{version}</Text>
-        <Row>
-          <Text
-            style={tw('text-sky-500 font-light')}
-            onPress={() => {
-              Linking.openURL(`https://ospfranco.com/`);
-            }}>
-            Oscar Franco
-          </Text>
-          <Text style={tw('px-2')}>·</Text>
-          <Text
-            style={tw('text-sky-500 font-light')}
-            onPress={() => {
-              Linking.openURL(
-                `https://apps.apple.com/de/app/ci-demon/id1560355863?l=en&mt=12`,
-              );
-            }}>
-            Share
-          </Text>
-          <Text style={tw('px-2')}>·</Text>
-          <Text
-            style={tw('text-sky-500 font-light')}
-            onPress={() => {
-              Linking.openURL(`https://github.com/ospfranco/cidemon`);
-            }}>
-            Source Code
-          </Text>
+        <Row style={tw('py-10')} vertical="center">
+          <Image source={Images.logo} style={tw('h-16 w-16')} />
+          <View style={tw('pl-4')}>
+            <Text style={tw('font-thin text-3xl pt-2')}>CI Demon</Text>
+            <Text style={tw('font-thin text-sm')}>v{version}</Text>
+            <Row>
+              <Text
+                style={tw('text-sky-500 font-light')}
+                onPress={() => {
+                  Linking.openURL(`https://ospfranco.com/`);
+                }}>
+                Oscar Franco
+              </Text>
+              <Text style={tw('px-2')}>·</Text>
+              <Text
+                style={tw('text-sky-500 font-light')}
+                onPress={() => {
+                  Linking.openURL(
+                    `https://apps.apple.com/de/app/ci-demon/id1560355863?l=en&mt=12`,
+                  );
+                }}>
+                Share
+              </Text>
+            </Row>
+          </View>
         </Row>
       </View>
     </ScrollView>

@@ -1,41 +1,46 @@
-import React from "react"
-import {View, Text, StyleSheet, Image, ActivityIndicator} from "react-native"
-import {TempoButton} from "./TempoButton.component"
-import {Images} from "Assets"
-import {observer} from "mobx-react-lite"
-import {useStore} from "Root.store"
+import React from 'react';
+import {View, Text, StyleSheet, Image, ActivityIndicator} from 'react-native';
+import {TempoButton} from './TempoButton.component';
+import {Images} from 'Assets';
+import {observer} from 'mobx-react-lite';
+import {useStore} from 'Root.store';
+import {tw} from 'tailwind';
 
 interface IProps {
-  onAddToken: () => void
+  onAddToken: () => void;
 }
 
 export const EmptyNodesComponent = observer(({onAddToken}: IProps) => {
-  const root = useStore()
-  const {fetching} = root.node
+  const root = useStore();
+  const {fetching} = root.node;
 
   return (
     <View style={styles.container}>
-      {!fetching && !!root.node.tokens.length && 
-          <Text>Something might have gone wrong :(</Text>
-      }
-      
+      {!fetching && !!root.node.tokens.length && (
+        <Text>Something might have gone wrong :(</Text>
+      )}
+
       {!root.node.tokens.length && (
         <Image
-          source={Images.tempomat}
-          style={styles.image}
+          source={Images.logo}
+          style={tw('h-16 w-16')}
           resizeMode="contain"
         />
       )}
 
-      {fetching && <ActivityIndicator />}
       {fetching && <Text>Fetching</Text>}
-      {!root.node.tokens.length && <Text>Start by adding a API token</Text>}
+
       {!root.node.tokens.length && (
-        <TempoButton title="Add Token" onPress={onAddToken} />
+        <TempoButton
+          primary
+          title="Add a Token"
+          onPress={onAddToken}
+          style={tw('my-4')}
+        />
       )}
     </View>
-  )
-})
+  );
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -43,9 +48,5 @@ const styles = StyleSheet.create({
     alignItems: `center`,
     justifyContent: `center`,
   },
-  image: {
-    height: 50,
-    width: 50,
-  },
   title: {fontWeight: `bold`, paddingVertical: 10},
-})
+});

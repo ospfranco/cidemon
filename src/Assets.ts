@@ -5,7 +5,7 @@ import github from './assets/icons/github.png';
 import travisci from './assets/icons/travisci.png';
 import gitlab from './assets/icons/gitlab.png';
 import github_bar from './assets/icons/github_bar.png';
-import tempomat from './assets/icons/tempomat.png';
+import logo from './assets/icons/logo.png';
 import profile from './assets/image/profile.jpeg';
 
 export const Images: Record<string, any> = {
@@ -15,7 +15,7 @@ export const Images: Record<string, any> = {
   github,
   travisci,
   gitlab,
-  tempomat,
+  logo,
   github_bar,
   profile,
 };

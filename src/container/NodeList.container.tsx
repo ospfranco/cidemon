@@ -33,7 +33,6 @@ interface IProps {
 export let NodeListContainer = observer(({navigation}: IProps) => {
   let root = useStore();
   let isDark = useDarkTheme();
-  let dynamic = useDynamic();
 
   let iconStyle = [
     tw(`${isDark ? `text-white` : ``} text-base`),
@@ -65,7 +64,7 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
           vertical="center"
           style={tw(`px-4 py-2 border-b`, {
             'border-gray-600': isDark,
-            'border-gray-400': !isDark,
+            'border-gray-200': !isDark,
           })}>
           <TempoButton onPress={() => navigation.navigate(`Configuration`)}>
             <Icon name="settings" style={iconStyle} />
@@ -134,7 +133,7 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
             },
           )}>
           <Image
-            source={Images.tempomat}
+            source={Images.logo}
             style={tw('rounded-full h-20 w-20 mr-4')}
           />
 
