@@ -38,7 +38,7 @@
 		165E3ED2FAF0E4CF28761792 /* Pods-cidemon-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cidemon-iOS.release.xcconfig"; path = "Target Support Files/Pods-cidemon-iOS/Pods-cidemon-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		38423A3E24576CBC00BC2EAC /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		4FACE986466BD7169C38A14C /* Pods-cidemon-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cidemon-macOS.debug.xcconfig"; path = "Target Support Files/Pods-cidemon-macOS/Pods-cidemon-macOS.debug.xcconfig"; sourceTree = "<group>"; };
-		514201492437B4B30078DB4F /* cidemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cidemon.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		514201492437B4B30078DB4F /* CI Demon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CI Demon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		514201512437B4B40078DB4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		514201542437B4B40078DB4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		514201562437B4B40078DB4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -174,7 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* cidemon.app */,
-				514201492437B4B30078DB4F /* cidemon.app */,
+				514201492437B4B30078DB4F /* CI Demon.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -225,7 +225,7 @@
 				702A5ADC26205DF40060E90E /* LaunchAtLogin */,
 			);
 			productName = cidemon;
-			productReference = 514201492437B4B30078DB4F /* cidemon.app */;
+			productReference = 514201492437B4B30078DB4F /* CI Demon.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -614,7 +614,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/KeychainAccess/KeychainAccess.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/React/React-Core-macOS.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/yoga/Yoga-macOS.modulemap\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cidemon;
-				PRODUCT_NAME = cidemon;
+				PRODUCT_NAME = "CI Demon";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "cidemon-macOS/cidemon-macOS-Bridging-Header.h";
@@ -649,7 +649,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.cidemon;
-				PRODUCT_NAME = cidemon;
+				PRODUCT_NAME = "CI Demon";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "cidemon-macOS/cidemon-macOS-Bridging-Header.h";
