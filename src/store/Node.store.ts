@@ -619,7 +619,7 @@ export async function createNodeStore(root: IRootStore) {
 
       openIssueRepo: () => {
         Linking.openURL(
-          'https://github.com/ospfranco/cidemon_issues/issues/new/choose',
+          'https://github.com/ospfranco/cidemon/issues/new/choose',
         );
       },
 
