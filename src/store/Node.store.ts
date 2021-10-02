@@ -1,4 +1,4 @@
-import {mapPingTest, cidemonNative} from 'lib';
+import {cidemonNative, mapPingTest} from 'lib';
 import {
   autorun,
   configure,
@@ -7,10 +7,8 @@ import {
   runInAction,
   toJS,
 } from 'mobx';
-import {createPingTest, PingTest} from 'model';
-import {Alert, Linking} from 'react-native';
+import {Linking} from 'react-native';
 import {IRootStore} from 'Root.store';
-import Fuse from 'fuse.js';
 
 configure({
   useProxies: `never`,
@@ -71,8 +69,6 @@ export async function createNodeStore(root: IRootStore) {
         passingNotificationsEnabled: JSStore.passingNotificationsEnabled,
         repoOpeningsCount: JSStore.repoOpeningsCount,
         showBuildNumber: JSStore.showBuildNumber,
-        pingTests: JSStore.pingTests,
-        doubleRowItems: JSStore.doubleRowItems,
         githubFetchPrs: JSStore.githubFetchPrs,
         githubFetchBranches: JSStore.githubFetchBranches,
         githubFetchWorkflows: JSStore.githubFetchWorkflows,
@@ -102,8 +98,6 @@ export async function createNodeStore(root: IRootStore) {
           store.passingNotificationsEnabled ?? false;
         store.repoOpeningsCount = parsedStore.repoOpeningsCount ?? 0;
         store.showBuildNumber = parsedStore.showBuildNumber ?? false;
-        store.pingTests = parsedStore.pingTests?.map(createPingTest) ?? [];
-        store.doubleRowItems = parsedStore.doubleRowItems ?? false;
         store.githubFetchPrs = parsedStore.githubFetchPrs ?? true;
         store.githubFetchBranches = parsedStore.githubFetchBranches ?? true;
         store.useSimpleIcon = parsedStore.useSimpleIcon ?? false;
@@ -121,7 +115,6 @@ export async function createNodeStore(root: IRootStore) {
       //  | |  | | '_ \/ __|/ _ \ '__\ \ / / _` | '_ \| |/ _ \/ __|
       //  | |__| | |_) \__ \  __/ |   \ V / (_| | |_) | |  __/\__ \
       //   \____/|_.__/|___/\___|_|    \_/ \__,_|_.__/|_|\___||___/
-
       nodes: [] as INode[],
       tokens: [] as IToken[],
       sortingKey: SortingKey.status,
@@ -138,10 +131,7 @@ export async function createNodeStore(root: IRootStore) {
       passingNotificationsEnabled: false,
       filterHardOffSwitch: false,
       repoOpeningsCount: 0,
-      searchQuery: ``,
       showBuildNumber: false,
-      pingTests: [] as PingTest[],
-      doubleRowItems: false,
       useSimpleIcon: false,
       welcomeShown: false,
 
@@ -230,17 +220,6 @@ export async function createNodeStore(root: IRootStore) {
               return true;
             }
           });
-
-        if (this.searchQuery) {
-          const fuse = new Fuse(finalNodes, {
-            keys: [`label`],
-            threshold: 0.3,
-          });
-
-          finalNodes = fuse
-            .search(this.searchQuery)
-            .map((fuseResult) => fuseResult.item);
-        }
 
         // once a new set of valid nodes has been calculated
         // update the native icon on the menubar
@@ -335,21 +314,6 @@ export async function createNodeStore(root: IRootStore) {
         // TS complains here, and is right, promise.all might return undefined values
         // however filter n => n does remove any falsy values in the array
         responses = responses.flat().filter((n) => n);
-
-        try {
-          // Do ping checks
-          let pingChecks = await Promise.all(
-            store.pingTests.map((test) => test.run()),
-          );
-
-          let pingNodes = pingChecks.map((pingResult, idx) =>
-            mapPingTest(pingResult, store.pingTests[idx]),
-          );
-
-          responses = responses.concat(pingNodes);
-        } catch (e) {
-          console.warn(`error pinging`);
-        }
 
         let previousNodes = store.nodes.reduce((acc, node) => {
           acc[node.id] = node;
@@ -584,10 +548,6 @@ export async function createNodeStore(root: IRootStore) {
         }
       },
 
-      toggleDoubleRowItems: () => {
-        store.doubleRowItems = !store.doubleRowItems;
-      },
-
       openNode: (url: string) => {
         Linking.openURL(url);
 
@@ -598,23 +558,9 @@ export async function createNodeStore(root: IRootStore) {
         }
       },
 
-      setSearchQuery: (q: string) => {
-        store.searchQuery = q;
-      },
-
       toggleShowBuildNumber: () => {
         store.showBuildNumber = !store.showBuildNumber;
         store.fetchNodes();
-      },
-
-      addPingTest: () => {
-        let pingTest = createPingTest({});
-        store.pingTests.push(pingTest);
-        return pingTest;
-      },
-
-      removePingTest: (pingTest: PingTest) => {
-        store.pingTests = store.pingTests.filter((test) => test !== pingTest);
       },
 
       openIssueRepo: () => {
