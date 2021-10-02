@@ -11,10 +11,10 @@ import {idExtractor, useDarkTheme} from 'lib';
 import {observer} from 'mobx-react-lite';
 import React from 'react';
 import {
-  FlatList,
   Image,
   Linking,
   ListRenderItemInfo,
+  SectionList,
   Text,
   TouchableOpacity,
   View,
@@ -52,6 +52,34 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
     );
   };
 
+  const sectionsObj = root.node.sortedFilteredNodes.reduce(
+    (acc: any, node: INode) => {
+      if (node.slug) {
+        if (acc[node.slug]) {
+          acc[node.slug].push(node);
+        } else {
+          acc[node.slug] = [node];
+        }
+      } else {
+        if (acc['No repository']) {
+          acc['No repository'].push(node);
+        } else {
+          acc['No repository'] = [node];
+        }
+      }
+
+      return acc;
+    },
+    {},
+  );
+
+  const sections: Array<{title: string; data: INode[]}> = Object.entries(
+    sectionsObj,
+  ).map(([slug, data]) => ({
+    title: slug,
+    data,
+  })) as any;
+
   return (
     <View style={tw(`flex-1`)}>
       <View style={tw(`flex-1`)}>
@@ -59,7 +87,7 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
           vertical="center"
           style={tw(`px-4 py-2 border-b`, {
             'border-gray-700': isDark,
-            'border-gray-200': !isDark,
+            'border-gray-400': !isDark,
           })}>
           <TempoButton onPress={() => navigation.navigate(`Configuration`)}>
             <Icon name="settings" style={iconStyle} />
@@ -103,12 +131,24 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
             />
           </TouchableOpacity>
         </Row>
-        <FlatList
+        <SectionList
           showsVerticalScrollIndicator={false}
-          data={root.node.sortedFilteredNodes}
+          sections={sections}
           renderItem={renderNodeItem}
           keyExtractor={idExtractor}
-          contentContainerStyle={tw(`flex-grow py-2`)}
+          contentContainerStyle={tw(`flex-grow`)}
+          renderSectionHeader={({section: {title}}) => (
+            <Text
+              style={tw(
+                {
+                  'bg-gray-800': isDark,
+                  'bg-gray-200': !isDark,
+                },
+                'px-4 py-2 bg-opacity-20 font-semibold',
+              )}>
+              {title}
+            </Text>
+          )}
           ListEmptyComponent={
             <EmptyNodesComponent onAddToken={goToAddTokenScreen} />
           }

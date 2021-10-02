@@ -87,6 +87,7 @@ declare interface INode {
   isAction?: boolean;
   username?: string;
   userAvatarUrl?: string;
+  slug?: string;
 }
 
 declare interface IToast {

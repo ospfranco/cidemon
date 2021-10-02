@@ -14,7 +14,6 @@ import {
   GitlabPipelineDto,
   IGithubCheck,
 } from 'model';
-import {PingTest} from 'model';
 
 interface IParsingOptions {
   showBuildNumber: boolean;
@@ -81,6 +80,7 @@ export function mapCircleCIProjects(
         status: status,
         key: key,
         buildUrl: `https://circleci.com/api/v1.1/project/${vcsLong}/${repo.username}/${repo.reponame}/tree/${name}?circle-token=${key}`,
+        slug: `${repo.username}/${repo.reponame}`,
       };
 
       nodes.push(node);
@@ -128,6 +128,7 @@ export function mapAppcenterTuplesToNodes(
       status: status,
       key: key,
       buildUrl: `https://api.appcenter.ms/v0.1/apps/${repo.owner.name}/${repo.name}/branches/${urlFriendlyBranchName}/builds`,
+      slug: `${repo.owner.name}/${repo.name}`,
     };
     return node;
   });
@@ -164,6 +165,7 @@ export function mapTravisTuplesToNodes(
       status: status,
       key: key,
       date: branch.started_at,
+      slug: repo.slug,
     };
 
     return node;
@@ -229,6 +231,7 @@ export function mapBitriseTuplesToNode(
       extra: repo.title,
       vcs: 'unknown',
       jobId: branch.build_number?.toString(),
+      slug: `${repo.repo_owner}/${repo.title}`,
     };
 
     return node;
@@ -278,6 +281,7 @@ export function mapGithubActionTupleToNode(
     source: `Github`,
     vcs: `github`,
     key: key,
+    slug,
   };
 
   return node;
@@ -338,6 +342,7 @@ export function mapGitlabTupleToNodes(
         source: `Gitlab`,
         vcs: `gitlab`,
         key: key,
+        slug: project.name,
       };
 
       return node;
@@ -410,6 +415,7 @@ export function mapGithubPrToNode(
     isPr: true,
     username: pr.user.login,
     userAvatarUrl: pr.user.avatar_url,
+    slug,
   };
 
   return node;
@@ -478,6 +484,7 @@ export function mapGithubBranchToNode(
     key: key,
     subItems: subItems,
     sha: branch.commit.sha,
+    slug,
   };
 
   return node;
@@ -509,31 +516,7 @@ export function mapGithubActionRunToNode(
     key: key,
     sha: run.head_sha,
     isAction: true,
-  };
-
-  return node;
-}
-
-export function mapPingTest(result: boolean, pingTest: PingTest): INode {
-  let status: Status = `pending`;
-  switch (result) {
-    case true:
-      status = `passed`;
-      break;
-    case false:
-      status = `failed`;
-      break;
-    default:
-      break;
-  }
-
-  let node: INode = {
-    id: pingTest.id,
-    status,
-    label: pingTest.name || pingTest.url,
-    source: `Ping`,
-    url: pingTest.url,
-    date: new Date().toString(),
+    slug,
   };
 
   return node;

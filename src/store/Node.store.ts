@@ -1,4 +1,4 @@
-import {cidemonNative, mapPingTest} from 'lib';
+import {cidemonNative} from 'lib';
 import {
   autorun,
   configure,

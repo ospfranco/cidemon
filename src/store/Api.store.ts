@@ -1,5 +1,5 @@
-import { IRootStore } from "Root.store";
-import axios from "axios";
+import {IRootStore} from 'Root.store';
+import axios from 'axios';
 import {
   mapAppcenterTuplesToNodes,
   mapBitriseTuplesToNode,
@@ -8,8 +8,8 @@ import {
   mapGithubBranchToNode,
   mapGitlabTupleToNodes,
   mapTravisTuplesToNodes,
-  mapGithubActionRunToNode
-} from "lib";
+  mapGithubActionRunToNode,
+} from 'lib';
 import {
   AppcenterRepoDto,
   TravisReposDto,
@@ -19,9 +19,9 @@ import {
   GitlabProjectDto,
   GitlabPipelineDto,
   CircleciRepoDto,
-} from "model";
-import Github from "github-api";
-import allSettled from "promise.allsettled";
+} from 'model';
+import Github from 'github-api';
+import allSettled from 'promise.allsettled';
 
 interface AjaxCallParams {
   auth?: string;
@@ -48,7 +48,7 @@ export let createApiStore = (root: IRootStore) => {
       method,
       headers: {
         Authorization: auth,
-        "Content-Type": `application/json`,
+        'Content-Type': `application/json`,
         ...headers,
       },
       data: body ? JSON.stringify(body) : undefined,
@@ -61,14 +61,14 @@ export let createApiStore = (root: IRootStore) => {
     url: string;
     auth?: string;
     headers?: Record<string, string>;
-  }) => ajaxCall({ method: `GET`, ...props });
+  }) => ajaxCall({method: `GET`, ...props});
 
   let post = (props: {
     url: string;
     auth?: string;
     body?: any;
     headers?: Record<string, string>;
-  }) => ajaxCall({ method: `POST`, ...props });
+  }) => ajaxCall({method: `POST`, ...props});
 
   // let put = (props: {
   //   url: string
@@ -94,8 +94,8 @@ export let createApiStore = (root: IRootStore) => {
         return mapCircleCIProjects(repos, token, options);
       } catch (e) {
         root.ui.addToast({
-          text: "Could not fetch CircleCI builds",
-          type: "error",
+          text: 'Could not fetch CircleCI builds',
+          type: 'error',
         });
         return [];
       }
@@ -109,7 +109,7 @@ export let createApiStore = (root: IRootStore) => {
         let repos: AppcenterRepoDto[] = await get({
           url: `https://api.appcenter.ms/v0.1/apps`,
           headers: {
-            "X-API-Token": key,
+            'X-API-Token': key,
           },
         });
 
@@ -117,7 +117,7 @@ export let createApiStore = (root: IRootStore) => {
           get({
             url: `https://api.appcenter.ms/v0.1/apps/${r.owner.name}/${r.name}/branches`,
             headers: {
-              "X-API-Token": key,
+              'X-API-Token': key,
             },
           }),
         );
@@ -126,7 +126,7 @@ export let createApiStore = (root: IRootStore) => {
 
         let nodes = resolvedBranches
           .map((branchesResult, ii) => {
-            if (branchesResult.status === "fulfilled") {
+            if (branchesResult.status === 'fulfilled') {
               return mapAppcenterTuplesToNodes(
                 repos[ii],
                 branchesResult.value,
@@ -142,8 +142,8 @@ export let createApiStore = (root: IRootStore) => {
         return nodes;
       } catch (e) {
         root.ui.addToast({
-          text: "Could not fetch App Center builds",
-          type: "error",
+          text: 'Could not fetch App Center builds',
+          type: 'error',
         });
         return [];
       }
@@ -159,7 +159,7 @@ export let createApiStore = (root: IRootStore) => {
           headers: {
             Accept: `application/vnd.travis-ci.2.1+json`,
             Authorization: `token ${key}`,
-            "User-Agent": `Tempomat/2.0.0`,
+            'User-Agent': `Tempomat/2.0.0`,
           },
         });
 
@@ -169,7 +169,7 @@ export let createApiStore = (root: IRootStore) => {
             headers: {
               Accept: `application/vnd.travis-ci.2.1+json`,
               Authorization: `token ${key}`,
-              "User-Agent": `Tempomat/2.0.0`,
+              'User-Agent': `Tempomat/2.0.0`,
             },
           }),
         );
@@ -178,7 +178,7 @@ export let createApiStore = (root: IRootStore) => {
 
         return resolvedBranches
           .map((branchesRes, ii) => {
-            if (branchesRes.status === "fulfilled") {
+            if (branchesRes.status === 'fulfilled') {
               return mapTravisTuplesToNodes(
                 reposDto.repos[ii],
                 branchesRes.value,
@@ -192,8 +192,8 @@ export let createApiStore = (root: IRootStore) => {
           .flat();
       } catch (e) {
         root.ui.addToast({
-          text: "Could not fetch CircleCI Nodes",
-          type: "error",
+          text: 'Could not fetch CircleCI Nodes',
+          type: 'error',
         });
         return [];
       }
@@ -250,8 +250,8 @@ export let createApiStore = (root: IRootStore) => {
         return nodes;
       } catch (e) {
         root.ui.addToast({
-          text: "Could not fetch Bitrise Nodes",
-          type: "error",
+          text: 'Could not fetch Bitrise Nodes',
+          type: 'error',
         });
         return [];
       }
@@ -285,14 +285,26 @@ export let createApiStore = (root: IRootStore) => {
       } catch (e) {
         root.ui.addToast({
           text: `Error fetching builds for Bitrise branches: ${e}`,
-          type: "error",
+          type: 'error',
         });
 
         return [];
       }
     },
 
-    fetchGithubNodes: async ({ key, slug, fetchPrs, fetchBranches, fetchWorkflows }: { key: string, slug: string, fetchPrs: boolean, fetchBranches: boolean, fetchWorkflows: boolean }): Promise<INode[]> => {
+    fetchGithubNodes: async ({
+      key,
+      slug,
+      fetchPrs,
+      fetchBranches,
+      fetchWorkflows,
+    }: {
+      key: string;
+      slug: string;
+      fetchPrs: boolean;
+      fetchBranches: boolean;
+      fetchWorkflows: boolean;
+    }): Promise<INode[]> => {
       try {
         const githubApi = new Github({
           token: key,
@@ -302,7 +314,7 @@ export let createApiStore = (root: IRootStore) => {
 
         const repo = githubApi.getRepo(username, reponame);
 
-        let nodes: INode[] = []
+        let nodes: INode[] = [];
 
         if (fetchPrs) {
           const pullRequestsRes = await repo.listPullRequests();
@@ -325,14 +337,14 @@ export let createApiStore = (root: IRootStore) => {
             let statusRes = statusesMatrix[index];
 
             let checks =
-              statusRes.status === "fulfilled"
+              statusRes.status === 'fulfilled'
                 ? statusRes.value.check_runs ?? []
                 : [];
 
             return mapGithubPrToNode(slug, pr, checks, key);
           });
 
-          nodes.push(...prNodes)
+          nodes.push(...prNodes);
         }
 
         if (fetchBranches) {
@@ -342,7 +354,7 @@ export let createApiStore = (root: IRootStore) => {
               Accept: `application/vnd.github.v3+json`,
               Authorization: `token ${key}`,
             },
-          })
+          });
 
           const checkPromises = branches.map((branch: any) =>
             get({
@@ -351,8 +363,8 @@ export let createApiStore = (root: IRootStore) => {
                 Accept: `application/vnd.github.v3+json`,
                 Authorization: `token ${key}`,
               },
-            })
-          )
+            }),
+          );
 
           const statusesMatrix = await allSettled(checkPromises);
 
@@ -360,14 +372,14 @@ export let createApiStore = (root: IRootStore) => {
             let statusRes = statusesMatrix[index];
 
             let checks =
-              statusRes.status === "fulfilled"
+              statusRes.status === 'fulfilled'
                 ? statusRes.value.check_runs ?? []
                 : [];
 
             return mapGithubBranchToNode(slug, branch, checks, key);
           });
 
-          nodes.push(...branchNodes)
+          nodes.push(...branchNodes);
         }
 
         if (fetchWorkflows) {
@@ -377,30 +389,31 @@ export let createApiStore = (root: IRootStore) => {
               Accept: `application/vnd.github.v3+json`,
               Authorization: `token ${key}`,
             },
-          })
+          });
 
-          const visitedRuns: Record<string, boolean> = {}
+          const visitedRuns: Record<string, boolean> = {};
           const runs = runsRes.workflow_runs.reduce((acc: any[], run: any) => {
             if (!visitedRuns[run.workflow_id]) {
-              visitedRuns[run.workflow_id] = true
-              acc.push(run)
+              visitedRuns[run.workflow_id] = true;
+              acc.push(run);
             }
 
-            return acc
-          }, [])
+            return acc;
+          }, []);
 
-          const runsNodes: any[] = runs.map((run: any) => mapGithubActionRunToNode(slug, run, key))
+          const runsNodes: any[] = runs.map((run: any) =>
+            mapGithubActionRunToNode(slug, run, key),
+          );
 
-          nodes.push(...runsNodes.flat())
+          nodes.push(...runsNodes.flat());
         }
 
         return nodes;
-
       } catch (e) {
         console.warn(`Github error`, e);
         root.ui.addToast({
           text: `Could not fetch info for Github repo: ${slug}`,
-          type: "error",
+          type: 'error',
         });
         return [];
       }
@@ -414,7 +427,7 @@ export let createApiStore = (root: IRootStore) => {
       return post({
         url: node.buildUrl,
         headers: {
-          "Content-Type": `application/json`,
+          'Content-Type': `application/json`,
         },
       });
     },
@@ -427,8 +440,8 @@ export let createApiStore = (root: IRootStore) => {
       return post({
         url: node.buildUrl,
         headers: {
-          "Content-Type": `application/json`,
-          "X-API-Token": node.key!,
+          'Content-Type': `application/json`,
+          'X-API-Token': node.key!,
         },
       });
     },
@@ -449,7 +462,7 @@ export let createApiStore = (root: IRootStore) => {
       return post({
         url: node.buildUrl,
         headers: {
-          "Content-Type": `application/json`,
+          'Content-Type': `application/json`,
           Authorization: node.key!,
         },
         body: {
@@ -510,7 +523,7 @@ export let createApiStore = (root: IRootStore) => {
 
         nodes = resolvedPipelines
           .map((projectPipelines, ii) => {
-            if (projectPipelines.status === "fulfilled") {
+            if (projectPipelines.status === 'fulfilled') {
               return mapGitlabTupleToNodes(
                 projects[ii],
                 projectPipelines.value,
@@ -524,7 +537,7 @@ export let createApiStore = (root: IRootStore) => {
           .flat();
       } catch (e) {
         root.ui.addToast({
-          text: `Could not fetch GitLab repos:\n${e.toString()}`,
+          text: `Could not fetch GitLab repos:\n${e}`,
           type: `error`,
         });
       }

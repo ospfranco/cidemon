@@ -10,7 +10,6 @@ import {observer} from 'mobx-react-lite';
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useStore} from 'Root.store';
 import {tw} from 'tailwind';
 import {Row} from './Row.component';
 
@@ -51,9 +50,6 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
       <View>
         <Text style={tw(`${textColor}`)}>
           {tokens[2].substring(1, tokens[2].length - 1)}
-        </Text>
-        <Text style={tw(`text-xs ${subTextColor}`)}>
-          {tokens[1]} {tokens[3] ? `- ${tokens[3]}` : ``}
         </Text>
       </View>
     );
@@ -119,10 +115,10 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
 
         {/* Sub nodes */}
         {node.status === `failed` && node.subItems && (
-          <View style={tw(`pl-3`)}>
+          <View style={tw(`pl-2`)}>
             {node.subItems.map((subItem: ISubNode, index: number, items) => (
               <Row key={`${node.id}-sub-${index}`} vertical="center">
-                <View style={tw('items-center mr-5')}>
+                <View style={tw('items-center mr-4')}>
                   <View
                     style={[
                       tw('h-2'),
@@ -150,7 +146,7 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
                 <Text
                   style={[
                     tw(`text-xs`, {
-                      'font-bold': subItem.status === 'failed',
+                      'text-gray-400': subItem.status !== 'failed',
                     }),
                   ]}>
                   {subItem.label}
@@ -167,8 +163,8 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
 
 const styles = StyleSheet.create({
   imageIcon: {
-    height: 32,
-    width: 32,
+    height: 24,
+    width: 24,
     resizeMode: `contain`,
   },
   icon: {
