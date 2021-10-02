@@ -1,4 +1,4 @@
-import { DateTime } from "luxon"
+import {DateTime} from 'luxon';
 import {
   CircleciRepoDto,
   AppcenterRepoDto,
@@ -13,11 +13,11 @@ import {
   GitlabProjectDto,
   GitlabPipelineDto,
   IGithubCheck,
-} from "model"
-import { PingTest } from "model"
+} from 'model';
+import {PingTest} from 'model';
 
 interface IParsingOptions {
-  showBuildNumber: boolean
+  showBuildNumber: boolean;
 }
 
 export function mapCircleCIProjects(
@@ -25,51 +25,51 @@ export function mapCircleCIProjects(
   key: string,
   options: IParsingOptions,
 ): INode[] {
-  let nodes: INode[] = []
+  let nodes: INode[] = [];
 
   for (let i = 0; i < repos.length; i++) {
-    let repo = repos[i]
-    let branches = Object.entries(repo.branches)
+    let repo = repos[i];
+    let branches = Object.entries(repo.branches);
     for (let j = 0; j < branches.length; j++) {
-      let [name, info] = branches[j]
+      let [name, info] = branches[j];
 
-      let status: Status = `running`
-      let isRunning = !!info.running_builds?.length
-      let latestDate
+      let status: Status = `running`;
+      let isRunning = !!info.running_builds?.length;
+      let latestDate;
 
-      let jobId: string = `-`
+      let jobId: string = `-`;
 
       if (info.last_success && info.last_non_success) {
         if (info.last_success.pushed_at > info.last_non_success.pushed_at) {
-          status = `passed`
-          latestDate = info.last_success.pushed_at
-          jobId = info.last_success.build_num.toString()
+          status = `passed`;
+          latestDate = info.last_success.pushed_at;
+          jobId = info.last_success.build_num.toString();
         } else {
-          status = `failed`
-          latestDate = info.last_non_success.pushed_at
-          jobId = info.last_non_success.build_num.toString()
+          status = `failed`;
+          latestDate = info.last_non_success.pushed_at;
+          jobId = info.last_non_success.build_num.toString();
         }
       } else if (info.last_success) {
-        status = `passed`
-        latestDate = info.last_success.pushed_at
-        jobId = info.last_success.build_num.toString()
+        status = `passed`;
+        latestDate = info.last_success.pushed_at;
+        jobId = info.last_success.build_num.toString();
       } else if (info.last_non_success) {
-        status = `failed`
-        latestDate = info.last_non_success.pushed_at
-        jobId = info.last_non_success.build_num.toString()
+        status = `failed`;
+        latestDate = info.last_non_success.pushed_at;
+        jobId = info.last_non_success.build_num.toString();
       }
 
       if (isRunning) {
-        status = `running`
-        latestDate = info.running_builds![0].pushed_at
+        status = `running`;
+        latestDate = info.running_builds![0].pushed_at;
       }
 
-      let vcsLong = repo.vcs_url.includes(`github`) ? `github` : `bitbucket`
-      let vcsShort = repo.vcs_url.includes(`github`) ? `gh` : `bb`
-      let unscapedName = unescape(name)
+      let vcsLong = repo.vcs_url.includes(`github`) ? `github` : `bitbucket`;
+      let vcsShort = repo.vcs_url.includes(`github`) ? `gh` : `bb`;
+      let unscapedName = unescape(name);
 
       if (!options.showBuildNumber) {
-        jobId = ``
+        jobId = ``;
       }
 
       let node: INode = {
@@ -81,13 +81,13 @@ export function mapCircleCIProjects(
         status: status,
         key: key,
         buildUrl: `https://circleci.com/api/v1.1/project/${vcsLong}/${repo.username}/${repo.reponame}/tree/${name}?circle-token=${key}`,
-      }
+      };
 
-      nodes.push(node)
+      nodes.push(node);
     }
   }
 
-  return nodes
+  return nodes;
 }
 
 export function mapAppcenterTuplesToNodes(
@@ -97,39 +97,40 @@ export function mapAppcenterTuplesToNodes(
   options: IParsingOptions,
 ): INode[] {
   return branches.map((branch) => {
-    let status: Status = `pending`
+    let status: Status = `pending`;
 
     if (branch.lastBuild?.status === `inProgress`) {
-      status = `running`
+      status = `running`;
     }
 
     if (branch.lastBuild?.result === `succeeded`) {
-      status = `passed`
+      status = `passed`;
     }
 
     if (branch.lastBuild?.result === `failed`) {
-      status = `failed`
+      status = `failed`;
     }
 
-    let jobId = ``
+    let jobId = ``;
     if (options.showBuildNumber && branch.lastBuild) {
-      jobId = ` #${branch.lastBuild.buildNumber}`
+      jobId = ` #${branch.lastBuild.buildNumber}`;
     }
 
-    let urlFriendlyBranchName = branch.branch.name.replace(`/`, `%2F`)
+    let urlFriendlyBranchName = branch.branch.name.replace(`/`, `%2F`);
 
     let node: INode = {
-      id: `${`AppCenter`}-${repo.owner.name}-${repo.name}-${branch.branch.name
-        }`,
+      id: `${`AppCenter`}-${repo.owner.name}-${repo.name}-${
+        branch.branch.name
+      }`,
       url: `https://appcenter.ms/users/${repo.owner.name}/apps/${repo.name}/build/branches/${urlFriendlyBranchName}`,
       label: `${repo.owner.name}/${repo.name} [${branch.branch.name}]${jobId}`,
       source: `AppCenter`,
       status: status,
       key: key,
       buildUrl: `https://api.appcenter.ms/v0.1/apps/${repo.owner.name}/${repo.name}/branches/${urlFriendlyBranchName}/builds`,
-    }
-    return node
-  })
+    };
+    return node;
+  });
 }
 
 export function mapTravisTuplesToNodes(
@@ -140,19 +141,19 @@ export function mapTravisTuplesToNodes(
   options: IParsingOptions,
 ): INode[] {
   return branches.branches.map((branch) => {
-    let commit = branches.commits.find((c) => c.id === branch.commit_id)!
+    let commit = branches.commits.find((c) => c.id === branch.commit_id)!;
 
-    let status: Status = `pending`
+    let status: Status = `pending`;
     if (branch.state === `errored`) {
-      status = `failed`
+      status = `failed`;
     }
 
     if (branch.state === `started`) {
-      status = `running`
+      status = `running`;
     }
 
     if (branch.state === `passed`) {
-      status = `passed`
+      status = `passed`;
     }
 
     let node: INode = {
@@ -163,10 +164,10 @@ export function mapTravisTuplesToNodes(
       status: status,
       key: key,
       date: branch.started_at,
-    }
+    };
 
-    return node
-  })
+    return node;
+  });
 }
 
 export function mapBitriseTuplesToNode(
@@ -176,42 +177,42 @@ export function mapBitriseTuplesToNode(
   options: IParsingOptions,
 ): INode[] {
   return branches.map((branch) => {
-    let status: Status = `pending`
+    let status: Status = `pending`;
 
     switch (branch.status) {
       case BitriseStatus.successful:
-        status = `passed`
-        break
+        status = `passed`;
+        break;
       case BitriseStatus.abortedWithFailure:
-        status = `failed`
-        break
+        status = `failed`;
+        break;
       case BitriseStatus.abortedWithSuccess:
-        status = `passed`
-        break
+        status = `passed`;
+        break;
       case BitriseStatus.notFinished:
-        status = `running`
-        break
+        status = `running`;
+        break;
       case BitriseStatus.failed:
-        status = `failed`
-        break
+        status = `failed`;
+        break;
       default:
-        status = `pending`
-        break
+        status = `pending`;
+        break;
     }
 
-    let jobId = ``
+    let jobId = ``;
     if (options.showBuildNumber) {
-      jobId = ` #${branch.build_number}`
+      jobId = ` #${branch.build_number}`;
     }
 
-    let mainName = branch.branch
+    let mainName = branch.branch;
 
     if (!mainName || mainName.length === 0) {
-      mainName = branch.commit_message ?? 'Unknown Branch'
+      mainName = branch.commit_message ?? 'Unknown Branch';
     }
 
     if (branch.triggered_workflow) {
-      mainName += `- ${branch.triggered_workflow}`
+      mainName += `- ${branch.triggered_workflow}`;
     }
 
     let node: INode = {
@@ -227,11 +228,11 @@ export function mapBitriseTuplesToNode(
       // Storing the API provided repository "title" to be used in further calls to the api
       extra: repo.title,
       vcs: 'unknown',
-      jobId: branch.build_number?.toString()
-    }
+      jobId: branch.build_number?.toString(),
+    };
 
-    return node
-  })
+    return node;
+  });
 }
 
 export function mapGithubActionTupleToNode(
@@ -241,30 +242,30 @@ export function mapGithubActionTupleToNode(
   key: string,
   options: IParsingOptions,
 ): INode {
-  let status: Status = `pending`
+  let status: Status = `pending`;
 
   switch (latestRun.conclusion) {
     case `success`:
-      status = `passed`
-      break
+      status = `passed`;
+      break;
 
     case `failure`:
-      status = `failed`
-      break
+      status = `failed`;
+      break;
 
     case `in_progress`:
-      status = `running`
-      break
+      status = `running`;
+      break;
 
     default:
-      break
+      break;
   }
 
-  let pathComponent = `workflow%3A${workflowDto.name}`
+  let pathComponent = `workflow%3A${workflowDto.name}`;
 
-  let runNumber = ``
+  let runNumber = ``;
   if (options.showBuildNumber) {
-    runNumber = ` #${latestRun.run_number}`
+    runNumber = ` #${latestRun.run_number}`;
   }
 
   let node: INode = {
@@ -277,9 +278,9 @@ export function mapGithubActionTupleToNode(
     source: `Github`,
     vcs: `github`,
     key: key,
-  }
+  };
 
-  return node
+  return node;
 }
 
 export function mapGitlabTupleToNodes(
@@ -294,37 +295,37 @@ export function mapGitlabTupleToNodes(
     .reduce(
       (acc: GitlabPipelineDto[], a: GitlabPipelineDto): GitlabPipelineDto[] => {
         if (acc.findIndex((b) => b.ref === a.ref) === -1) {
-          acc.push(a)
+          acc.push(a);
         }
 
-        return acc
+        return acc;
       },
       [] as any,
     )
     .map((pipeline) => {
-      let status: Status = `pending`
+      let status: Status = `pending`;
 
       switch (pipeline.status) {
         case `failed`:
-          status = `failed`
-          break
+          status = `failed`;
+          break;
         case `running`:
-          status = `running`
-          break
+          status = `running`;
+          break;
         case `success`:
-          status = `passed`
-          break
+          status = `passed`;
+          break;
         case `canceled`:
-          status = `failed`
-          break
+          status = `failed`;
+          break;
         default:
-          status = `pending`
-          break
+          status = `pending`;
+          break;
       }
 
-      let pipelineId = ``
+      let pipelineId = ``;
       if (options.showBuildNumber) {
-        pipelineId = ` #${pipeline.id}`
+        pipelineId = ` #${pipeline.id}`;
       }
 
       let node: INode = {
@@ -337,10 +338,10 @@ export function mapGitlabTupleToNodes(
         source: `Gitlab`,
         vcs: `gitlab`,
         key: key,
-      }
+      };
 
-      return node
-    })
+      return node;
+    });
 }
 
 export function mapGithubPrToNode(
@@ -349,48 +350,49 @@ export function mapGithubPrToNode(
   statuses: IGithubCheck[],
   key: string,
 ): INode {
-  let status: Status = `pending`
-  let subItems: ISubNode[] = []
+  let status: Status = `pending`;
+  let subItems: ISubNode[] = [];
 
   if (statuses.length) {
-    status = `passed`
+    status = `passed`;
 
-    statuses.forEach(({ name, conclusion, started_at, completed_at, details_url }) => {
-      let lStartedAt = DateTime.fromISO(started_at)
+    statuses.forEach(
+      ({name, conclusion, started_at, completed_at, details_url}) => {
+        let lStartedAt = DateTime.fromISO(started_at);
 
-      let subItem: ISubNode = {
-        label: name,
-        status: `pending`,
-        url: details_url
-      }
+        let subItem: ISubNode = {
+          label: name,
+          status: `pending`,
+          url: details_url,
+        };
 
-      if (!conclusion) {
-        if (status !== `failed`) {
-          status = `running`
+        if (!conclusion) {
+          if (status !== `failed`) {
+            status = `running`;
+          }
+
+          let extraLabel = lStartedAt.toRelative({unit: 'minutes'});
+          subItem.extraLabel = extraLabel;
+        } else {
+          let lCompletedAt = DateTime.fromISO(completed_at!);
+          let extraLabel = `${Math.round(
+            lCompletedAt.diff(lStartedAt, 'minutes').minutes,
+          )}m`;
+          subItem.extraLabel = extraLabel;
+
+          if (conclusion === `failure` || conclusion === `timed_out`) {
+            status = `failed`;
+            subItem.status = `failed`;
+          } else if (conclusion === `success`) {
+            subItem.status = `passed`;
+          } else if (conclusion === `neutral`) {
+            subItem.status = `pending`;
+          }
         }
 
-        let extraLabel = lStartedAt.toRelative({ unit: "minutes" })
-        subItem.extraLabel = extraLabel
-      } else {
-        let lCompletedAt = DateTime.fromISO(completed_at!)
-        let extraLabel = `${Math.round(lCompletedAt.diff(lStartedAt, 'minutes').minutes)}m`
-        subItem.extraLabel = extraLabel
-
-        if (
-          conclusion === `failure` ||
-          conclusion === `timed_out`
-        ) {
-          status = `failed`
-          subItem.status = `failed`
-        } else if (conclusion === `success`) {
-          subItem.status = `passed`
-        } else if (conclusion === `neutral`) {
-          subItem.status = `pending`
-        }
-      }
-
-      subItems.push(subItem)
-    })
+        subItems.push(subItem);
+      },
+    );
   }
 
   let node: INode = {
@@ -407,10 +409,10 @@ export function mapGithubPrToNode(
     sha: pr.head.sha,
     isPr: true,
     username: pr.user.login,
-    userAvatarUrl: pr.user.avatar_url
-  }
+    userAvatarUrl: pr.user.avatar_url,
+  };
 
-  return node
+  return node;
 }
 
 export function mapGithubBranchToNode(
@@ -419,48 +421,49 @@ export function mapGithubBranchToNode(
   statuses: IGithubCheck[],
   key: string,
 ): INode {
-  let status: Status = `pending`
-  let subItems: ISubNode[] = []
+  let status: Status = `pending`;
+  let subItems: ISubNode[] = [];
 
   if (statuses.length) {
-    status = `passed`
+    status = `passed`;
 
-    statuses.forEach(({ name, conclusion, started_at, completed_at, details_url }) => {
-      let lStartedAt = DateTime.fromISO(started_at)
+    statuses.forEach(
+      ({name, conclusion, started_at, completed_at, details_url}) => {
+        let lStartedAt = DateTime.fromISO(started_at);
 
-      let subItem: ISubNode = {
-        label: name,
-        status: `pending`,
-        url: details_url
-      }
+        let subItem: ISubNode = {
+          label: name,
+          status: `pending`,
+          url: details_url,
+        };
 
-      if (!conclusion) {
-        if (status !== `failed`) {
-          status = `running`
+        if (!conclusion) {
+          if (status !== `failed`) {
+            status = `running`;
+          }
+
+          let extraLabel = lStartedAt.toRelative({unit: 'minutes'});
+          subItem.extraLabel = extraLabel;
+        } else {
+          let lCompletedAt = DateTime.fromISO(completed_at!);
+          let extraLabel = `${Math.round(
+            lCompletedAt.diff(lStartedAt, 'minutes').minutes,
+          )}m`;
+          subItem.extraLabel = extraLabel;
+
+          if (conclusion === `failure` || conclusion === `timed_out`) {
+            status = `failed`;
+            subItem.status = `failed`;
+          } else if (conclusion === `success`) {
+            subItem.status = `passed`;
+          } else if (conclusion === `neutral`) {
+            subItem.status = `pending`;
+          }
         }
 
-        let extraLabel = lStartedAt.toRelative({ unit: "minutes" })
-        subItem.extraLabel = extraLabel
-      } else {
-        let lCompletedAt = DateTime.fromISO(completed_at!)
-        let extraLabel = `${Math.round(lCompletedAt.diff(lStartedAt, 'minutes').minutes)}m`
-        subItem.extraLabel = extraLabel
-
-        if (
-          conclusion === `failure` ||
-          conclusion === `timed_out`
-        ) {
-          status = `failed`
-          subItem.status = `failed`
-        } else if (conclusion === `success`) {
-          subItem.status = `passed`
-        } else if (conclusion === `neutral`) {
-          subItem.status = `pending`
-        }
-      }
-
-      subItems.push(subItem)
-    })
+        subItems.push(subItem);
+      },
+    );
   }
 
   let node: INode = {
@@ -474,10 +477,10 @@ export function mapGithubBranchToNode(
     vcs: `github`,
     key: key,
     subItems: subItems,
-    sha: branch.commit.sha
-  }
+    sha: branch.commit.sha,
+  };
 
-  return node
+  return node;
 }
 
 export function mapGithubActionRunToNode(
@@ -485,17 +488,14 @@ export function mapGithubActionRunToNode(
   run: any,
   key: string,
 ): INode {
-  let status: Status = `pending`
+  let status: Status = `pending`;
 
-  if (
-    run.conclusion === `failure` ||
-    run.conclusion === `timed_out`
-  ) {
-    status = `failed`
+  if (run.conclusion === `failure` || run.conclusion === `timed_out`) {
+    status = `failed`;
   } else if (run.conclusion === `success`) {
-    status = `passed`
+    status = `passed`;
   } else if (run.conclusion === `neutral`) {
-    status = `pending`
+    status = `pending`;
   }
 
   let node: INode = {
@@ -508,23 +508,23 @@ export function mapGithubActionRunToNode(
     vcs: `github`,
     key: key,
     sha: run.head_sha,
-    isAction: true
-  }
+    isAction: true,
+  };
 
-  return node
+  return node;
 }
 
 export function mapPingTest(result: boolean, pingTest: PingTest): INode {
-  let status: Status = `pending`
+  let status: Status = `pending`;
   switch (result) {
     case true:
-      status = `passed`
-      break
+      status = `passed`;
+      break;
     case false:
-      status = `failed`
-      break
+      status = `failed`;
+      break;
     default:
-      break
+      break;
   }
 
   let node: INode = {
@@ -534,7 +534,7 @@ export function mapPingTest(result: boolean, pingTest: PingTest): INode {
     source: `Ping`,
     url: pingTest.url,
     date: new Date().toString(),
-  }
+  };
 
-  return node
+  return node;
 }

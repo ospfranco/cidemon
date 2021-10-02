@@ -1,17 +1,17 @@
-import React, {memo} from "react"
-import {View} from "react-native"
+import React, {memo} from 'react';
+import {View} from 'react-native';
 
 interface IProps {
-  style?: any // StyleProp<View> is breaking here with paddingHorizontal... for some reason
+  style?: any; // StyleProp<View> is breaking here with paddingHorizontal... for some reason
   horizontal?:
     | `flex-end`
     | `flex-start`
     | `center`
     | `space-around`
-    | `space-between`
-  wrap?: boolean
-  vertical?: `center` | `flex-start` | `flex-end` | `space-between`
-  children?: any
+    | `space-between`;
+  wrap?: boolean;
+  vertical?: `center` | `flex-start` | `flex-end` | `space-between`;
+  children?: any;
 }
 
 export const Row = memo(
@@ -28,8 +28,8 @@ export const Row = memo(
       justifyContent: horizontal,
       alignItems: vertical,
       flexWrap: wrap ? `wrap` : `nowrap`,
-    }
+    };
 
-    return <View style={[style, innerStyle]}>{children}</View>
+    return <View style={[style, innerStyle]}>{children}</View>;
   },
-)
+);

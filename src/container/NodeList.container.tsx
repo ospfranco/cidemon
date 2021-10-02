@@ -55,10 +55,7 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
   };
 
   return (
-    <SafeAreaView style={tw(`flex-1`)}>
-      {/* Content */}
-
-      {/* Node List */}
+    <View style={tw(`flex-1`)}>
       <View style={tw(`flex-1`)}>
         <Row
           vertical="center"
@@ -165,6 +162,6 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
             }}></TempoButton>
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 });

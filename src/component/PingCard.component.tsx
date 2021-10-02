@@ -1,41 +1,34 @@
-import React, { useRef, useState } from "react";
-import {
-  Text,
-  StyleSheet,
-  ViewStyle,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import { observer } from "mobx-react-lite";
-import { PingTest } from "model";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useStore } from "Root.store";
-import { Row } from "./Row.component";
-import { Spacer } from "./Spacer.component";
-import { TempoButton } from "./TempoButton.component";
-import tw from "tailwind-rn";
-import { useDynamic } from "lib";
-import { Divider } from "./Divider.component";
+import {Picker} from '@react-native-picker/picker';
+import {useDynamic} from 'lib';
+import {observer} from 'mobx-react-lite';
+import {PingTest} from 'model';
+import React, {useRef, useState} from 'react';
+import {ScrollView, StyleSheet, Text, TextInput, ViewStyle} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useStore} from 'Root.store';
+import tw from 'tailwind-rn';
+import {Divider} from './Divider.component';
+import {Row} from './Row.component';
+import {Spacer} from './Spacer.component';
+import {TempoButton} from './TempoButton.component';
 
 interface IProps {
   pingTest: PingTest;
   style?: ViewStyle;
 }
 
-export const PingCardComponent = observer<IProps>(({ pingTest, style }) => {
+export const PingCardComponent = observer<IProps>(({pingTest, style}) => {
   let root = useStore();
   let dynamic = useDynamic();
   let [status, setStatus] = useState<boolean | undefined>(undefined);
-  
+
   // Refs
-  let urlField = useRef<TextInput>(null)
-  let statusField = useRef<TextInput>(null)
-  let bodyField = useRef<TextInput>(null)
+  let urlField = useRef<TextInput>(null);
+  let statusField = useRef<TextInput>(null);
+  let bodyField = useRef<TextInput>(null);
 
   let inputStyle = tw(`${dynamic(`bg-gray-900`, `bg-gray-100`)} flex-1 p-2`);
-  let labelStyle = tw(`w-24 text-right mr-2`)
+  let labelStyle = tw(`w-24 text-right mr-2`);
 
   async function runTest() {
     let testResult = await pingTest.run();
@@ -76,8 +69,7 @@ export const PingCardComponent = observer<IProps>(({ pingTest, style }) => {
         <Picker
           selectedValue={pingTest.method}
           style={styles.picker}
-          onValueChange={pingTest.setMethod as any}
-        >
+          onValueChange={pingTest.setMethod as any}>
           <Picker.Item label="POST" value="POST" />
           <Picker.Item label="GET" value="GET" />
           <Picker.Item label="DELETE" value="DELETE" />
@@ -96,7 +88,7 @@ export const PingCardComponent = observer<IProps>(({ pingTest, style }) => {
           value={pingTest.expectedStatus?.toString()}
           onChangeText={(v) => {
             let integer = parseInt(v.length ? v : `0`, 10);
-            if(!isNaN(integer)) {
+            if (!isNaN(integer)) {
               pingTest.setExpectedStatus(integer);
             }
           }}
@@ -122,7 +114,9 @@ export const PingCardComponent = observer<IProps>(({ pingTest, style }) => {
 
       <Row vertical="center" style={tw(`mt-4`)}>
         <Spacer />
-        <TempoButton onPress={() => root.node.removePingTest(pingTest)} style={tw(`mr-6`)}>
+        <TempoButton
+          onPress={() => root.node.removePingTest(pingTest)}
+          style={tw(`mr-6`)}>
           <Icon name="delete" size={20} style={tw(`text-red-500`)} />
         </TempoButton>
         {status && (
@@ -162,7 +156,7 @@ const styles = StyleSheet.create({
     padding: global.metrics.pm,
     alignItems: `center`,
   },
-  picker: { height: 24, width: 100 },
+  picker: {height: 24, width: 100},
   leftContainer: {
     flex: 1,
   },
