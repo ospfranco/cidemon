@@ -7,24 +7,22 @@ import {
   Spacer,
   TempoButton,
 } from 'component';
-import {idExtractor, useDarkTheme, useDynamic} from 'lib';
+import {idExtractor, useDarkTheme} from 'lib';
 import {observer} from 'mobx-react-lite';
 import React from 'react';
 import {
-  ActivityIndicator,
   FlatList,
   Image,
   Linking,
   ListRenderItemInfo,
-  SafeAreaView,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useStore} from 'Root.store';
 import {IRootStackParams} from 'Route';
 import {tw} from 'tailwind';
-import {getColor} from 'tailwind-rn';
 
 interface IProps {
   navigation: StackNavigationProp<IRootStackParams, 'Home'>;
@@ -60,7 +58,7 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
         <Row
           vertical="center"
           style={tw(`px-4 py-2 border-b`, {
-            'border-gray-600': isDark,
+            'border-gray-700': isDark,
             'border-gray-200': !isDark,
           })}>
           <TempoButton onPress={() => navigation.navigate(`Configuration`)}>
@@ -93,19 +91,17 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
           </TempoButton>
 
           <Spacer />
-          {root.node.fetching ? (
-            <TempoButton onPress={root.node.fetchNodes} primary>
-              <ActivityIndicator size={16} color="white" />
-            </TempoButton>
-          ) : (
-            <TempoButton onPress={root.node.fetchNodes} primary>
-              <Icon
-                name="refresh"
-                style={iconStyle}
-                color={getColor('gray-100')}
-              />
-            </TempoButton>
-          )}
+
+          <TouchableOpacity
+            onPress={root.node.fetchNodes}
+            disabled={root.node.fetching}>
+            <Icon
+              name="refresh"
+              style={tw('text-blue-600 text-lg pr-3', {
+                'text-gray-500': root.node.fetching,
+              })}
+            />
+          </TouchableOpacity>
         </Row>
         <FlatList
           showsVerticalScrollIndicator={false}
