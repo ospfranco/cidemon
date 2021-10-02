@@ -141,10 +141,10 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
             <Text
               style={tw(
                 {
-                  'bg-gray-800': isDark,
+                  'bg-gray-900': isDark,
                   'bg-gray-200': !isDark,
                 },
-                'px-4 py-2 bg-opacity-20 font-semibold',
+                'px-4 py-2 bg-opacity-30 font-semibold',
               )}>
               {title}
             </Text>
