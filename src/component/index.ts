@@ -5,5 +5,3 @@ export * from './TempoButton.component';
 export * from './NodeRow.component';
 export * from './EmptyNodes.component';
 export * from './PingCard.component';
-export * from './TIcon.component';
-export * from './GiftModal.component';
