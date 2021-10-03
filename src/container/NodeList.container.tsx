@@ -133,10 +133,13 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
         </Row>
         <SectionList
           showsVerticalScrollIndicator={false}
+          // showsHorizontalScrollIndicator={false}
+          // persistentScrollbar={false}
           sections={sections}
           renderItem={renderNodeItem}
           keyExtractor={idExtractor}
-          contentContainerStyle={tw(`flex-grow`)}
+          // automaticallyAdjustContentInsets={false}
+          contentContainerStyle={tw(`flex-grow pb-4`)}
           renderSectionHeader={({section: {title}}) => (
             <Text
               style={tw(
@@ -144,7 +147,7 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
                   'bg-gray-900': isDark,
                   'bg-gray-200': !isDark,
                 },
-                'px-4 py-2 bg-opacity-30 font-semibold',
+                'px-3 py-2 bg-opacity-30 font-semibold',
               )}>
               {title}
             </Text>

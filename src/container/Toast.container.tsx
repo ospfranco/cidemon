@@ -19,8 +19,8 @@ export const ToastContainer = observer(() => {
   return (
     <View
       style={[
-        tw(`absolute w-96 p-4 rounded`),
-        {top: 20, right: 20},
+        tw(`absolute p-4 rounded`),
+        {bottom: 20, left: 20, right: 20},
         conditionalStyle,
       ]}>
       <Text style={tw(`text-white`)}>{latestToast.text}</Text>

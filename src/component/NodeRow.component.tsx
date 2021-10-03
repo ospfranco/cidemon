@@ -1,11 +1,5 @@
 import {Images} from 'Assets';
-import {
-  cidemonNative,
-  TINT_MAPPING,
-  useBoolean,
-  useDarkTheme,
-  useDynamic,
-} from 'lib';
+import {TINT_MAPPING, useBoolean, useDarkTheme, useDynamic} from 'lib';
 import {observer} from 'mobx-react-lite';
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
@@ -40,7 +34,6 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
   let tintColor = TINT_MAPPING[node.status];
 
   let textColor = dynamic(`text-gray-100`, `text-gray-800`);
-  let subTextColor = dynamic(`text-coolGray-400`, `text-gray-500`);
   let hoverColor = dynamic(`bg-gray-700`, `bg-coolGray-200`);
 
   let text;
@@ -66,7 +59,7 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
       onPress={onPress}>
       <View
         style={[
-          tw('py-1 pl-4', {
+          tw('py-1 px-3', {
             [`${hoverColor} bg-opacity-40`]: hovered,
             'bg-sky-50': !isDark && selected,
             'bg-sky-900': isDark && selected,
@@ -80,35 +73,27 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
             </View>
           )}
 
-          {node.source === `Ping` && (
-            <View style={tw('mr-2')}>
-              <Icon
-                name="signal-variant"
-                color={tintColor}
-                style={styles.icon}
-              />
-            </View>
-          )}
+          <View style={tw('flex-1')}>{text}</View>
 
           {node.isAction && (
-            <View style={tw('mr-2')}>
-              <Icon name="source-branch" style={styles.nodeIcon} />
+            <View>
+              <Text style={tw('text-xs font-light uppercase')}>ACTION</Text>
             </View>
           )}
-
-          <View style={tw('flex-1')}>{text}</View>
 
           {node.isPr && (
             <>
-              <Text style={tw('text-xs font-light ')}>PR</Text>
+              <Text style={tw('text-xs font-light')}>PR</Text>
               <View style={tw('w-2')} />
             </>
           )}
 
+          {node.isBranch && <Icon name="source-branch" style={tw('text-sm')} />}
+
           {!!node.userAvatarUrl && (
             <Image
               source={{uri: node.userAvatarUrl}}
-              style={tw('h-6 w-6 rounded-full mr-2')}
+              style={tw('h-6 w-6 rounded-full')}
             />
           )}
         </Row>
@@ -168,11 +153,6 @@ const styles = StyleSheet.create({
     resizeMode: `contain`,
   },
   icon: {
-    marginLeft: global.metrics.ps,
-    marginRight: global.metrics.pm,
-    fontSize: global.metrics.tl,
-  },
-  nodeIcon: {
     marginLeft: global.metrics.ps,
     marginRight: global.metrics.pm,
     fontSize: global.metrics.tl,

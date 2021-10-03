@@ -47,8 +47,7 @@ declare type Source =
   | `TravisCI`
   | `Bitrise`
   | `Github`
-  | `Gitlab`
-  | `Ping`;
+  | `Gitlab`;
 
 declare type Status = `pending` | `passed` | `running` | `failed`;
 
@@ -85,6 +84,7 @@ declare interface INode {
   sha?: string;
   isPr?: boolean;
   isAction?: boolean;
+  isBranch?: boolean;
   username?: string;
   userAvatarUrl?: string;
   slug?: string;

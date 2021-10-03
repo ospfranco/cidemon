@@ -485,6 +485,7 @@ export function mapGithubBranchToNode(
     subItems: subItems,
     sha: branch.commit.sha,
     slug,
+    isBranch: true,
   };
 
   return node;
