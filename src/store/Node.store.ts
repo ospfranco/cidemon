@@ -100,7 +100,7 @@ export async function createNodeStore(root: IRootStore) {
         store.showBuildNumber = parsedStore.showBuildNumber ?? false;
         store.githubFetchPrs = parsedStore.githubFetchPrs ?? true;
         store.githubFetchBranches = parsedStore.githubFetchBranches ?? true;
-        store.useSimpleIcon = parsedStore.useSimpleIcon ?? false;
+        store.useSimpleIcon = parsedStore.useSimpleIcon ?? true;
         store.githubFetchWorkflows = parsedStore.githubFetchWorkflows ?? false;
         store.welcomeShown = parsedStore.welcomeShown ?? false;
       });
@@ -132,7 +132,7 @@ export async function createNodeStore(root: IRootStore) {
       filterHardOffSwitch: false,
       repoOpeningsCount: 0,
       showBuildNumber: false,
-      useSimpleIcon: false,
+      useSimpleIcon: true,
       welcomeShown: false,
 
       //    _____                            _           _

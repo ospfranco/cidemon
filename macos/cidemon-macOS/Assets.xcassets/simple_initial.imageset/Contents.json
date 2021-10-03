@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "simple_initial_dark.png",
+      "filename" : "Union-4.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,12 +12,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "simple_initial_light.png",
+      "filename" : "Union-3.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "simple_initial_dark@2x.png",
+      "filename" : "Union@2x-4.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -28,12 +28,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "simple_initial_light@2x.png",
+      "filename" : "Union@2x-3.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "simple_initial_dark@3x.png",
+      "filename" : "Union@3x-4.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -44,7 +44,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "simple_initial_light@3x.png",
+      "filename" : "Union@3x-3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
