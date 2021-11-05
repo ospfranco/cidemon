@@ -286,7 +286,7 @@ export async function createNodeStore(root: IRootStore) {
               return root.api.fetchBitriseNodes(t.key, fetchOptions);
 
             case `Gitlab`:
-              return root.api.fetchGitlabNodes(t.key, fetchOptions);
+              return root.api.fetchGitlabNodes(t.baseURL!, t.visibility!, t.key, fetchOptions);
 
             default:
               break;
@@ -395,10 +395,11 @@ export async function createNodeStore(root: IRootStore) {
         }
       },
 
-      addToken: (source: Source, name: string, key: string) => {
+      addToken: (source: Source, name: string, key: string, baseURL?: string, visibility?: GitlabVisibility ) => {
         let token: IToken = {
           source,
           name,
+          ...(source === 'Gitlab' ? { baseURL, visibility } : {}),
           key,
         };
 

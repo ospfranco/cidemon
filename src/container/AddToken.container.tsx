@@ -1,13 +1,13 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useMemo} from 'react';
 import {
   View,
   Text,
-  Switch,
   TextInput,
-  TouchableOpacity,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {Row, Spacer, Divider, TempoButton} from 'component';
 import {observer} from 'mobx-react-lite';
@@ -34,9 +34,19 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
   let [source, setSource] = useState<Source>(`CircleCI`);
   let [name, setName] = useState(``);
   let [key, setKey] = useState(``);
+  let [baseURL, setBaseURL] = useState(`gitlab.com`);
+  let [visibility, setVisibility] = useState<GitlabVisibility>(`private`);
   let secondField = useRef<TextInput>();
+  let thirdField = useRef<TextInput>();
   let dynamic = useDynamic();
   let isDark = useDarkTheme();
+
+  let isGitlab = useMemo(() => {
+    if(source === 'Gitlab'){
+      return true;
+    }
+    return false;
+  }, [source]);
 
   let inputFieldStyle = tw(`p-3 ${dynamic(`bg-gray-900`, `bg-gray-100`)}`);
 
@@ -57,12 +67,25 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
       return;
     }
 
-    root.node.addToken(source, name, key);
+    if (isGitlab) {
+      if(!baseURL){
+        root.ui.addToast({
+          text: 'Please add a base URL',
+          type: 'error',
+        });
+        return;
+      }
+
+      root.node.addToken(source, name, key, baseURL, visibility);
+    } else {
+      root.node.addToken(source, name, key);
+    }
+
     navigation.goBack();
   }
 
   return (
-    <View style={tw(`flex-1 bg-transparent`)}>
+    <ScrollView style={tw(`flex-1 bg-transparent`)}>
       <View style={tw(`w-full px-6`)}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={tw(`mt-6 font-bold text-2xl`)}>← Add Token</Text>
@@ -87,7 +110,7 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
           value={name}
           onChangeText={setName}
           returnKeyType="next"
-          onSubmitEditing={() => secondField.current?.focus()}
+          onSubmitEditing={() => isGitlab ? secondField.current?.focus() : thirdField.current?.focus()}
           blurOnSubmit={false}
         />
 
@@ -124,7 +147,58 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
             );
           })}
         </View>
+        {isGitlab ? (
+          <>
+            <Text style={tw(`py-3 text-xs font-light`)}>HOST DOMAIN</Text>
 
+            <Text style={tw(`pb-3 text-xs`)}>
+            {`You can replace gitlab.com below with your own instance domain if you are using a self-managed Gitlab instance.`}
+            </Text>
+
+            <TextInput
+              style={tw(
+                {
+                  'bg-white': !isDark,
+                  'bg-gray-900': isDark,
+                },
+                `w-full px-3 py-2 bg-opacity-70 rounded-lg`,
+              )}
+              placeholder="gitlab.com"
+              value={baseURL}
+              onChangeText={setBaseURL}
+              //@ts-ignore
+              ref={secondField}
+              returnKeyType="next"
+              onSubmitEditing={() => thirdField.current?.focus()}
+            />
+
+            <Text style={tw(`py-3 text-xs font-light`)}>VISIBILITY</Text>
+            <View
+              style={tw(
+                {
+                  'bg-white': !isDark,
+                  'bg-gray-900': isDark,
+                },
+                'rounded-lg bg-opacity-70',
+              )}>
+              <View>
+                <Row style={tw(`px-4 py-2`)} vertical="center">
+                  <Text>Project visibility of repositories to observe</Text>
+                  <Spacer />
+                  <Picker
+                    selectedValue={visibility}
+                    style={tw(`h-6 w-48 p-0`)}
+                    onValueChange={setVisibility}>
+                    <Picker.Item label="Private" value="private" />
+                    <Picker.Item label="Internal" value="internal" />
+                    <Picker.Item label="Public" value="public" />
+                    <Picker.Item label="All" value={null} />
+                  </Picker>
+                </Row>
+              </View>
+            </View>
+          </>
+        ) : null}
         <Text style={tw(`py-3 text-xs font-light`)}>KEY</Text>
         {/* @ts-ignore */}
         <TextInput
@@ -133,7 +207,7 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
               'bg-white': !isDark,
               'bg-gray-900': isDark,
             },
-            `w-full px-3 py-2 bg-opacity-70 rounded-lg h-32`,
+            `px-3 py-2 bg-opacity-70 rounded-lg`,
           )}
           placeholderTextColor={{
             dynamic: {
@@ -145,7 +219,7 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
           value={key}
           onChangeText={setKey}
           // @ts-ignore
-          ref={secondField}
+          ref={thirdField}
           returnKeyType="done"
           onSubmitEditing={addToken}
         />
@@ -157,7 +231,7 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
           style={tw(`m-3 self-center w-64`)}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 });
 

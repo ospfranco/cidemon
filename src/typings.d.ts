@@ -53,9 +53,13 @@ declare type Status = `pending` | `passed` | `running` | `failed`;
 
 declare type VCS = `github` | `bitbucket` | `gitlab` | `unknown`;
 
+declare type GitlabVisibility = `public` | `internal` | `private` | null;
+
 declare interface IToken {
   source: Source;
   name: string;
+  baseURL?: string | null;
+  visibility?: GitlabVisibility;
   key: string;
 }
 
