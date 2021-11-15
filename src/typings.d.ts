@@ -97,6 +97,7 @@ declare interface INode {
 declare interface IToast {
   text: string;
   type: `success` | `error` | `neutral`;
+  position?: `top` | `bottom`;
 }
 
 declare interface IPingTestDto {

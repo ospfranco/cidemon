@@ -55,6 +55,7 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
       root.ui.addToast({
         text: 'Please add a name',
         type: 'error',
+        position: 'top',
       });
       return;
     }
@@ -63,6 +64,7 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
       root.ui.addToast({
         text: 'Please add a key',
         type: 'error',
+        position: 'top',
       });
       return;
     }
@@ -72,6 +74,7 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
         root.ui.addToast({
           text: 'Please add a valid base URL',
           type: 'error',
+          position: 'top',
         });
         return;
       }
