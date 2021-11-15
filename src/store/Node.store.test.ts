@@ -258,7 +258,7 @@ describe(`NodeStore`, () => {
   it(`fetch Gitlab nodes`, async (done) => {
     let name = `Gitlab key`;
     let token = `123456789`;
-    let baseURL = `gitlab.com`;
+    let baseURL = `https://gitlab.com`;
     let visibility: GitlabVisibility = `private`;
 
     let fakeNode: INode = {

@@ -490,7 +490,7 @@ export let createApiStore = (root: IRootStore) => {
         let idAfter: string | null = null;
 
         while (shouldFetchProjects) {
-          let url = `https://${baseURL}/api/v4/projects?${visibility ? `visibility=${visibility}&` : ``}pagination=keyset&simple=true&per_page=100&order_by=id&sort=asc`;
+          let url = `${baseURL}/api/v4/projects?${visibility ? `visibility=${visibility}&` : ``}pagination=keyset&simple=true&per_page=100&order_by=id&sort=asc`;
           if (!!idAfter) {
             url += `&id_after=${idAfter}`;
           }
@@ -511,7 +511,7 @@ export let createApiStore = (root: IRootStore) => {
 
         let pipelines: Promise<GitlabPipelineDto[]>[] = projects.map((p) =>
           get({
-            url: `https://${baseURL}/api/v4/projects/${p.id}/pipelines?per_page=100`,
+            url: `${baseURL}/api/v4/projects/${p.id}/pipelines?per_page=100`,
             headers: {
               Authorization: `Bearer ${key}`,
             },

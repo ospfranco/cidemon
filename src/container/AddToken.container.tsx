@@ -14,7 +14,7 @@ import {observer} from 'mobx-react-lite';
 import {useStore} from 'Root.store';
 import {IRootStackParams} from 'Route';
 import {tw} from 'tailwind';
-import {useDarkTheme, useDynamic} from 'lib';
+import {useDarkTheme, useDynamic, REGEX_VALID_URL} from 'lib';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface IProps {
@@ -34,7 +34,7 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
   let [source, setSource] = useState<Source>(`CircleCI`);
   let [name, setName] = useState(``);
   let [key, setKey] = useState(``);
-  let [baseURL, setBaseURL] = useState(`gitlab.com`);
+  let [baseURL, setBaseURL] = useState(`https://gitlab.com`);
   let [visibility, setVisibility] = useState<GitlabVisibility>(`private`);
   let secondField = useRef<TextInput>();
   let thirdField = useRef<TextInput>();
@@ -68,9 +68,9 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
     }
 
     if (isGitlab) {
-      if(!baseURL){
+      if(!(baseURL && REGEX_VALID_URL.test(baseURL))){
         root.ui.addToast({
-          text: 'Please add a base URL',
+          text: 'Please add a valid base URL',
           type: 'error',
         });
         return;
@@ -152,7 +152,7 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
             <Text style={tw(`py-3 text-xs font-light`)}>HOST DOMAIN</Text>
 
             <Text style={tw(`pb-3 text-xs`)}>
-            {`You can replace gitlab.com below with your own instance domain if you are using a self-managed Gitlab instance.`}
+            {`You can replace https://gitlab.com below with your own instance domain if you are using a self-managed Gitlab instance.`}
             </Text>
 
             <TextInput
@@ -163,7 +163,7 @@ export const AddTokenContainer = observer(({navigation}: IProps) => {
                 },
                 `w-full px-3 py-2 bg-opacity-70 rounded-lg`,
               )}
-              placeholder="gitlab.com"
+              placeholder="https://gitlab.com"
               value={baseURL}
               onChangeText={setBaseURL}
               //@ts-ignore
