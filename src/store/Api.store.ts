@@ -477,6 +477,8 @@ export let createApiStore = (root: IRootStore) => {
     },
 
     fetchGitlabNodes: async (
+      baseURL: string,
+      visibility: GitlabVisibility,
       key: string,
       options: IFetchOptions,
     ): Promise<INode[]> => {
@@ -488,7 +490,7 @@ export let createApiStore = (root: IRootStore) => {
         let idAfter: string | null = null;
 
         while (shouldFetchProjects) {
-          let url = `https://gitlab.com/api/v4/projects?visibility=private&pagination=keyset&simple=true&per_page=100&order_by=id&sort=asc`;
+          let url = `${baseURL}/api/v4/projects?${visibility ? `visibility=${visibility}&` : ``}pagination=keyset&simple=true&per_page=100&order_by=id&sort=asc`;
           if (!!idAfter) {
             url += `&id_after=${idAfter}`;
           }
@@ -499,7 +501,6 @@ export let createApiStore = (root: IRootStore) => {
               Authorization: `Bearer ${key}`,
             },
           });
-
           if (projectBatch.length === 0) {
             shouldFetchProjects = false;
           } else {
@@ -510,7 +511,7 @@ export let createApiStore = (root: IRootStore) => {
 
         let pipelines: Promise<GitlabPipelineDto[]>[] = projects.map((p) =>
           get({
-            url: `https://gitlab.com/api/v4/projects/${p.id}/pipelines?per_page=100`,
+            url: `${baseURL}/api/v4/projects/${p.id}/pipelines?per_page=100`,
             headers: {
               Authorization: `Bearer ${key}`,
             },

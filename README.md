@@ -31,7 +31,7 @@ CI Demon currently supports the following CI providers:
 - Github Checks
 - CircleCI
 - TravisCI
-- Gitlab (cloud service)
+- Gitlab SaaS & self-managed
 - AppCenter
 - Bitrise
 
@@ -47,9 +47,9 @@ CI Demon can also create http ping checks for you to make sure your deployment i
 - Not a SaaS, it's a native macOS app
 - Filter branches/builds by Regex
 - Trigger rebuilds for builds
-- Track github PRs and/or branches
+- Track Github PRs and/or branches
 - Natively share a job to your team mates
-
+- Filter Gitlab projects by visibility settings 
 ## License
 
 MIT License

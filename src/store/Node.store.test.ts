@@ -258,12 +258,14 @@ describe(`NodeStore`, () => {
   it(`fetch Gitlab nodes`, async (done) => {
     let name = `Gitlab key`;
     let token = `123456789`;
+    let baseURL = `https://gitlab.com`;
+    let visibility: GitlabVisibility = `private`;
 
     let fakeNode: INode = {
       id: 'some random node id',
       url: 'random url',
       date: 'latest date',
-      source: `CircleCI`,
+      source: `Gitlab`,
       label: `fake label`,
       status: `passed`,
     };
@@ -272,9 +274,9 @@ describe(`NodeStore`, () => {
       return Promise.resolve([fakeNode]);
     });
 
-    nodeStore.addToken(`Gitlab`, name, token);
+    nodeStore.addToken(`Gitlab`, name, token, baseURL, visibility);
 
-    expect(ROOT_MOCK.api.fetchGitlabNodes).toHaveBeenCalledWith(token, {
+    expect(ROOT_MOCK.api.fetchGitlabNodes).toHaveBeenCalledWith(baseURL, visibility, token, {
       showBuildNumber: false,
     });
 

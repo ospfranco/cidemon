@@ -20,7 +20,7 @@ export const ToastContainer = observer(() => {
     <View
       style={[
         tw(`absolute p-4 rounded`),
-        {bottom: 20, left: 20, right: 20},
+        {...(latestToast.position === 'top' ? {top: 20} : {bottom: 20}), left: 20, right: 20},
         conditionalStyle,
       ]}>
       <Text style={tw(`text-white`)}>{latestToast.text}</Text>
