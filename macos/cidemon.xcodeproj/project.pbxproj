@@ -13,7 +13,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		514201522437B4B40078DB4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 514201512437B4B40078DB4F /* Assets.xcassets */; };
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
-		60994D05BFA6EF8A9F6E26F9 /* libPods-cidemon-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54859D7FAC359D3474CC5CD1 /* libPods-cidemon-macOS.a */; };
 		702A5ABF262059C30060E90E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702A5ABE262059C30060E90E /* AppDelegate.swift */; };
 		702A5AC626205A4E0060E90E /* ReactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702A5AC526205A4E0060E90E /* ReactViewController.swift */; };
 		702A5ACA26205A620060E90E /* ReactNativeBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702A5AC926205A620060E90E /* ReactNativeBridge.swift */; };
@@ -21,13 +20,13 @@
 		702A5AD226205AA40060E90E /* CIDemonNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702A5AD126205AA40060E90E /* CIDemonNative.swift */; };
 		702A5AD626205AE60060E90E /* CIDemonNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 702A5AD526205AE60060E90E /* CIDemonNative.m */; };
 		702A5ADD26205DF40060E90E /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 702A5ADC26205DF40060E90E /* LaunchAtLogin */; };
-		C44B088E540E0D7E5DD6D831 /* libPods-cidemon-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7622DA84E320249157DD27F /* libPods-cidemon-iOS.a */; };
+		EACA64F39CC16CC914224F43 /* libPods-cidemon-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D226A8B84D431B30079986 /* libPods-cidemon-iOS.a */; };
+		F0CBE9ED65A63CC26B847D3F /* libPods-cidemon-macOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 068BCD2D03B104CCE566EA3F /* libPods-cidemon-macOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		02422F9FB6FF5F34B4E63E6F /* Pods-Shared-cidemon-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shared-cidemon-macOS.debug.xcconfig"; path = "Target Support Files/Pods-Shared-cidemon-macOS/Pods-Shared-cidemon-macOS.debug.xcconfig"; sourceTree = "<group>"; };
-		0F736D493BFA3784B76AE4A9 /* Pods-cidemon-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cidemon-macOS.release.xcconfig"; path = "Target Support Files/Pods-cidemon-macOS/Pods-cidemon-macOS.release.xcconfig"; sourceTree = "<group>"; };
+		068BCD2D03B104CCE566EA3F /* libPods-cidemon-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cidemon-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* cidemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cidemon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -35,15 +34,12 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = cidemon/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		165E3ED2FAF0E4CF28761792 /* Pods-cidemon-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cidemon-iOS.release.xcconfig"; path = "Target Support Files/Pods-cidemon-iOS/Pods-cidemon-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		38423A3E24576CBC00BC2EAC /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		4FACE986466BD7169C38A14C /* Pods-cidemon-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cidemon-macOS.debug.xcconfig"; path = "Target Support Files/Pods-cidemon-macOS/Pods-cidemon-macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		514201492437B4B30078DB4F /* CI Demon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CI Demon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		514201512437B4B40078DB4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		514201542437B4B40078DB4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		514201562437B4B40078DB4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		514201592437B4B40078DB4F /* cidemon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = cidemon.entitlements; sourceTree = "<group>"; };
-		54859D7FAC359D3474CC5CD1 /* libPods-cidemon-macOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cidemon-macOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		702A5ABD262059C30060E90E /* cidemon-macOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cidemon-macOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		702A5ABE262059C30060E90E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		702A5AC526205A4E0060E90E /* ReactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactViewController.swift; sourceTree = "<group>"; };
@@ -51,11 +47,11 @@
 		702A5ACD26205A8A0060E90E /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		702A5AD126205AA40060E90E /* CIDemonNative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CIDemonNative.swift; sourceTree = "<group>"; };
 		702A5AD526205AE60060E90E /* CIDemonNative.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CIDemonNative.m; sourceTree = "<group>"; };
-		96AB29EF6A29EAABAB600DB2 /* Pods-cidemon-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cidemon-iOS.debug.xcconfig"; path = "Target Support Files/Pods-cidemon-iOS/Pods-cidemon-iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		9D32DFD059D5DB6DDEF38881 /* Pods-Shared-cidemon-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shared-cidemon-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Shared-cidemon-iOS/Pods-Shared-cidemon-iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		A82DFB63B157C65E5D698CA2 /* Pods-Shared-cidemon-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shared-cidemon-iOS.release.xcconfig"; path = "Target Support Files/Pods-Shared-cidemon-iOS/Pods-Shared-cidemon-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		CE0E74F571E1F48FF00A8324 /* Pods-Shared-cidemon-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shared-cidemon-macOS.release.xcconfig"; path = "Target Support Files/Pods-Shared-cidemon-macOS/Pods-Shared-cidemon-macOS.release.xcconfig"; sourceTree = "<group>"; };
-		D7622DA84E320249157DD27F /* libPods-cidemon-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cidemon-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		87C134F87E19FE04EA6DE4C3 /* Pods-cidemon-macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cidemon-macOS.debug.xcconfig"; path = "Target Support Files/Pods-cidemon-macOS/Pods-cidemon-macOS.debug.xcconfig"; sourceTree = "<group>"; };
+		90333BA3E0996A08D07569A6 /* Pods-cidemon-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cidemon-iOS.debug.xcconfig"; path = "Target Support Files/Pods-cidemon-iOS/Pods-cidemon-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		D3D226A8B84D431B30079986 /* libPods-cidemon-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-cidemon-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC655C6ACEA6AAF81B6D7926 /* Pods-cidemon-macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cidemon-macOS.release.xcconfig"; path = "Target Support Files/Pods-cidemon-macOS/Pods-cidemon-macOS.release.xcconfig"; sourceTree = "<group>"; };
+		DC6FCE99C8F2BFB4BE5D0871 /* Pods-cidemon-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cidemon-iOS.release.xcconfig"; path = "Target Support Files/Pods-cidemon-iOS/Pods-cidemon-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -65,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C44B088E540E0D7E5DD6D831 /* libPods-cidemon-iOS.a in Frameworks */,
+				EACA64F39CC16CC914224F43 /* libPods-cidemon-iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,7 +70,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				702A5ADD26205DF40060E90E /* LaunchAtLogin in Frameworks */,
-				60994D05BFA6EF8A9F6E26F9 /* libPods-cidemon-macOS.a in Frameworks */,
+				F0CBE9ED65A63CC26B847D3F /* libPods-cidemon-macOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,14 +94,10 @@
 		1986A43FA6A91CFACDF0A798 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9D32DFD059D5DB6DDEF38881 /* Pods-Shared-cidemon-iOS.debug.xcconfig */,
-				A82DFB63B157C65E5D698CA2 /* Pods-Shared-cidemon-iOS.release.xcconfig */,
-				02422F9FB6FF5F34B4E63E6F /* Pods-Shared-cidemon-macOS.debug.xcconfig */,
-				CE0E74F571E1F48FF00A8324 /* Pods-Shared-cidemon-macOS.release.xcconfig */,
-				96AB29EF6A29EAABAB600DB2 /* Pods-cidemon-iOS.debug.xcconfig */,
-				165E3ED2FAF0E4CF28761792 /* Pods-cidemon-iOS.release.xcconfig */,
-				4FACE986466BD7169C38A14C /* Pods-cidemon-macOS.debug.xcconfig */,
-				0F736D493BFA3784B76AE4A9 /* Pods-cidemon-macOS.release.xcconfig */,
+				90333BA3E0996A08D07569A6 /* Pods-cidemon-iOS.debug.xcconfig */,
+				DC6FCE99C8F2BFB4BE5D0871 /* Pods-cidemon-iOS.release.xcconfig */,
+				87C134F87E19FE04EA6DE4C3 /* Pods-cidemon-macOS.debug.xcconfig */,
+				DC655C6ACEA6AAF81B6D7926 /* Pods-cidemon-macOS.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -115,8 +107,8 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				D7622DA84E320249157DD27F /* libPods-cidemon-iOS.a */,
-				54859D7FAC359D3474CC5CD1 /* libPods-cidemon-macOS.a */,
+				D3D226A8B84D431B30079986 /* libPods-cidemon-iOS.a */,
+				068BCD2D03B104CCE566EA3F /* libPods-cidemon-macOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -186,13 +178,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "cidemon-iOS" */;
 			buildPhases = (
-				7BC40D98CAD1562CFD247217 /* [CP] Check Pods Manifest.lock */,
+				65EA71F0A81F96AF6331AAC4 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				D904F41A32B33C314F8683B2 /* [CP] Copy Pods Resources */,
+				B001367EE1490329CD1D20F8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -207,14 +199,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5142015A2437B4B40078DB4F /* Build configuration list for PBXNativeTarget "cidemon-macOS" */;
 			buildPhases = (
-				1A938104A937498D81B3BD3B /* [CP] Check Pods Manifest.lock */,
+				CDD3A7829A32117F6DCA2A89 /* [CP] Check Pods Manifest.lock */,
 				381D8A6F24576A6C00465D17 /* Start Packager */,
 				514201452437B4B30078DB4F /* Sources */,
 				514201462437B4B30078DB4F /* Frameworks */,
 				514201472437B4B30078DB4F /* Resources */,
 				702A5AE026205E360060E90E /* Start at login */,
 				381D8A6E24576A4E00465D17 /* Bundle React Native code and images */,
-				797BB150CF8B7E1748DD196F /* [CP] Copy Pods Resources */,
+				60FC4336890E0A7764E0A7D6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -255,7 +247,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				702A5ADB26205DF40060E90E /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				702A5ADB26205DF40060E90E /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -304,28 +296,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native-macos/scripts/react-native-xcode.sh\n";
 		};
-		1A938104A937498D81B3BD3B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-cidemon-macOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		381D8A6E24576A4E00465D17 /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -362,25 +332,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native-macos/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native-macos/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
 		};
-		702A5AE026205E360060E90E /* Start at login */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Start at login";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
-		};
-		797BB150CF8B7E1748DD196F /* [CP] Copy Pods Resources */ = {
+		60FC4336890E0A7764E0A7D6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -398,7 +350,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-cidemon-macOS/Pods-cidemon-macOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7BC40D98CAD1562CFD247217 /* [CP] Check Pods Manifest.lock */ = {
+		65EA71F0A81F96AF6331AAC4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -420,7 +372,25 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D904F41A32B33C314F8683B2 /* [CP] Copy Pods Resources */ = {
+		702A5AE026205E360060E90E /* Start at login */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Start at login";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
+		};
+		B001367EE1490329CD1D20F8 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -468,6 +438,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-cidemon-iOS/Pods-cidemon-iOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CDD3A7829A32117F6DCA2A89 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-cidemon-macOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -537,7 +529,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 96AB29EF6A29EAABAB600DB2 /* Pods-cidemon-iOS.debug.xcconfig */;
+			baseConfigurationReference = 90333BA3E0996A08D07569A6 /* Pods-cidemon-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -564,7 +556,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 165E3ED2FAF0E4CF28761792 /* Pods-cidemon-iOS.release.xcconfig */;
+			baseConfigurationReference = DC6FCE99C8F2BFB4BE5D0871 /* Pods-cidemon-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -589,7 +581,7 @@
 		};
 		5142015B2437B4B40078DB4F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4FACE986466BD7169C38A14C /* Pods-cidemon-macOS.debug.xcconfig */;
+			baseConfigurationReference = 87C134F87E19FE04EA6DE4C3 /* Pods-cidemon-macOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -625,7 +617,7 @@
 		};
 		5142015C2437B4B40078DB4F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0F736D493BFA3784B76AE4A9 /* Pods-cidemon-macOS.release.xcconfig */;
+			baseConfigurationReference = DC655C6ACEA6AAF81B6D7926 /* Pods-cidemon-macOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -807,7 +799,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		702A5ADB26205DF40060E90E /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+		702A5ADB26205DF40060E90E /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -820,7 +812,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		702A5ADC26205DF40060E90E /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 702A5ADB26205DF40060E90E /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			package = 702A5ADB26205DF40060E90E /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
 			productName = LaunchAtLogin;
 		};
 /* End XCSwiftPackageProductDependency section */
