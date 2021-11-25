@@ -596,7 +596,7 @@
 				CODE_SIGN_ENTITLEMENTS = "cidemon-macOS/cidemon.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 105;
+				CURRENT_PROJECT_VERSION = 106;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 24CMR7378R;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -606,7 +606,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.0.4;
+				MARKETING_VERSION = 3.0.25;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -632,7 +632,7 @@
 				CODE_SIGN_ENTITLEMENTS = "cidemon-macOS/cidemon.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 105;
+				CURRENT_PROJECT_VERSION = 106;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 24CMR7378R;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -642,7 +642,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.0.4;
+				MARKETING_VERSION = 3.0.25;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
