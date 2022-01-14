@@ -286,7 +286,12 @@ export async function createNodeStore(root: IRootStore) {
               return root.api.fetchBitriseNodes(t.key, fetchOptions);
 
             case `Gitlab`:
-              return root.api.fetchGitlabNodes(t.baseURL!, t.visibility!, t.key, fetchOptions);
+              return root.api.fetchGitlabNodes(
+                t.baseURL!,
+                t.visibility!,
+                t.key,
+                fetchOptions,
+              );
 
             default:
               break;
@@ -324,31 +329,61 @@ export async function createNodeStore(root: IRootStore) {
           store.nodes = responses as any;
 
           if (store.notificationsEnabled || store.passingNotificationsEnabled) {
-            store.nodes.forEach((node) => {
-              const hasFailed =
-                node.status === `failed` &&
-                previousNodes[node.id]?.status !== `failed`;
+            const invertedRegexes: RegExp[] = [];
+            const normalRegexes: RegExp[] = [];
 
-              const hasPassed =
-                node.status === `passed` &&
-                previousNodes[node.id]?.status !== `passed`;
+            if (!store.filterHardOffSwitch) {
+              store.complexRegexes.forEach((regexObj) => {
+                const regex = RegExp(regexObj.regex);
+                if (regexObj.inverted) {
+                  invertedRegexes.push(regex);
+                } else {
+                  normalRegexes.push(regex);
+                }
+              });
+            }
 
-              if (hasFailed && store.notificationsEnabled) {
-                cidemonNative.sendNotification(
-                  `🛑 Build Failed`,
-                  `${node.label} has failed!`,
-                  node.url,
-                );
-              }
+            store.nodes
+              .filter((n) => {
+                if (invertedRegexes.some((regex) => regex.test(n.label))) {
+                  return true;
+                }
 
-              if (hasPassed && store.passingNotificationsEnabled) {
-                cidemonNative.sendNotification(
-                  `✅ Build Passed`,
-                  `${node.label} has passed!`,
-                  node.url,
-                );
-              }
-            });
+                if (normalRegexes.some((regex) => regex.test(n.label))) {
+                  return false;
+                }
+
+                if (invertedRegexes.length) {
+                  return false;
+                } else {
+                  return true;
+                }
+              })
+              .forEach((node) => {
+                const hasFailed =
+                  node.status === `failed` &&
+                  previousNodes[node.id]?.status !== `failed`;
+
+                const hasPassed =
+                  node.status === `passed` &&
+                  previousNodes[node.id]?.status !== `passed`;
+
+                if (hasFailed && store.notificationsEnabled) {
+                  cidemonNative.sendNotification(
+                    `🛑 Build Failed`,
+                    `${node.label} has failed!`,
+                    node.url,
+                  );
+                }
+
+                if (hasPassed && store.passingNotificationsEnabled) {
+                  cidemonNative.sendNotification(
+                    `✅ Build Passed`,
+                    `${node.label} has passed!`,
+                    node.url,
+                  );
+                }
+              });
           }
 
           store.fetching = false;
@@ -395,11 +430,17 @@ export async function createNodeStore(root: IRootStore) {
         }
       },
 
-      addToken: (source: Source, name: string, key: string, baseURL?: string, visibility?: GitlabVisibility ) => {
+      addToken: (
+        source: Source,
+        name: string,
+        key: string,
+        baseURL?: string,
+        visibility?: GitlabVisibility,
+      ) => {
         let token: IToken = {
           source,
           name,
-          ...(source === 'Gitlab' ? { baseURL, visibility } : {}),
+          ...(source === 'Gitlab' ? {baseURL, visibility} : {}),
           key,
         };
 
