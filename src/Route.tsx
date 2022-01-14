@@ -7,7 +7,6 @@ import {
   IgnoreConfigContainer,
   GithubActionsConfigContainer,
   GeneralConfigContainer,
-  PingConfigContainer,
 } from 'container';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome5';
