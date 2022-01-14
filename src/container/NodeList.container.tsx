@@ -85,7 +85,7 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
       <View style={tw(`flex-1`)}>
         <Row
           vertical="center"
-          style={tw(`px-4 py-2 border-b`, {
+          style={tw(`px-4 py-2`, {
             'border-gray-700': isDark,
             'border-gray-400': !isDark,
           })}>
@@ -132,22 +132,22 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
           </TouchableOpacity>
         </Row>
         <SectionList
-          showsVerticalScrollIndicator={false}
-          // showsHorizontalScrollIndicator={false}
-          // persistentScrollbar={false}
+          showsVerticalScrollIndicator={true}
           sections={sections}
           renderItem={renderNodeItem}
           keyExtractor={idExtractor}
-          // automaticallyAdjustContentInsets={false}
-          contentContainerStyle={tw(`flex-grow pb-4`)}
+          contentContainerStyle={tw(`flex-grow pb-4 pr-3`, {
+            'bg-white': !isDark,
+            'bg-gray-800': isDark,
+          })}
           renderSectionHeader={({section: {title}}) => (
             <Text
               style={tw(
                 {
                   'bg-gray-900': isDark,
-                  'bg-gray-200': !isDark,
+                  'text-gray-500': !isDark,
                 },
-                'px-3 py-2 bg-opacity-30 font-semibold',
+                'px-3 py-2 bg-opacity-30',
               )}>
               {title}
             </Text>

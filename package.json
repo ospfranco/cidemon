@@ -37,7 +37,6 @@
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.8.0",
     "react-native-vector-icons": "6.6.0",
-    "tailwind": "^4.0.0",
     "tailwind-rn": "^3.0.1",
     "tailwindcss": "^2.2.15",
     "uuid": "^8.3.2"

@@ -34,7 +34,7 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
   let tintColor = TINT_MAPPING[node.status];
 
   let textColor = dynamic(`text-gray-100`, `text-gray-800`);
-  let hoverColor = dynamic(`bg-gray-700`, `bg-coolGray-200`);
+  let hoverColor = dynamic(`bg-gray-700`, `bg-blue-100`);
 
   let text;
 
@@ -68,7 +68,7 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
         ]}>
         <Row vertical="center">
           {!!icon && (
-            <View style={tw('mr-2')}>
+            <View style={tw('mr-3')}>
               <Image source={icon} style={[styles.imageIcon, {tintColor}]} />
             </View>
           )}
@@ -103,7 +103,7 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
           <View style={tw(`pl-2`)}>
             {node.subItems.map((subItem: ISubNode, index: number, items) => (
               <Row key={`${node.id}-sub-${index}`} vertical="center">
-                <View style={tw('items-center mr-4')}>
+                <View style={tw('items-center mr-8')}>
                   <View
                     style={[
                       tw('h-2'),
