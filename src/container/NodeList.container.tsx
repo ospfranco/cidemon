@@ -81,51 +81,72 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
   })) as any;
 
   return (
-    <View style={tw(`flex-1`)}>
+    <View
+      style={tw(`flex-1`, {
+        'bg-white': !isDark,
+        'bg-gray-800': isDark,
+      })}>
       <View style={tw(`flex-1`)}>
         <Row
           vertical="center"
-          style={tw(`px-4 py-2`, {
+          style={tw(`px-4 py-2 border-b`, {
+            'border-gray-200': !isDark,
             'border-gray-700': isDark,
-            'border-gray-400': !isDark,
           })}>
-          <TempoButton onPress={() => navigation.navigate(`Configuration`)}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(`Configuration`)}
+            style={tw('py-1 px-3 rounded', {
+              'bg-gray-100': !isDark,
+              'bg-gray-700': isDark,
+            })}>
             <Icon name="settings" style={iconStyle} />
-          </TempoButton>
+          </TouchableOpacity>
           <View style={tw('w-2')} />
-          <TempoButton onPress={root.node.toggleFilterHardSwitch}>
-            <Row
-              vertical="center"
+
+          <TouchableOpacity
+            onPress={root.node.toggleFilterHardSwitch}
+            style={tw('py-1 px-3 rounded', {
+              'bg-gray-100': !isDark,
+              'bg-gray-700': isDark,
+            })}>
+            <Text
               style={tw(
                 `${!!root.node.complexRegexes.length ? `` : `opacity-50`}`,
+                'text-xs',
               )}>
-              <Text style={tw(`font-bold mr-1`)}>Filters:</Text>
-
+              <Text style={tw(`font-semibold mr-1`)}>Filters:</Text>{' '}
               <Text>
                 {root.node.filterHardOffSwitch ||
                 !root.node.complexRegexes.length
                   ? `Off`
                   : `On`}
               </Text>
-            </Row>
-          </TempoButton>
+            </Text>
+          </TouchableOpacity>
+
           <View style={tw('w-2')} />
 
-          <TempoButton onPress={root.node.toggleSorting}>
-            <Row vertical="center">
-              <Text style={tw(`font-bold mr-1`)}>Sort by:</Text>
+          <TouchableOpacity
+            onPress={root.node.toggleSorting}
+            style={tw('py-1 px-3 rounded', {
+              'bg-gray-100': !isDark,
+              'bg-gray-700': isDark,
+            })}>
+            <Text style={tw('text-xs')}>
+              <Text style={tw(`font-semibold`)}>Sort:</Text>{' '}
               <Text>{root.node.sortingKey}</Text>
-            </Row>
-          </TempoButton>
+            </Text>
+          </TouchableOpacity>
 
           <Spacer />
 
           <TouchableOpacity
             onPress={root.node.fetchNodes}
-            disabled={root.node.fetching}>
+            disabled={root.node.fetching}
+            style={tw('bg-blue-500 rounded px-2')}>
             <Icon
               name="refresh"
-              style={tw('text-blue-600 text-lg pr-3', {
+              style={tw('text-white text-base', {
                 'text-gray-500': root.node.fetching,
               })}
             />
@@ -136,15 +157,12 @@ export let NodeListContainer = observer(({navigation}: IProps) => {
           sections={sections}
           renderItem={renderNodeItem}
           keyExtractor={idExtractor}
-          contentContainerStyle={tw(`flex-grow pb-4 pr-3`, {
-            'bg-white': !isDark,
-            'bg-gray-800': isDark,
-          })}
+          contentContainerStyle={tw(`flex-grow pb-4 pr-3`)}
           renderSectionHeader={({section: {title}}) => (
             <Text
               style={tw(
                 {
-                  'bg-gray-900': isDark,
+                  'text-gray-400': isDark,
                   'text-gray-500': !isDark,
                 },
                 'px-3 py-2 bg-opacity-30',

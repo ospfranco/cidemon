@@ -40,11 +40,9 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
 
   if (tokens) {
     text = (
-      <View>
-        <Text style={tw(`${textColor}`)}>
-          {tokens[2].substring(1, tokens[2].length - 1)}
-        </Text>
-      </View>
+      <Text style={tw(`${textColor} text-sm`)}>
+        {tokens[2].substring(1, tokens[2].length - 1)}
+      </Text>
     );
   } else {
     text = <Text style={tw(`text-sm ${textColor}`)}>{node.label}</Text>;
@@ -57,90 +55,101 @@ export const NodeRow = observer(({node, onPress, style, selected}: IProps) => {
       onMouseEnter={onHover}
       onMouseLeave={offHover}
       onPress={onPress}>
-      <View
-        style={[
-          tw('py-1 px-3', {
-            [`${hoverColor} bg-opacity-40`]: hovered,
-            'bg-sky-50': !isDark && selected,
-            'bg-sky-900': isDark && selected,
-          }),
-          style,
-        ]}>
-        <Row vertical="center">
-          {!!icon && (
-            <View style={tw('mr-3')}>
-              <Image source={icon} style={[styles.imageIcon, {tintColor}]} />
+      <View style={tw('px-1 ')}>
+        <View
+          style={[
+            tw('py-2 px-3 rounded', {
+              [`${hoverColor} bg-opacity-40`]: hovered,
+              'bg-sky-50': !isDark && selected,
+              'bg-sky-900': isDark && selected,
+            }),
+            style,
+          ]}>
+          <Row vertical="center">
+            {!!icon && (
+              <View style={tw('mr-3')}>
+                <Image source={icon} style={[styles.imageIcon, {tintColor}]} />
+              </View>
+            )}
+
+            <View style={tw('flex-1')}>{text}</View>
+
+            {node.isAction && (
+              <View>
+                <Text style={tw('text-xs font-light uppercase')}>ACTION</Text>
+              </View>
+            )}
+
+            {node.isPr && (
+              <>
+                <Text style={tw('text-xs font-light')}>PR</Text>
+                <View style={tw('w-2')} />
+              </>
+            )}
+
+            {node.isBranch && (
+              <Icon name="source-branch" style={tw('text-sm')} />
+            )}
+
+            {!!node.userAvatarUrl && (
+              <Image
+                source={{uri: node.userAvatarUrl}}
+                style={tw('h-6 w-6 rounded-full')}
+              />
+            )}
+          </Row>
+
+          {/* Sub nodes */}
+          {node.status === `failed` && node.subItems && (
+            <View style={tw(`pl-2`)}>
+              {node.subItems.map((subItem: ISubNode, index: number, items) => (
+                <Row key={`${node.id}-sub-${index}`} vertical="center">
+                  <View style={tw('items-center mr-8')}>
+                    <View
+                      style={[
+                        tw('h-2'),
+                        {
+                          width: 1,
+                          backgroundColor: TINT_MAPPING[subItem.status],
+                        },
+                      ]}
+                    />
+                    <View
+                      style={[
+                        styles.statusIndicator,
+                        {backgroundColor: TINT_MAPPING[subItem.status]},
+                      ]}
+                    />
+
+                    <View
+                      style={[
+                        {
+                          width: 1,
+                          backgroundColor: TINT_MAPPING[subItem.status],
+                        },
+                        tw('h-2', {
+                          'bg-transparent': index === items.length - 1,
+                        }),
+                      ]}
+                    />
+                  </View>
+
+                  <Text
+                    style={[
+                      tw(`text-xs`, {
+                        'text-gray-400': subItem.status !== 'failed',
+                      }),
+                    ]}>
+                    {subItem.label}
+                    {!!subItem.extraLabel && (
+                      <Text> · {subItem.extraLabel}</Text>
+                    )}
+                  </Text>
+                </Row>
+              ))}
             </View>
           )}
-
-          <View style={tw('flex-1')}>{text}</View>
-
-          {node.isAction && (
-            <View>
-              <Text style={tw('text-xs font-light uppercase')}>ACTION</Text>
-            </View>
-          )}
-
-          {node.isPr && (
-            <>
-              <Text style={tw('text-xs font-light')}>PR</Text>
-              <View style={tw('w-2')} />
-            </>
-          )}
-
-          {node.isBranch && <Icon name="source-branch" style={tw('text-sm')} />}
-
-          {!!node.userAvatarUrl && (
-            <Image
-              source={{uri: node.userAvatarUrl}}
-              style={tw('h-6 w-6 rounded-full')}
-            />
-          )}
-        </Row>
-
-        {/* Sub nodes */}
-        {node.status === `failed` && node.subItems && (
-          <View style={tw(`pl-2`)}>
-            {node.subItems.map((subItem: ISubNode, index: number, items) => (
-              <Row key={`${node.id}-sub-${index}`} vertical="center">
-                <View style={tw('items-center mr-8')}>
-                  <View
-                    style={[
-                      tw('h-2'),
-                      {width: 1, backgroundColor: TINT_MAPPING[subItem.status]},
-                    ]}
-                  />
-                  <View
-                    style={[
-                      styles.statusIndicator,
-                      {backgroundColor: TINT_MAPPING[subItem.status]},
-                    ]}
-                  />
-
-                  <View
-                    style={[
-                      {
-                        width: 1,
-                        backgroundColor: TINT_MAPPING[subItem.status],
-                      },
-                      tw('h-2', {'bg-transparent': index === items.length - 1}),
-                    ]}
-                  />
-                </View>
-
-                <Text
-                  style={[
-                    tw(`text-xs`, {
-                      'text-gray-400': subItem.status !== 'failed',
-                    }),
-                  ]}>
-                  {subItem.label}
-                  {!!subItem.extraLabel && <Text> · {subItem.extraLabel}</Text>}
-                </Text>
-              </Row>
-            ))}
-          </View>
-        )}
+        </View>
       </View>
     </TouchableOpacity>
   );

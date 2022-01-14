@@ -13,6 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		514201522437B4B40078DB4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 514201512437B4B40078DB4F /* Assets.xcassets */; };
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
+		700F1B6E2791A99200C93F53 /* MyNSWindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700F1B6D2791A99200C93F53 /* MyNSWindowDelegate.swift */; };
 		702A5ABF262059C30060E90E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702A5ABE262059C30060E90E /* AppDelegate.swift */; };
 		702A5AC626205A4E0060E90E /* ReactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702A5AC526205A4E0060E90E /* ReactViewController.swift */; };
 		702A5ACA26205A620060E90E /* ReactNativeBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 702A5AC926205A620060E90E /* ReactNativeBridge.swift */; };
@@ -40,6 +41,7 @@
 		514201542437B4B40078DB4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		514201562437B4B40078DB4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		514201592437B4B40078DB4F /* cidemon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = cidemon.entitlements; sourceTree = "<group>"; };
+		700F1B6D2791A99200C93F53 /* MyNSWindowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNSWindowDelegate.swift; sourceTree = "<group>"; };
 		702A5ABD262059C30060E90E /* cidemon-macOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cidemon-macOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		702A5ABE262059C30060E90E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		702A5AC526205A4E0060E90E /* ReactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactViewController.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 			children = (
 				702A5AC526205A4E0060E90E /* ReactViewController.swift */,
 				702A5AC926205A620060E90E /* ReactNativeBridge.swift */,
+				700F1B6D2791A99200C93F53 /* MyNSWindowDelegate.swift */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -247,7 +250,7 @@
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			packageReferences = (
-				702A5ADB26205DF40060E90E /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */,
+				702A5ADB26205DF40060E90E /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
@@ -502,6 +505,7 @@
 				702A5AD626205AE60060E90E /* CIDemonNative.m in Sources */,
 				702A5ACA26205A620060E90E /* ReactNativeBridge.swift in Sources */,
 				702A5ABF262059C30060E90E /* AppDelegate.swift in Sources */,
+				700F1B6E2791A99200C93F53 /* MyNSWindowDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -799,7 +803,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		702A5ADB26205DF40060E90E /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */ = {
+		702A5ADB26205DF40060E90E /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:sindresorhus/LaunchAtLogin.git";
 			requirement = {
@@ -812,7 +816,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		702A5ADC26205DF40060E90E /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 702A5ADB26205DF40060E90E /* XCRemoteSwiftPackageReference "LaunchAtLogin.git" */;
+			package = 702A5ADB26205DF40060E90E /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
 		};
 /* End XCSwiftPackageProductDependency section */
