@@ -319,8 +319,8 @@ export function mapGitlabTupleToNodes(
         case `success`:
           status = `passed`;
           break;
-        case `canceled`:
-          status = `failed`;
+        case `canceled`: // not a typo, gitlab is wrong
+          status = `pending`;
           break;
         default:
           status = `pending`;
